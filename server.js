@@ -16,15 +16,27 @@ var http         = require('http');
 var app = express()
 
 //使用react就不需要模板引擎
-// app.engine('handlebars', exphbs({defaultLayout: 'main'}))
-// app.set('view engine', 'handlebars')
+app.engine('handlebars', exphbs({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'app')))
+app.use(compression()) 
+var options = {
+    dotfiles: 'ignore',
+    etag: false,
+    extensions: ['htm','html','css','png','gif','jpg','js','tpl'],
+    index: false,
+    maxAge: '604801000', //24小时*7
+    redirect: true,
+    expires:'604801000',
+    setHeaders: function (res, path, stat) {
+        res.set('x-timestamp', Date.now())
+    }
+}
+app.use(express.static(path.join(__dirname, 'app'),options))
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
-
 app.use(session({
     secret: 'stone-secret',
     // key: 'stone-dogs', //cookie的名称 不设置就是id随机
@@ -43,7 +55,6 @@ app.use(session({
     resave: false, //使每次请求都重写cookie
     saveUninitialized: false, //必须关闭才能使用缓存
 }))
-var upload = multer({ dest: 'uploads/' })
 app.use('/', routes)
 
 http.createServer(app).listen(8888,function(){

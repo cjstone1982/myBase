@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');         //生成html
 module.exports={
     entry: {
         main:"./src/App",
-        vendors: ['react', 'react-dom', 'react-router', 'react-redux', 'redux', 'jquery']
+        vendors: ['react', 'react-dom', 'react-router', 'react-redux', 'redux']
     },
     output: { 
         path: path.join(__dirname,"./app"), //打包输出的路径
@@ -37,9 +37,9 @@ module.exports={
         // new webpack.optimize.UglifyJsPlugin({compress: {warnings: false }}),    //压缩代码
         new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({                                                 //根据模板插入css/js等生成最终HTML
-            filename: './index.html',                                           //生成的html存放路径，相对于 path
+            filename: '../views/index.handlebars',                                           //生成的html存放路径，相对于 path
             template: './src/source/template/index.html',                       //html模板路径
-            hash: false,                                                         //为静态资源生成hash值
+            hash: true,                                                         //为静态资源生成hash值
         })
     ]
 }

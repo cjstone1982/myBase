@@ -11,10 +11,10 @@ var app = express.Router()
 
 //如果使用handlebars就开启
 // app.get('*' , function(req, res, next) {
-//     res.render("index", { 
-//     	title: "点石成晶",
-//     	session:req.session,
-//     })
+//     res.send('/app/index.html')
 // })
+app.get('*' , function(req, res, next) {
+    res.render("index", {layout: false,})
+})
 
 module.exports = app
