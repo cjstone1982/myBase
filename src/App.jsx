@@ -2,11 +2,13 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router';
+
 import {Provider} from 'react-redux';
 import createStore from './redux/stores';
 
 //样式加载
 // import 'flex.css'; //flex布局
+import './source/css/base.less'; //加载公共样式
 import './source/css/style.less'; //加载公共样式
 
 //组件加载
@@ -21,8 +23,8 @@ class Main extends Component {
     render() {
         return (
             <div>
-            mainbox
-            {this.props.children}
+                mainbox
+                {this.props.children}
             </div>
         );
     }

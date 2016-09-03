@@ -14,15 +14,15 @@ module.exports={
     },
     module: {
         loaders: [
-            {test: /\.js$/, loader: "babel",query: {presets: ['react','es2015']}},   /*es6 to es5*/
-            {test: /\.jsx$/,loader: 'babel', query: {presets: ['react', 'es2015']}}, /*jsx to js,es5 to es6*/
+            {test: /\.js$/, loader: "babel-loader",query: {presets: ['react','es2015']}},   /*es6 to es5*/
+            {test: /\.jsx$/,loader: 'babel-loader', query: {presets: ['react', 'es2015']}}, /*jsx to js,es5 to es6*/
             {test: /\.css$/, loader: "style!css"},                                   /*css to css*/
             {test: /\.(jpg|png|otf)$/, loader: "url?limit=8192"},                    /*images 打包*/
             {test: /\.less/, exclude: /^node_modules$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!less-loader')}
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['', '.js', '.jsx', '.jsy'],
         alias: {//后续直接 require('jquery') 即可
             // jquery          : './src/source/js/jquery.min.js',
             // moment          : './src/source/js/moment.min.js',

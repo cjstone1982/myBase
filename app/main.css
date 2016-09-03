@@ -1,3 +1,194 @@
 body {
+  margin: 0;
+  font-family: 'STHeiti', '\5FAE\8F6F\96C5\9ED1';
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: none;
+}
+body,
+dl,
+dd,
+h 1,
+h 2,
+h 3,
+h 4,
+h 5,
+h 6,
+p,
+form {
+  margin: 0;
+}
+html {
+  overflow-Y: scroll;
+}
+ol,
+li,
+ul {
+  margin: 0;
+  padding: 0;
+}
+ol,
+li {
+  list-style: none;
+}
+button {
+  display: block;
+  outline: none;
+  font-weight: bold;
+  -webkit-tap-highlight-color: transparent;
+}
+input,
+select {
+  outline: none;
+  -moz-outline-style: none;
+  -webkit-tap-highlight-color: transparent;
   background: #fff;
+}
+img {
+  border: 0;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.cl {
+  clear: both;
+}
+.tc {
+  text-align: center;
+}
+.tr {
+  text-align: right;
+}
+.tl {
+  text-align: left;
+}
+/*全局链接*/
+a {
+  color: #000;
+  text-decoration: none;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
+}
+a:visited {
+  color: #000;
+}
+a:link {
+  color: #000;
+}
+a:hover {
+  color: #000;
+}
+/*定位*/
+.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+/*布局*/
+.none {
+  display: none;
+}
+.clear {
+  clear: both;
+}
+.hand {
+  cursor: pointer;
+}
+.overflow {
+  overflow: hidden;
+}
+.b {
+  font-weight: bold;
+}
+/*hack*/
+.word {
+  word-break: break-all;
+}
+/*英文强制换行*/
+.width_fixed {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+/*超出宽度的部分显示为...*/
+/*调用demo .button('宽度','高度','字体大小','颜色','圆角'); */
+.button01 {
+  width: 100%;
+  height: 30px;
+  color: #fff;
+  background: red;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+/*输入框*/
+/*阴影*/
+/*透明度*/
+/*圆角*/
+/*边框*/
+.alert-div {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -302px;
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+.box-shadow-01 {
+  box-shadow: inset 0 0 5px #ff6600;
+}
+ul.todo {
+  width: 400px;
+  margin: 0 auto;
+  border: 1px solid #eee;
+}
+ul.todo .todo-input {
+  border-bottom: 1px solid #eee;
+  padding: 5px;
+}
+ul.todo .todo-input input {
+  width: 100%;
+  line-height: 30px;
+  height: 30px;
+  border: none;
+  font-size: 16px;
+  text-indent: 1em;
+}
+ul.todo li {
+  position: relative;
+  border-bottom: 1px dotted #dedede;
+  font-size: 14px;
+  line-height: 35px;
+  text-indent: 1em;
+}
+ul.todo li a {
+  cursor: pointer;
+  float: right;
+  padding-right: 1em;
+}
+ul.todo li a:hover {
+  color: red;
+}
+ul.todo li input.edit {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 98%;
+  height: 27px;
+  line-height: 27px;
+  border: none;
 }

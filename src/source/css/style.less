@@ -1,1 +1,13 @@
-body{background: #fff;}
+ul.todo{width:400px; margin:0 auto; border:1px solid #eee;
+	.todo-input{border-bottom:1px solid #eee; padding:5px;
+		input{width: 100%; line-height: 30px; height: 30px; border:none; font-size: 16px; text-indent: 1em;}
+	}
+	li{ position: relative;
+		border-bottom:1px dotted #dedede; font-size: 14px; line-height: 35px; text-indent: 1em;
+		a{cursor: pointer; float: right; padding-right:1em;}
+		a:hover{color: red;}
+		input.edit{
+			position: absolute; left:3px; top:3px; width: 98%; height:27px; line-height: 27px; border:none;
+		}
+	}
+}

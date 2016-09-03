@@ -4,10 +4,9 @@ import createLogger from 'redux-logger'
 import reducers from './reducers';
 
 export default (initialState) => {
-	console.log('stores');
 	const store = compose(
 		applyMiddleware(
-			thunk,
+			thunk, 
 			createLogger()
 		),
 		window.devToolsExtension ? window.devToolsExtension() : f => f
