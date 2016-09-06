@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-size: .9rem;
   font-family: 'STHeiti', '\5FAE\8F6F\96C5\9ED1';
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
@@ -32,6 +33,7 @@ li {
 }
 button {
   display: block;
+  border: none;
   outline: none;
   font-weight: bold;
   -webkit-tap-highlight-color: transparent;
@@ -39,6 +41,7 @@ button {
 input,
 select {
   outline: none;
+  border: none;
   -moz-outline-style: none;
   -webkit-tap-highlight-color: transparent;
   background: #fff;
@@ -67,6 +70,7 @@ img {
 /*全局链接*/
 a {
   color: #000;
+  cursor: pointer;
   text-decoration: none;
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: transparent;
@@ -151,44 +155,111 @@ a:hover {
 .box-shadow-01 {
   box-shadow: inset 0 0 5px #ff6600;
 }
-ul.todo {
-  width: 400px;
-  margin: 0 auto;
-  border: 1px solid #eee;
+.icon {
+  font-size: 1.3rem;
 }
-ul.todo .todo-input {
-  border-bottom: 1px solid #eee;
-  padding: 5px;
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /*border-bottom:1px solid #dedede;*/
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  box-shadow: 0 0 8px #ddd;
 }
-ul.todo .todo-input input {
+.header .btn {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.header .title {
+  -webkit-box-flex: 3;
+      -ms-flex: 3;
+          flex: 3;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.accounts {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: fixed;
+  height: 100%;
   width: 100%;
-  line-height: 30px;
-  height: 30px;
-  border: none;
-  font-size: 16px;
-  text-indent: 1em;
+  left: 0;
+  top: 0;
 }
-ul.todo li {
-  position: relative;
-  border-bottom: 1px dotted #dedede;
-  font-size: 14px;
-  line-height: 35px;
-  text-indent: 1em;
+.accounts input {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 7px 0;
+  text-indent: 1rem;
+  background: #f5f5f5;
+  border-radius: 5px;
 }
-ul.todo li a {
-  cursor: pointer;
-  float: right;
-  padding-right: 1em;
+.accounts button {
+  width: 100%;
+  padding: 7px 0;
+  font-size: .9rem;
+  background: purple;
+  color: #fff;
+  border-radius: 5px;
 }
-ul.todo li a:hover {
-  color: red;
+.accounts .link {
+  padding: 10px 0;
+  font-size: .8rem;
 }
-ul.todo li input.edit {
-  position: absolute;
-  left: 3px;
-  top: 3px;
-  width: 98%;
-  height: 27px;
-  line-height: 27px;
-  border: none;
+.accounts .link a {
+  color: purple;
+  font-size: .9rem;
+}
+.tab-bar-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #f9f9f9;
+  /*border-top:1px solid #dedede;  */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 45px;
+  padding: 2px;
+  box-shadow: 0 0 8px #ddd;
+}
+.tab-bar-footer a {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+  border-radius: 10px;
+  font-size: .85rem;
+  padding-top: 2px;
+}
+.tab-bar-footer a i {
+  width: 100%;
+  clear: both;
+}
+.tab-bar-footer a b {
+  display: block;
+  font-weight: normal;
+  font-size: .8rem;
+  padding-top: 6px;
+}
+.tab-bar-footer a:active {
+  background: #f5f5f5;
 }

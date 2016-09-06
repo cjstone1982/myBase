@@ -9,12 +9,16 @@ var upload  = multer({dest: './app/uploads/',})
 // var upload   = multer({ storage: storage })
 var app = express.Router()
 
-//如果使用handlebars就开启
-// app.get('*' , function(req, res, next) {
-//     res.send('/app/index.html')
-// })
+//开启跨域
+app.all('*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    next()
+});
+
 app.get('*' , function(req, res, next) {
     res.render("index", {layout: false,})
 })
+
+
 
 module.exports = app

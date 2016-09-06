@@ -22,7 +22,7 @@ module.exports={
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx', '.jsy'],
+        extensions: ['', '.js', '.jsx'],
         alias: {//后续直接 require('jquery') 即可
             // jquery          : './src/source/js/jquery.min.js',
             // moment          : './src/source/js/moment.min.js',
