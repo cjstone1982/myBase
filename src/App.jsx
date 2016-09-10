@@ -12,7 +12,6 @@ import 'flex.css'                   //flex布局兼容性
 import './source/css/base.less'     //加载公共样式
 import './source/css/style.less'    //加载项目样式
 
-
 //组件加载
 import Index from './component/Index'
 import List  from './component/List'
@@ -22,11 +21,16 @@ import TabBarFooter from './component/TabBarFooter'
 import Register from './component/Register'
 import Login from './component/Login'
 
+import {addTodo} from './redux/actions'
+
 //初始设置
 let store = createStore()
-store.subscribe(function () {
-    // console.log(store.getState())
-})
+// store.subscribe(function () {
+//    console.log(store.getState())
+// })
+// console.log(store.getState());
+// store.dispatch(addTodo('111'))
+// store.dispatch(addTodo('222'))
 
 //主模板
 class Main extends Component {

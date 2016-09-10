@@ -49,6 +49,8 @@ webpackJsonp([0],{
 
 	var _Login2 = _interopRequireDefault(_Login);
 
+	var _actions = __webpack_require__(260);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66,7 +68,6 @@ webpackJsonp([0],{
 	//加载公共样式
 	//加载项目样式
 
-
 	//组件加载
 
 
@@ -75,9 +76,12 @@ webpackJsonp([0],{
 
 	//初始设置
 	var store = (0, _stores2.default)();
-	store.subscribe(function () {
-	    // console.log(store.getState())
-	});
+	// store.subscribe(function () {
+	//    console.log(store.getState())
+	// })
+	// console.log(store.getState());
+	// store.dispatch(addTodo('111'))
+	// store.dispatch(addTodo('222'))
 
 	//主模板
 
@@ -475,8 +479,6 @@ webpackJsonp([0],{
 	        case _actions.GET_OK:
 	            return action.payload;
 	        case _actions.ADD_OK:
-	            console.log('add ok');
-	            console.log(state);
 	            return [].concat(_toConsumableArray(state), [action.payload]);
 	        case _actions.EDIT_OK:
 	            return state.arrEdit(action.index, action.value);
@@ -515,25 +517,26 @@ webpackJsonp([0],{
 	var REMOVE_OK = exports.REMOVE_OK = 'REMOVE_OK';
 	var GET_OK = exports.GET_OK = 'GET_OK';
 	var EDIT_OK = exports.EDIT_OK = 'EDIT_OK';
+
 	/*
 	 * action 创建函数
 	 */
-	function addTodo(e) {
+	function addTodo(value) {
+	    console.log(value);
 	    return function (dispatch, getState) {
-	        console.log(dispatch);
-	        console.log(getState);
 	        dispatch({
 	            type: ADD_OK,
-	            payload: e
+	            payload: value
 	        });
 	    };
 	}
+
 	function removeTodo(e) {
-	    return function (dispatch, getState) {
-	        dispatch({
-	            type: REMOVE_OK,
-	            payload: e
-	        });
+	    console.log('removeTodo');
+	    console.log(e);
+	    return {
+	        type: REMOVE_OK,
+	        payload: e
 	    };
 	}
 	function editTodo(index, value) {
@@ -2591,9 +2594,27 @@ webpackJsonp([0],{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {}
 	    }, {
+	        key: 'handleChange',
+	        value: function handleChange(e) {
+	            var newState = {};
+	            newState[e.target.name] = e.target.value;
+	            this.setState(newState);
+	        }
+	    }, {
+	        key: 'handleReset',
+	        value: function handleReset(e) {
+	            console.log(e);
+	            console.log('handleReset');
+	            this.refs.color.value = '';
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var list = this.props.list;
+	            var that = this;
+	            var _props = this.props;
+	            var list = _props.list;
+	            var addTodo = _props.addTodo;
+	            var removeTodo = _props.removeTodo;
 
 	            return _react2.default.createElement(
 	                'div',
@@ -2616,7 +2637,29 @@ webpackJsonp([0],{
 	                        { className: 'btn' },
 	                        '菜单'
 	                    )
-	                )
+	                ),
+	                _react2.default.createElement('input', { type: 'text', name: 'color', ref: 'color', onChange: this.handleChange.bind(this) }),
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: function onClick() {
+	                            that.handleReset.bind(that);addTodo(that.state.color);
+	                        } },
+	                    'ADD'
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: function onClick() {
+	                            return removeTodo(1);
+	                        } },
+	                    'REMOVE'
+	                ),
+	                list.map(function (result, index) {
+	                    return _react2.default.createElement(
+	                        'div',
+	                        { key: index },
+	                        result
+	                    );
+	                })
 	            );
 	        }
 	    }]);

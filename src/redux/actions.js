@@ -5,26 +5,32 @@ export const ADD_OK = 'ADD_OK';
 export const REMOVE_OK = 'REMOVE_OK';
 export const GET_OK = 'GET_OK';
 export const EDIT_OK = 'EDIT_OK';
+
 /*
  * action 创建函数
  */
-export function addTodo(e){return (dispatch,getState)=>{
-        console.log(dispatch);
-        console.log(getState);
+export function addTodo(value){
+    console.log(value);
+    return function(dispatch,getState){
         dispatch({
             type: ADD_OK,
-            payload: e
+            payload: value
         })
     }
 }
-export function removeTodo(e){return (dispatch,getState)=>{
-        dispatch({
+
+
+export function removeTodo(e){
+    console.log('removeTodo');
+    console.log(e);
+    return ({
             type: REMOVE_OK,
             payload: e
-        })
-    }
+    })
+    
 }
-export function editTodo(index,value){return (dispatch,getState)=>{
+export function editTodo(index,value){
+    return (dispatch,getState)=>{
         dispatch({
             type: EDIT_OK,
             index: index,

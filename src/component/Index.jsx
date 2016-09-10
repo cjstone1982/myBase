@@ -20,10 +20,21 @@ class Index extends Component {
 
     }
     componentDidMount(){
-       
+
+    }
+    handleChange(e){
+        var newState={}
+        newState[e.target.name]=e.target.value
+        this.setState(newState)
+    }
+    handleReset(e){
+        console.log(e);
+        console.log('handleReset');
+        this.refs.color.value=''
     }
     render() {
-        const {list} = this.props
+        let that=this
+        const {list,addTodo,removeTodo} = this.props
         return (
             <div>
                 <div className="header">
@@ -31,14 +42,21 @@ class Index extends Component {
                     <div className="title">4Pgo</div>
                     <div className="btn">菜单</div>
                 </div>
-                
+                <input type="text" name="color" ref="color" onChange={this.handleChange.bind(this)}/>
+                <button onClick={ function(){ that.handleReset.bind(that); addTodo(that.state.color) }}>ADD</button>
+                <button onClick={() => removeTodo(1)}>REMOVE</button>
+                {list.map(function(result,index){
+                    return(<div key={index}>
+                        {result}
+                    </div>)
+                })}
             </div>
         )
     }
 }
 
 let mapStateToProps = state => ({
-    list:state.articleList
+    list:state.articleList,
 })
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Index)

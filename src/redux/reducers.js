@@ -9,8 +9,6 @@ function articleList(state = [], action) {
         case GET_OK:
             return action.payload
         case ADD_OK:
-        console.log('add ok')
-            console.log(state);
             return [...state, action.payload]
         case EDIT_OK:
             return state.arrEdit(action.index, action.value)
@@ -21,6 +19,7 @@ function articleList(state = [], action) {
             return state
     }
 }
+
 
 const todoApp = combineReducers({
     articleList
