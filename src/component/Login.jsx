@@ -1,6 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router'
 
+//redux
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as action from '../redux/actions'
+
+
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -24,4 +30,8 @@ class Login extends Component {
     }
 }
 
-export default Login
+let mapStateToProps = state => ({
+    // list:state.articleList,
+})
+let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

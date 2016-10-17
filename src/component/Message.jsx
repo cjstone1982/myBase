@@ -8,8 +8,10 @@ import * as action from '../redux/actions'
 
 //组件
 import TabBarFooter from './TabBarFooter'
+import Register from './Register'
+import Login from './Login'
 
-class Index extends Component {
+class Message extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +19,7 @@ class Index extends Component {
         }
     }
     componentWillMount(){
-
+        
     }
     componentDidMount(){
 
@@ -27,14 +29,8 @@ class Index extends Component {
         newState[e.target.name]=e.target.value
         this.setState(newState)
     }
-    handleReset(e){
-        console.log(e);
-        console.log('handleReset');
-        this.refs.color.value=''
-    }
     render() {
         let that=this
-        const {list,addTodo,removeTodo} = this.props
         return (
             <div>
                 <div className="header">
@@ -42,24 +38,19 @@ class Index extends Component {
                     <div className="title">4Pgo</div>
                     <div className="btn">菜单</div>
                 </div>
-
-                <img src="/images/pic_maliao.jpg" />
-                
-                <input type="text" name="color" ref="color" onChange={this.handleChange.bind(this)}/>
-                <button onClick={ function(){ that.handleReset.bind(that); addTodo(that.state.color) }}>ADD</button>
-                <button onClick={() => removeTodo(1)}>REMOVE</button>
-                {list.map(function(result,index){
-                    return(<div key={index}>
-                        {result}
-                    </div>)
-                })}
+                <ul className="message-list">
+                    <li>消息列表111</li>
+                    <li>消息列表222</li>
+                    <li>消息列表333</li>
+                </ul>
+                <Login />
             </div>
         )
     }
 }
 
 let mapStateToProps = state => ({
-    list:state.articleList,
+    // messageList:state.messageList,
 })
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default connect(mapStateToProps, mapDispatchToProps)(Message)

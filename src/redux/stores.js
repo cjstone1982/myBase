@@ -7,7 +7,7 @@ export default (initialState) => {
 	const store = compose(
 		applyMiddleware(
 			thunk, 
-			createLogger()
+			createLogger(),
 		),
 		window.devToolsExtension ? window.devToolsExtension() : f => f
 	)(createStore)(reducers, initialState);

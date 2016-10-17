@@ -1,6 +1,16 @@
-//0开发  1测试 //2生产
 
-var mobile_environment
+//server部分
+
+//服务器 本地可以直连网上数据库
+// module.exports = {
+// 	dbname:'gamediyer',
+// 	dbport:'27017',
+// 	host:'120.24.175.80',
+// 	webport:'8080',
+// }
+
+//0开发  1测试 //2生产
+// var mobile_environment
 switch(process.env.nodejs_env){
 	case 'dev':
 		mobile_environment=0
@@ -14,6 +24,7 @@ switch(process.env.nodejs_env){
 	default:
 		mobile_environment=0
 }
+mobile_environment=0
 
 switch(mobile_environment){
 	case 0:
@@ -32,6 +43,9 @@ switch(mobile_environment){
 			portalPort:'',
 			openapiHost:'openapi_store.simplecredit.lodev',
 			openapiPort:'8023',
+			dbname:'myBase',
+			dbport:'27017',
+			dbhost:'localhost',
 		}
 	break;
 	case 1:
@@ -73,4 +87,8 @@ switch(mobile_environment){
 	default:
 		console.log('运行环境未设置');
 }
+
+//client部分 
+
+
 

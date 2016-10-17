@@ -13,6 +13,10 @@ var routes       = require('./router')
 var http         = require('http');
 // var mongoose  = require('mongoose')
 // mongoose.connect("mongodb://localhost:27017/myTestDB")
+//连接数据库
+db = require('./server/db')
+db.connect()
+
 var app = express()
 
 //使用react就不需要模板引擎

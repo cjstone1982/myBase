@@ -1,8 +1,8 @@
 import {combineReducers } from 'redux'
-import {ADD_OK, REMOVE_OK, GET_OK, EDIT_OK } from './actions'
+import {ADD_OK, REMOVE_OK, GET_OK, EDIT_OK, LOGIN, REGISTER , SEND_MESSAGE} from './actions'
 import us from 'underscore'
-import '../js/prototype' //prototype扩展
-import method from '../js/method'
+import '../extend/prototype' //prototype扩展
+import method from '../extend/method'
 
 function articleList(state = [], action) {
     switch (action.type) {
@@ -20,9 +20,31 @@ function articleList(state = [], action) {
     }
 }
 
+function accounts (state = {}, action) {
+    switch (action.type) {
+        case LOGIN:
+            return action.payload
+        case REGISTER:
+            return action.payload
+        default:
+            return state
+    }
+}
+
+function messages (state = [], action) {
+    switch (action.type) {
+        case SEND_MESSAGE:
+            return state
+        default:
+            return state
+    }
+}
+
 
 const todoApp = combineReducers({
-    articleList
+    articleList,
+    accounts,
+    messages
 })
 
 export default todoApp
