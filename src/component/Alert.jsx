@@ -3,9 +3,6 @@ import {Link} from 'react-router'
 import ReactDOM, {render} from 'react-dom'
 
 class Alert extends Component {
-    constructor(props) {
-        super(props);
-    }
     componentDidMount(){
         $('.tips').show('500').animate({top: '5px'}, "300")
         let that=this
@@ -13,9 +10,13 @@ class Alert extends Component {
             $('.tips:first').remove()
         },this.props.delay)
     }
+    componentWillUnmount(){
+        alert('miss')
+        console.log('unmount');
+    }
     render() {
         console.log('render');
-        return (<div style={styles.tips}>
+        return (<div style={styles.tips} >
             {this.props.text}
         </div>)
     }
@@ -41,9 +42,9 @@ exports.add = function(text,delay){
     dom.style.zIndex='9999'
     dom.style.position='relative'
     dom.className='tips'
-    ReactDOM.render(<Alert text={text} delay={delay} />, document.body.appendChild(dom) )
+    ReactDOM.render(<Alert text={text} delay={delay}  />, document.body.appendChild(dom) )
 }
 
 exports.remove = function(){
-    $('.tips:first').remove()
+    $('.tips').remove()
 }

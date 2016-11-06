@@ -9,8 +9,9 @@ var session      = require('express-session')
 var multer       = require('multer')
 var fs           = require('fs')
 var exphbs       = require('express-handlebars')
-var routes       = require('./router')
+var routes       = require('./server/router')
 var http         = require('http');
+var settings     = require('./settings')
 // var mongoose  = require('mongoose')
 // mongoose.connect("mongodb://localhost:27017/myTestDB")
 //连接数据库
@@ -61,8 +62,8 @@ app.use(session({
 }))
 app.use('/', routes)
 
-http.createServer(app).listen(8888,function(){
-	console.log('server start at 8888')
+http.createServer(app).listen(settings.serverPort,function(){
+	console.log('server start at '+settings.serverPort+'')
 })
 
 

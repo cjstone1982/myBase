@@ -10,7 +10,7 @@ var upload  = multer({dest: './app/uploads/',})
 // var upload   = multer({ storage: storage })
 var app = express.Router()
 
-var db      = require("./server/db")
+var db      = require("./db")
 var Concern = db.model("Concern")
 var Remind  = db.model("Remind")
 var Post    = db.model("Post")
@@ -49,7 +49,9 @@ app.post('/send_message',function(req,res){
         createAt:     new Date(),
 	})
 	post.save(function(err,result){
+		console.log(111);
 		console.log(result)
+		console.log(222);
 		// res.end({state:'success',text:'发送消息成功'})
 		console.log('发送消息成功')
 	})

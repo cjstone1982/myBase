@@ -41,15 +41,15 @@ webpackJsonp([0],{
 
 	var _Message2 = _interopRequireDefault(_Message);
 
-	var _Play = __webpack_require__(279);
+	var _Play = __webpack_require__(280);
 
 	var _Play2 = _interopRequireDefault(_Play);
 
-	var _Discover = __webpack_require__(281);
+	var _Discover = __webpack_require__(282);
 
 	var _Discover2 = _interopRequireDefault(_Discover);
 
-	var _Mine = __webpack_require__(282);
+	var _Mine = __webpack_require__(283);
 
 	var _Mine2 = _interopRequireDefault(_Mine);
 
@@ -61,7 +61,7 @@ webpackJsonp([0],{
 
 	var _Register2 = _interopRequireDefault(_Register);
 
-	var _Login = __webpack_require__(278);
+	var _Login = __webpack_require__(279);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
@@ -2339,7 +2339,7 @@ webpackJsonp([0],{
 
 
 	// module
-	exports.push([module.id, "/*! https://github.com/lzxb/flex.css */[flex],[flex]>*,[flex]>[flex]{overflow:hidden}[flex]{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}[flex]>*{display:block}[flex]>[flex]{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}[flex~=\"dir:left\"]{-webkit-box-orient:horizontal;-webkit-box-direction:normal;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row}[flex~=\"dir:right\"]{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-webkit-flex-direction:row-reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse;-webkit-box-pack:end}[flex~=\"dir:top\"]{-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column}[flex~=\"dir:bottom\"]{-webkit-box-orient:vertical;-webkit-box-direction:reverse;-webkit-flex-direction:column-reverse;-ms-flex-direction:column-reverse;flex-direction:column-reverse;-webkit-box-pack:end}[flex~=\"main:left\"]{-webkit-box-pack:start;-webkit-justify-content:flex-start;-ms-flex-pack:start;justify-content:flex-start}[flex~=\"main:right\"]{-webkit-box-pack:end;-webkit-justify-content:flex-end;-ms-flex-pack:end;justify-content:flex-end}[flex~=\"main:justify\"]{-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between}[flex~=\"main:center\"]{-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center}[flex~=\"cross:top\"]{-webkit-box-align:start;-webkit-align-items:flex-start;-ms-flex-align:start;-ms-grid-row-align:flex-start;align-items:flex-start}[flex~=\"cross:bottom\"]{-webkit-box-align:end;-webkit-align-items:flex-end;-ms-flex-align:end;-ms-grid-row-align:flex-end;align-items:flex-end}[flex~=\"cross:center\"]{-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;-ms-grid-row-align:center;align-items:center}[flex~=\"cross:baseline\"]{-webkit-box-align:baseline;-webkit-align-items:baseline;-ms-flex-align:baseline;-ms-grid-row-align:baseline;align-items:baseline}[flex~=\"cross:stretch\"]{-webkit-box-align:stretch;-webkit-align-items:stretch;-ms-flex-align:stretch;-ms-grid-row-align:stretch;align-items:stretch}[flex~=\"box:mean\"]>*,[flex~=\"box:first\"]>*,[flex~=\"box:last\"]>*,[flex~=\"box:justify\"]>*{width:0;height:auto;-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;-webkit-flex-shrink:1;-ms-flex-negative:1;flex-shrink:1}[flex~=\"box:first\"]>:first-child,[flex~=\"box:last\"]>:last-child,[flex~=\"box:justify\"]>:first-child,[flex~=\"box:justify\"]>:last-child{width:auto;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}[flex~=\"dir:top\"][flex~=\"box:mean\"]>*,[flex~=\"dir:top\"][flex~=\"box:first\"]>*,[flex~=\"dir:top\"][flex~=\"box:last\"]>*,[flex~=\"dir:top\"][flex~=\"box:justify\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:mean\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:first\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:last\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:justify\"]>*{width:auto;height:0;-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;-webkit-flex-shrink:1;-ms-flex-negative:1;flex-shrink:1}[flex~=\"dir:top\"][flex~=\"box:first\"]>:first-child,[flex~=\"dir:top\"][flex~=\"box:last\"]>:last-child,[flex~=\"dir:top\"][flex~=\"box:justify\"]>:first-child,[flex~=\"dir:top\"][flex~=\"box:justify\"]>:last-child,[flex~=\"dir:bottom\"][flex~=\"box:first\"]>:first-child,[flex~=\"dir:bottom\"][flex~=\"box:last\"]>:last-child,[flex~=\"dir:bottom\"][flex~=\"box:justify\"]>:first-child [flex~=\"dir:bottom\"][flex~=\"box:justify\"]>:last-child{height:auto;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}[flex-box=\"0\"]{-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}[flex-box=\"1\"]{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;-webkit-flex-shrink:1;-ms-flex-negative:1;flex-shrink:1}[flex-box=\"2\"]{-webkit-box-flex:2;-webkit-flex-grow:2;-ms-flex-positive:2;flex-grow:2;-webkit-flex-shrink:2;-ms-flex-negative:2;flex-shrink:2}[flex-box=\"3\"]{-webkit-box-flex:3;-webkit-flex-grow:3;-ms-flex-positive:3;flex-grow:3;-webkit-flex-shrink:3;-ms-flex-negative:3;flex-shrink:3}[flex-box=\"4\"]{-webkit-box-flex:4;-webkit-flex-grow:4;-ms-flex-positive:4;flex-grow:4;-webkit-flex-shrink:4;-ms-flex-negative:4;flex-shrink:4}[flex-box=\"5\"]{-webkit-box-flex:5;-webkit-flex-grow:5;-ms-flex-positive:5;flex-grow:5;-webkit-flex-shrink:5;-ms-flex-negative:5;flex-shrink:5}[flex-box=\"6\"]{-webkit-box-flex:6;-webkit-flex-grow:6;-ms-flex-positive:6;flex-grow:6;-webkit-flex-shrink:6;-ms-flex-negative:6;flex-shrink:6}[flex-box=\"7\"]{-webkit-box-flex:7;-webkit-flex-grow:7;-ms-flex-positive:7;flex-grow:7;-webkit-flex-shrink:7;-ms-flex-negative:7;flex-shrink:7}[flex-box=\"8\"]{-webkit-box-flex:8;-webkit-flex-grow:8;-ms-flex-positive:8;flex-grow:8;-webkit-flex-shrink:8;-ms-flex-negative:8;flex-shrink:8}[flex-box=\"9\"]{-webkit-box-flex:9;-webkit-flex-grow:9;-ms-flex-positive:9;flex-grow:9;-webkit-flex-shrink:9;-ms-flex-negative:9;flex-shrink:9}[flex-box=\"10\"]{-webkit-box-flex:10;-webkit-flex-grow:10;-ms-flex-positive:10;flex-grow:10;-webkit-flex-shrink:10;-ms-flex-negative:10;flex-shrink:10}", ""]);
+	exports.push([module.id, "/*! https://github.com/1340641314/flex.css */[flex],[flex]>*,[flex]>[flex]{overflow:hidden}[flex]{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}[flex]>*{display:block}[flex]>[flex]{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}[flex~=\"dir:left\"]{-webkit-box-orient:horizontal;-webkit-box-direction:normal;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row}[flex~=\"dir:right\"]{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-webkit-flex-direction:row-reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse;-webkit-box-pack:end}[flex~=\"dir:top\"]{-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column}[flex~=\"dir:bottom\"]{-webkit-box-orient:vertical;-webkit-box-direction:reverse;-webkit-flex-direction:column-reverse;-ms-flex-direction:column-reverse;flex-direction:column-reverse;-webkit-box-pack:end}[flex~=\"main:left\"]{-webkit-box-pack:start;-webkit-justify-content:flex-start;-ms-flex-pack:start;justify-content:flex-start}[flex~=\"main:right\"]{-webkit-box-pack:end;-webkit-justify-content:flex-end;-ms-flex-pack:end;justify-content:flex-end}[flex~=\"main:justify\"]{-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between}[flex~=\"main:center\"]{-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center}[flex~=\"cross:top\"]{-webkit-box-align:start;-webkit-align-items:flex-start;-ms-flex-align:start;-ms-grid-row-align:flex-start;align-items:flex-start}[flex~=\"cross:bottom\"]{-webkit-box-align:end;-webkit-align-items:flex-end;-ms-flex-align:end;-ms-grid-row-align:flex-end;align-items:flex-end}[flex~=\"cross:center\"]{-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;-ms-grid-row-align:center;align-items:center}[flex~=\"cross:baseline\"]{-webkit-box-align:baseline;-webkit-align-items:baseline;-ms-flex-align:baseline;-ms-grid-row-align:baseline;align-items:baseline}[flex~=\"cross:stretch\"]{-webkit-box-align:stretch;-webkit-align-items:stretch;-ms-flex-align:stretch;-ms-grid-row-align:stretch;align-items:stretch}[flex~=\"box:mean\"]>*,[flex~=\"box:first\"]>*,[flex~=\"box:last\"]>*,[flex~=\"box:justify\"]>*{width:0;height:auto;-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;-webkit-flex-shrink:1;-ms-flex-negative:1;flex-shrink:1}[flex~=\"box:first\"]>:first-child,[flex~=\"box:last\"]>:last-child,[flex~=\"box:justify\"]>:first-child,[flex~=\"box:justify\"]>:last-child{width:auto;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}[flex~=\"dir:top\"][flex~=\"box:mean\"]>*,[flex~=\"dir:top\"][flex~=\"box:first\"]>*,[flex~=\"dir:top\"][flex~=\"box:last\"]>*,[flex~=\"dir:top\"][flex~=\"box:justify\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:mean\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:first\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:last\"]>*,[flex~=\"dir:bottom\"][flex~=\"box:justify\"]>*{width:auto;height:0;-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;-webkit-flex-shrink:1;-ms-flex-negative:1;flex-shrink:1}[flex~=\"dir:top\"][flex~=\"box:first\"]>:first-child,[flex~=\"dir:top\"][flex~=\"box:last\"]>:last-child,[flex~=\"dir:top\"][flex~=\"box:justify\"]>:first-child,[flex~=\"dir:top\"][flex~=\"box:justify\"]>:last-child,[flex~=\"dir:bottom\"][flex~=\"box:first\"]>:first-child,[flex~=\"dir:bottom\"][flex~=\"box:last\"]>:last-child,[flex~=\"dir:bottom\"][flex~=\"box:justify\"]>:first-child [flex~=\"dir:bottom\"][flex~=\"box:justify\"]>:last-child{height:auto;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}[flex-box=\"0\"]{-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}[flex-box=\"1\"]{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;-webkit-flex-shrink:1;-ms-flex-negative:1;flex-shrink:1}[flex-box=\"2\"]{-webkit-box-flex:2;-webkit-flex-grow:2;-ms-flex-positive:2;flex-grow:2;-webkit-flex-shrink:2;-ms-flex-negative:2;flex-shrink:2}[flex-box=\"3\"]{-webkit-box-flex:3;-webkit-flex-grow:3;-ms-flex-positive:3;flex-grow:3;-webkit-flex-shrink:3;-ms-flex-negative:3;flex-shrink:3}[flex-box=\"4\"]{-webkit-box-flex:4;-webkit-flex-grow:4;-ms-flex-positive:4;flex-grow:4;-webkit-flex-shrink:4;-ms-flex-negative:4;flex-shrink:4}[flex-box=\"5\"]{-webkit-box-flex:5;-webkit-flex-grow:5;-ms-flex-positive:5;flex-grow:5;-webkit-flex-shrink:5;-ms-flex-negative:5;flex-shrink:5}[flex-box=\"6\"]{-webkit-box-flex:6;-webkit-flex-grow:6;-ms-flex-positive:6;flex-grow:6;-webkit-flex-shrink:6;-ms-flex-negative:6;flex-shrink:6}[flex-box=\"7\"]{-webkit-box-flex:7;-webkit-flex-grow:7;-ms-flex-positive:7;flex-grow:7;-webkit-flex-shrink:7;-ms-flex-negative:7;flex-shrink:7}[flex-box=\"8\"]{-webkit-box-flex:8;-webkit-flex-grow:8;-ms-flex-positive:8;flex-grow:8;-webkit-flex-shrink:8;-ms-flex-negative:8;flex-shrink:8}[flex-box=\"9\"]{-webkit-box-flex:9;-webkit-flex-grow:9;-ms-flex-positive:9;flex-grow:9;-webkit-flex-shrink:9;-ms-flex-negative:9;flex-shrink:9}[flex-box=\"10\"]{-webkit-box-flex:10;-webkit-flex-grow:10;-ms-flex-positive:10;flex-grow:10;-webkit-flex-shrink:10;-ms-flex-negative:10;flex-shrink:10}", ""]);
 
 	// exports
 
@@ -3062,7 +3062,7 @@ webpackJsonp([0],{
 
 	var _Register2 = _interopRequireDefault(_Register);
 
-	var _Login = __webpack_require__(278);
+	var _Login = __webpack_require__(279);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
@@ -3197,11 +3197,11 @@ webpackJsonp([0],{
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _Submit = __webpack_require__(286);
+	var _Submit = __webpack_require__(277);
 
 	var _Submit2 = _interopRequireDefault(_Submit);
 
-	var _Alert = __webpack_require__(277);
+	var _Alert = __webpack_require__(278);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -3257,25 +3257,26 @@ webpackJsonp([0],{
 	        value: function handleRegister() {
 	            var _this2 = this;
 
-	            this.setState({
-	                registerCanClick: false
-	            });
+	            this.setState({ registerCanClick: false });
 	            if (this.state.password != this.state.re_password) {
-	                _Alert2.default.add('注册提交中...', 60000);
+	                _Alert2.default.add('两次输入的密码不一致...', 2500);
+	                this.setState({ registerCanClick: true });
+	                return false;
 	            }
+	            _Alert2.default.add('注册提交中...', 60000);
 	            setTimeout(function () {
 	                _Alert2.default.remove();
 	                _Alert2.default.add('注册成功...', 2500);
-	                _this2.setState({
-	                    registerCanClick: true
-	                });
+	                setTimeout(function () {
+	                    _this2.setState({ registerCanClick: true });
+	                }, 2500);
 	            }, 2500);
-	            // this.props.register({
-	            //     email:this.state.email,
-	            //     password:this.state.password,
-	            //     re_password:this.state.re_password,
-	            //     nickname:this.state.nickname
-	            // })
+	            this.props.register({
+	                email: this.state.email,
+	                password: this.state.password,
+	                re_password: this.state.re_password,
+	                nickname: this.state.nickname
+	            });
 	        }
 	    }, {
 	        key: 'render',
@@ -3329,6 +3330,91 @@ webpackJsonp([0],{
 /***/ 277:
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Submit = function (_Component) {
+	    _inherits(Submit, _Component);
+
+	    function Submit() {
+	        _classCallCheck(this, Submit);
+
+	        return _possibleConstructorReturn(this, (Submit.__proto__ || Object.getPrototypeOf(Submit)).apply(this, arguments));
+	    }
+
+	    _createClass(Submit, [{
+	        key: "render",
+	        value: function render() {
+	            console.log(this.props.canClick);
+	            if (!!this.props.canClick) {
+	                return _react2.default.createElement(
+	                    "button",
+	                    { onClick: this.props.thisClick, type: "button", style: styles.button },
+	                    this.props.text
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    "button",
+	                    { type: "button", style: styles.button2 },
+	                    this.props.text
+	                );
+	            }
+	        }
+	    }]);
+
+	    return Submit;
+	}(_react.Component);
+
+	var styles = {
+	    button: {
+	        color: '#fff',
+	        display: 'block',
+	        background: '#800080',
+	        textAlign: 'center',
+	        animation: 'alertShow .5s',
+	        width: '100%',
+	        margin: '5px auto 0',
+	        padding: '10px 0',
+	        borderRadius: '5px',
+	        fontSize: '14px'
+	    },
+	    button2: {
+	        color: '#fff',
+	        display: 'block',
+	        background: '#999',
+	        textAlign: 'center',
+	        animation: 'alertShow .5s',
+	        width: '100%',
+	        margin: '5px auto 0',
+	        padding: '10px 0',
+	        borderRadius: '5px',
+	        fontSize: '14px'
+	    }
+	};
+	exports.default = Submit;
+
+/***/ },
+
+/***/ 278:
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3354,10 +3440,10 @@ webpackJsonp([0],{
 	var Alert = function (_Component) {
 	    _inherits(Alert, _Component);
 
-	    function Alert(props) {
+	    function Alert() {
 	        _classCallCheck(this, Alert);
 
-	        return _possibleConstructorReturn(this, (Alert.__proto__ || Object.getPrototypeOf(Alert)).call(this, props));
+	        return _possibleConstructorReturn(this, (Alert.__proto__ || Object.getPrototypeOf(Alert)).apply(this, arguments));
 	    }
 
 	    _createClass(Alert, [{
@@ -3368,6 +3454,12 @@ webpackJsonp([0],{
 	            setTimeout(function () {
 	                $('.tips:first').remove();
 	            }, this.props.delay);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            alert('miss');
+	            console.log('unmount');
 	        }
 	    }, {
 	        key: 'render',
@@ -3408,12 +3500,12 @@ webpackJsonp([0],{
 	};
 
 	exports.remove = function () {
-	    $('.tips:first').remove();
+	    $('.tips').remove();
 	};
 
 /***/ },
 
-/***/ 278:
+/***/ 279:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3513,7 +3605,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 279:
+/***/ 280:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3542,7 +3634,7 @@ webpackJsonp([0],{
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
-	var _SendMessage = __webpack_require__(280);
+	var _SendMessage = __webpack_require__(281);
 
 	var _SendMessage2 = _interopRequireDefault(_SendMessage);
 
@@ -3637,7 +3729,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 280:
+/***/ 281:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3737,7 +3829,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 281:
+/***/ 282:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3857,7 +3949,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 282:
+/***/ 283:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3974,91 +4066,6 @@ webpackJsonp([0],{
 	    return (0, _redux.bindActionCreators)(action, dispatch);
 	};
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Mine);
-
-/***/ },
-
-/***/ 286:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Submit = function (_Component) {
-	    _inherits(Submit, _Component);
-
-	    function Submit() {
-	        _classCallCheck(this, Submit);
-
-	        return _possibleConstructorReturn(this, (Submit.__proto__ || Object.getPrototypeOf(Submit)).apply(this, arguments));
-	    }
-
-	    _createClass(Submit, [{
-	        key: "render",
-	        value: function render() {
-	            console.log(this.props.canClick);
-	            if (!!this.props.canClick) {
-	                return _react2.default.createElement(
-	                    "button",
-	                    { onClick: this.props.thisClick, type: "button", style: styles.button },
-	                    this.props.text
-	                );
-	            } else {
-	                return _react2.default.createElement(
-	                    "button",
-	                    { type: "button", style: styles.button2 },
-	                    this.props.text
-	                );
-	            }
-	        }
-	    }]);
-
-	    return Submit;
-	}(_react.Component);
-
-	var styles = {
-	    button: {
-	        color: '#fff',
-	        display: 'block',
-	        background: '#800080',
-	        textAlign: 'center',
-	        animation: 'alertShow .5s',
-	        width: '100%',
-	        margin: '5px auto 0',
-	        padding: '10px 0',
-	        borderRadius: '5px',
-	        fontSize: '14px'
-	    },
-	    button2: {
-	        color: '#fff',
-	        display: 'block',
-	        background: '#999',
-	        textAlign: 'center',
-	        animation: 'alertShow .5s',
-	        width: '100%',
-	        margin: '5px auto 0',
-	        padding: '10px 0',
-	        borderRadius: '5px',
-	        fontSize: '14px'
-	    }
-	};
-	exports.default = Submit;
 
 /***/ }
 

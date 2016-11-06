@@ -30,25 +30,26 @@ class Register extends Component {
         console.log(this.state);
     }
     handleRegister(){
-        this.setState({
-            registerCanClick:false
-        })
+        this.setState({registerCanClick:false })
         if(this.state.password!=this.state.re_password){
-            Alert.add('注册提交中...',60000)
+            Alert.add('两次输入的密码不一致...',2500)
+            this.setState({registerCanClick:true })
+            return false
         }
+        Alert.add('注册提交中...',60000)
         setTimeout(()=>{
             Alert.remove()
             Alert.add('注册成功...',2500)
-                this.setState({
-                    registerCanClick:true
-                })
+            setTimeout(()=>{
+                this.setState({registerCanClick:true })
+            },2500)
         },2500)
-        // this.props.register({
-        //     email:this.state.email,
-        //     password:this.state.password,
-        //     re_password:this.state.re_password,
-        //     nickname:this.state.nickname
-        // })
+        this.props.register({
+            email:this.state.email,
+            password:this.state.password,
+            re_password:this.state.re_password,
+            nickname:this.state.nickname
+        })
     }
     render() {
         // const {register} = this.props

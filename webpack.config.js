@@ -8,9 +8,9 @@ module.exports={
         vendors: ['react', 'react-dom', 'react-router', 'react-redux', 'redux']
     },
     output: { 
-        path: path.join(__dirname,"./app"), //打包输出的路径
+        path: path.join(__dirname,"./app/main"), //打包输出的路径
         filename: "[name].js",              //打包后的名字
-        publicPath: ""                      //静态页面文件调用的路径
+        publicPath: "/main"                      //静态页面文件调用的路径
     },
     module: {
         loaders: [
@@ -37,7 +37,7 @@ module.exports={
         // new webpack.optimize.UglifyJsPlugin({compress: {warnings: false }}),     //压缩代码
         new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({                                                     //根据模板插入css/js等生成最终HTML
-            filename: '../views/index.handlebars',                                  //生成的html存放路径，相对于 path
+            filename: '../../views/index.handlebars',                               //生成的html存放路径，相对于 path
             template: './src/template/index.html',                                  //html模板路径
             hash: true,                                                             //为静态资源生成hash值
         })
