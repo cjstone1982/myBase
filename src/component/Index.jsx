@@ -13,7 +13,7 @@ class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            color:'red2'
         }
     }
     componentWillMount(){
@@ -30,11 +30,11 @@ class Index extends Component {
     handleReset(e){
         console.log(e);
         console.log('handleReset');
-        this.refs.color.value=''
+        this.refs.color.value='12345'
     }
     render() {
         let that=this
-        const {list,addTodo,removeTodo} = this.props
+        const {list,list2,addTodo,removeTodo} = this.props
         return (
             <div>
                 <div className="header">
@@ -48,11 +48,22 @@ class Index extends Component {
                 <input type="text" name="color" ref="color" onChange={this.handleChange.bind(this)}/>
                 <button onClick={ function(){ that.handleReset.bind(that); addTodo(that.state.color) }}>ADD</button>
                 <button onClick={() => removeTodo(1)}>REMOVE</button>
+                111
                 {list.map(function(result,index){
                     return(<div key={index}>
                         {result}
                     </div>)
                 })}
+                222
+                {list2.map(function(result,index){
+                    console.log('aaaaa');
+                    console.log(result.title);
+                    console.log('bbbbb');
+                    return(<div key={index}>
+                        {result.title}
+                    </div>)
+                })}
+                333
             </div>
         )
     }
@@ -60,6 +71,7 @@ class Index extends Component {
 
 let mapStateToProps = state => ({
     list:state.articleList,
+    list2:state.articleList2,
 })
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Index)

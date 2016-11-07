@@ -84,7 +84,6 @@ webpackJsonp([0],{
 	//加载公共样式
 	//加载项目样式
 
-
 	//组件加载
 
 
@@ -505,6 +504,31 @@ webpackJsonp([0],{
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } //prototype扩展
 
 
+	function articleList2() {
+	    var _console;
+
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.GET_ARTICLE:
+	            return action.payload;
+	        case _actions.ADD_ARTICLE:
+	            console.log('之前状态');
+	            (_console = console).log.apply(_console, _toConsumableArray(state)); //之前的状态
+	            console.log('之后状态');
+	            console.log(action.payload); //之后的状态
+	            return [].concat(_toConsumableArray(state), [action.payload]);
+	        case _actions.PUT_ARTICLE:
+	            return state.arrEdit(action.index, action.value);
+	        case _actions.DELETE_ARTICLE:
+	            console.log(state);
+	            return state.arrRemove(action.payload);
+	        default:
+	            return state;
+	    }
+	}
+
 	function articleList() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
@@ -552,6 +576,7 @@ webpackJsonp([0],{
 
 	var todoApp = (0, _redux.combineReducers)({
 	    articleList: articleList,
+	    articleList2: articleList2,
 	    accounts: accounts,
 	    messages: messages
 	});
@@ -568,6 +593,8 @@ webpackJsonp([0],{
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.getArticle = getArticle;
+	exports.addArticle = addArticle;
 	exports.sendMessage = sendMessage;
 	exports.register = register;
 	exports.login = login;
@@ -575,7 +602,6 @@ webpackJsonp([0],{
 	exports.removeTodo = removeTodo;
 	exports.editTodo = editTodo;
 	exports.getTodo = getTodo;
-
 	// action 类型
 	var ADD_OK = exports.ADD_OK = 'ADD_OK';
 	var REMOVE_OK = exports.REMOVE_OK = 'REMOVE_OK';
@@ -585,6 +611,49 @@ webpackJsonp([0],{
 	var LOGIN = exports.LOGIN = 'LOGIN';
 	var REGISTER = exports.REGISTER = 'REGISTER';
 	var SEND_MESSAGE = exports.SEND_MESSAGE = 'SEND_MESSAGE';
+
+	var GET_ARTICLE = exports.GET_ARTICLE = 'GET_ARTICLE';
+	var ADD_ARTICLE = exports.ADD_ARTICLE = 'ADD_ARTICLE';
+	var PUT_ARTICLE = exports.PUT_ARTICLE = 'PUT_ARTICLE';
+	var DELETE_ARTICLE = exports.DELETE_ARTICLE = 'DELETE_ARTICLE';
+
+	function getArticle(value) {
+	    return function (dispatch) {
+	        fetch('/article', {
+	            method: "GET"
+	        }).then(function (response) {
+	            return response.json();
+	        }).then(function (data) {
+	            console.log(data);
+	            dispatch({
+	                type: 'GET_ARTICLE',
+	                payload: data
+	            });
+	        }).catch(function (err) {
+	            console.log("服务器连接失败");
+	        });
+	    };
+	}
+
+	function addArticle(value) {
+	    return function (dispatch) {
+	        fetch('/article', {
+	            method: "POST",
+	            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	            body: $.param(value)
+	        }).then(function (response) {
+	            console.log(response);
+	            return response.json();
+	        }).then(function (data) {
+	            dispatch({
+	                type: 'ADD_ARTICLE',
+	                payload: value
+	            });
+	        }).catch(function (err) {
+	            console.log("服务器连接失败");
+	        });
+	    };
+	}
 
 	function sendMessage(value) {
 	    $.post('/send_message', value, function (result) {
@@ -667,9 +736,11 @@ webpackJsonp([0],{
 	// action 创建函数
 	function addTodo(value) {
 	    console.log(value);
-	    return {
-	        type: ADD_OK,
-	        payload: value
+	    return function (dispatch, getState) {
+	        dispatch({
+	            type: ADD_OK,
+	            payload: value
+	        });
 	    };
 	}
 	function removeTodo(value) {
@@ -2722,7 +2793,9 @@ webpackJsonp([0],{
 
 	        var _this = _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).call(this, props));
 
-	        _this.state = {};
+	        _this.state = {
+	            color: 'red2'
+	        };
 	        return _this;
 	    }
 
@@ -2744,7 +2817,7 @@ webpackJsonp([0],{
 	        value: function handleReset(e) {
 	            console.log(e);
 	            console.log('handleReset');
-	            this.refs.color.value = '';
+	            this.refs.color.value = '12345';
 	        }
 	    }, {
 	        key: 'render',
@@ -2752,6 +2825,7 @@ webpackJsonp([0],{
 	            var that = this;
 	            var _props = this.props;
 	            var list = _props.list;
+	            var list2 = _props.list2;
 	            var addTodo = _props.addTodo;
 	            var removeTodo = _props.removeTodo;
 
@@ -2793,13 +2867,26 @@ webpackJsonp([0],{
 	                        } },
 	                    'REMOVE'
 	                ),
+	                '111',
 	                list.map(function (result, index) {
 	                    return _react2.default.createElement(
 	                        'div',
 	                        { key: index },
 	                        result
 	                    );
-	                })
+	                }),
+	                '222',
+	                list2.map(function (result, index) {
+	                    console.log('aaaaa');
+	                    console.log(result.title);
+	                    console.log('bbbbb');
+	                    return _react2.default.createElement(
+	                        'div',
+	                        { key: index },
+	                        result.title
+	                    );
+	                }),
+	                '333'
 	            );
 	        }
 	    }]);
@@ -2809,7 +2896,8 @@ webpackJsonp([0],{
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        list: state.articleList
+	        list: state.articleList,
+	        list2: state.articleList2
 	    };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -3614,6 +3702,8 @@ webpackJsonp([0],{
 	    value: true
 	});
 
+	var _li;
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -3642,6 +3732,8 @@ webpackJsonp([0],{
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -3668,7 +3760,9 @@ webpackJsonp([0],{
 
 	    _createClass(Play, [{
 	        key: 'componentWillMount',
-	        value: function componentWillMount() {}
+	        value: function componentWillMount() {
+	            this.props.getArticle();
+	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {}
@@ -3680,9 +3774,29 @@ webpackJsonp([0],{
 	            this.setState(newState);
 	        }
 	    }, {
+	        key: 'addArticle',
+	        value: function addArticle(e) {
+	            var data = {
+	                title: this.state.articleTitle,
+	                content: this.state.articleContent
+	            };
+	            this.props.addArticle(data);
+	        }
+	    }, {
+	        key: 'showId',
+	        value: function showId(e) {
+	            alert(e.target.id);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            var that = this;
+	            var _props = this.props;
+	            var list = _props.list;
+	            var list2 = _props.list2;
+
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -3708,7 +3822,41 @@ webpackJsonp([0],{
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'play' },
-	                    _react2.default.createElement(_SendMessage2.default, null)
+	                    _react2.default.createElement(_SendMessage2.default, null),
+	                    _react2.default.createElement('input', { name: 'articleTitle', onChange: this.handleChange.bind(this), type: 'text', placeholder: '标题' }),
+	                    _react2.default.createElement('input', { name: 'articleContent', onChange: this.handleChange.bind(this), type: 'text', placeholder: '内容' }),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.addArticle.bind(this) },
+	                        '添加新闻'
+	                    ),
+	                    list.map(function (result, index) {
+	                        return _react2.default.createElement(
+	                            'div',
+	                            { key: index },
+	                            result
+	                        );
+	                    }),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { style: styles.list },
+	                        list2.map(function (result, index) {
+	                            return _react2.default.createElement(
+	                                'li',
+	                                { style: styles.li, onClick: _this2.showId.bind(_this2), key: index, id: result._id },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.title },
+	                                    result.title
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.createAt },
+	                                    moment(result.createAt).format("LL")
+	                                )
+	                            );
+	                        })
+	                    )
 	                )
 	            );
 	        }
@@ -3717,9 +3865,26 @@ webpackJsonp([0],{
 	    return Play;
 	}(_react.Component);
 
+	var styles = {
+	    list: {
+	        marginLeft: '5%',
+	        marginRight: '5%'
+	    },
+	    li: (_li = {
+	        display: 'flex'
+	    }, _defineProperty(_li, 'display', '-webkit-flex'), _defineProperty(_li, 'flexDirection', 'row'), _defineProperty(_li, 'justifyContent', 'space-between'), _defineProperty(_li, 'borderBottom', '1px solid #dedede'), _defineProperty(_li, 'padding', '10px 0'), _li),
+	    title: {},
+	    createAt: {
+	        fontSize: '12px',
+	        color: '#999'
+	    }
+
+	};
+
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        // messageList:state.messageList,
+	        list: state.articleList,
+	        list2: state.articleList2
 	    };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {

@@ -5,6 +5,7 @@ var qs      = require('querystring')
 var fs      = require('fs')
 var multer  = require('multer')
 var upload  = multer({dest: './app/uploads/',})
+var needle  =  require('needle')
 // var needle  = require('needle')
 // var storage  = multer.memoryStorage()
 // var upload   = multer({ storage: storage })
@@ -21,10 +22,6 @@ app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     next()
 });
-
-app.get('*' , function(req, res, next) {
-    res.render("index", {layout: false,})
-})
 
 app.post('/register',function(req,res){
 	var user=new User({
@@ -49,12 +46,72 @@ app.post('/send_message',function(req,res){
         createAt:     new Date(),
 	})
 	post.save(function(err,result){
-		console.log(111);
-		console.log(result)
-		console.log(222);
-		// res.end({state:'success',text:'发送消息成功'})
-		console.log('发送消息成功')
+		res.send('发送消息成功')
 	})
+})
+/////////////////////
+app.get('/needle',function(req,res){
+	needle.get('127.0.0.1:7777/api/article?foo=bar', function(err, resp,body) {
+	  	console.log(body);
+	  	res.send(body)
+	});
+})
+
+app.post('/needle',function(req,res){
+	console.log(req.body);
+	needle.post('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
+	 	res.send(body)
+	});
+})
+
+app.put('/needle',function(req,res){
+	needle.put('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
+	 	res.send(body)
+	});
+})
+
+app.delete('/needle',function(req,res){
+	needle.delete('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
+	 	res.send(body)
+	});
+})
+//*************************************************//
+
+app.get('/article',function(req,res){
+	needle.get('127.0.0.1:7777/api/article?page=1', function(err, resp,body) {
+	  	console.log(body);
+	  	res.send(body)
+	});
+})
+
+app.post('/article',function(req,res){
+	needle.post('127.0.0.1:7777/api/article', req.body, function(err, resp, body) {
+		console.log(body);
+	 	res.send(body)
+	});
+})
+
+app.put('/article',function(req,res){
+	needle.put('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
+		console.log(body);
+		switch(body.code){
+			case 0:
+				res.send(body.message)
+			break;
+			default:
+				res.send(body.message)
+		}
+	});
+})
+
+app.delete('/article',function(req,res){
+	needle.delete('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
+	 	res.send(body)
+	});
+})
+
+app.get('*' , function(req, res, next) {
+    res.render("index", {layout: false})
 })
 
 module.exports = app

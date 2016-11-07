@@ -1,4 +1,3 @@
-
 // action 类型
 export const ADD_OK = 'ADD_OK';
 export const REMOVE_OK = 'REMOVE_OK';
@@ -8,6 +7,68 @@ export const EDIT_OK = 'EDIT_OK';
 export const LOGIN = 'LOGIN';
 export const REGISTER = 'REGISTER';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
+
+export const GET_ARTICLE = 'GET_ARTICLE'
+export const ADD_ARTICLE = 'ADD_ARTICLE'
+export const PUT_ARTICLE = 'PUT_ARTICLE'
+export const DELETE_ARTICLE = 'DELETE_ARTICLE'
+
+export function getArticle (value) {
+    return (dispatch) => {
+        fetch('/article', {
+            method: "GET",
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            dispatch({
+                type: 'GET_ARTICLE',
+                payload: data
+            })
+        }).catch(function (err) {
+            console.log("服务器连接失败");
+        });  
+    } 
+}
+
+export function addArticle (value) {
+    return (dispatch) => {
+        fetch('/article', {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: $.param(value)
+        })
+        .then(response => {
+            console.log(response);
+            return response.json();
+        })
+        .then(data => {
+            dispatch({
+                type: 'ADD_ARTICLE',
+                payload: value
+            })
+        }).catch(function (err) {
+            console.log("服务器连接失败");
+        });  
+    } 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export function sendMessage(value){
     $.post('/send_message', value, function(result){
@@ -90,9 +151,11 @@ export function login(value){
 // action 创建函数
 export function addTodo(value){
     console.log(value);
-    return {
-        type: ADD_OK,
-        payload: value
+    return (dispatch,getState)=>{
+        dispatch({
+            type: ADD_OK,
+            payload: value
+        })
     }
 }
 export function removeTodo(value){

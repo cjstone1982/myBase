@@ -12,7 +12,6 @@ import 'flex.css'            //flex布局兼容性
 import './css/base.less'     //加载公共样式
 import './css/style.less'    //加载项目样式
 
-
 //组件加载
 import Index from './component/Index'
 import List  from './component/List'
@@ -26,7 +25,6 @@ import TabBarFooter from './component/TabBarFooter'
 import Register from './component/Register'
 import Login from './component/Login'
 import {addTodo} from './redux/actions'
-
 
 //初始设置
 let store = createStore()
