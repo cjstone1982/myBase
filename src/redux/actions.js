@@ -14,7 +14,7 @@ export const PUT_ARTICLE = 'PUT_ARTICLE'
 export const DELETE_ARTICLE = 'DELETE_ARTICLE'
 
 export function getArticle (value) {
-    return (dispatch) => {
+    return (dispatch,getState) => {
         fetch('/article', {
             method: "GET",
         })
@@ -22,7 +22,6 @@ export function getArticle (value) {
             return response.json();
         })
         .then(data => {
-            console.log(data);
             dispatch({
                 type: 'GET_ARTICLE',
                 payload: data
@@ -34,14 +33,13 @@ export function getArticle (value) {
 }
 
 export function addArticle (value) {
-    return (dispatch) => {
+    return (dispatch,getState) => {
         fetch('/article', {
             method: "POST",
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             body: $.param(value)
         })
         .then(response => {
-            console.log(response);
             return response.json();
         })
         .then(data => {
@@ -54,41 +52,62 @@ export function addArticle (value) {
         });  
     } 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export function sendMessage(value){
-    $.post('/send_message', value, function(result){
-        alert(result)
-    })
-    return {
-        type: SEND_MESSAGE,
-        payload: value
-    }
+export function login(value){
+    console.log('gogogogogogogog');
+    return (dispatch,getState) => {
+        fetch('/user/login', {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: $.param(value)
+        })
+        .then(response => {
+            console.log(response);
+            return response.json();
+        })
+        .then(data => {
+            dispatch({
+                type: 'LOGIN',
+                payload: data
+            })
+        }).catch(function (err) {
+            console.log("服务器连接失败");
+        });  
+    } 
 }
 
 export function register(value){
-    $.post('/register', value,(result)=>{
-        console.log(result);
-        result.state=='success'?console.log('注册成功'):console.log('注册失败')
-    })
-    return {
-        type: REGISTER,
-        payload: value
-    }
+    return (dispatch,getState) => {
+        fetch('/user/register', {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: $.param(value)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            dispatch({
+                type: 'REGISTER',
+                payload: data
+            })
+        }).catch(function (err) {
+            console.log("服务器连接失败");
+        });  
+    } 
+
+    // console.log('前端提交注册');
+    // $.post('/user/register', value,(result)=>{
+    //     console.log(result);
+    //     if(result.state=='success'){
+    //         console.log('注册成功')
+    //     }else{
+    //         console.log('注册失败')
+    //     }
+    // })
+    // return {
+    //     type: REGISTER,
+    //     payload: value
+    // }
     
     // return (dispatch,getState)=>{
     //     $.post('/register', value,(result)=>{
@@ -142,12 +161,7 @@ export function register(value){
 
     // }
 }
-export function login(value){
-    return  {
-        type: LOGIN,
-        payload: value
-    }
-}
+
 // action 创建函数
 export function addTodo(value){
     console.log(value);

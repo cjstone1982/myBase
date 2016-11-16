@@ -1,22 +1,31 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router'
 import ReactDOM, {render} from 'react-dom'
+import uuid from 'node-uuid'
+function getUUID () {
+    return uuid.v1()
+}
 
 class Alert extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            id:getUUID()
+        };
+    }
     componentDidMount(){
         $('.tips').show('500').animate({top: '5px'}, "300")
         let that=this
-        setTimeout(function(){
-            $('.tips:first').remove()
+        setTimeout(()=>{
+            $('#'+this.state.id).remove()
         },this.props.delay)
     }
     componentWillUnmount(){
-        alert('miss')
         console.log('unmount');
     }
     render() {
-        console.log('render');
-        return (<div style={styles.tips} >
+        // console.log('render');
+        return (<div style={styles.tips} id={this.state.id}>
             {this.props.text}
         </div>)
     }

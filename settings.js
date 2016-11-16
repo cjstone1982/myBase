@@ -31,7 +31,9 @@ switch(mobile_environment){
 	case 0:
 		console.log('当前处于开发环境');
 		module.exports = {
-			serverPort:8888,
+			serverHost:'localhost', //访问后端地址
+			serverPort:7777,        //访问后端端口    
+			hostPort:8888, //本机端口
 			dbname:'myBase',
 			dbport:'27017',
 			dbhost:'localhost',

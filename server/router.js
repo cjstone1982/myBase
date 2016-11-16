@@ -9,13 +9,22 @@ var needle  =  require('needle')
 // var needle  = require('needle')
 // var storage  = multer.memoryStorage()
 // var upload   = multer({ storage: storage })
+// var jwt = require('jwt-simple');
+var jwt = require("jsonwebtoken");
+var expressJwt = require("express-jwt");
+
+var settings=require('../settings')
+var host=settings.serverHost
+var port=settings.serverPort
+var serverPath=host+':'+port
+
 var app = express.Router()
 
-var db      = require("./db")
-var Concern = db.model("Concern")
-var Remind  = db.model("Remind")
-var Post    = db.model("Post")
-var User    = db.model("User")
+// var db      = require("./db")
+// var Concern = db.model("Concern")
+// var Remind  = db.model("Remind")
+// var Post    = db.model("Post")
+// var User    = db.model("User")
 
 //开启跨域
 app.all('*', function(req, res, next) {
@@ -23,95 +32,83 @@ app.all('*', function(req, res, next) {
     next()
 });
 
-app.post('/register',function(req,res){
-	var user=new User({
-		email:        req.body.email,
-		password:     req.body.password,
-		nickname:     req.body.nickname,
+app.route('/user/register')
+	.post(function(req, res, next) {
+		needle.post(serverPath+'/user/register', req.body, function(err, resp, result) {
+			console.log(result);
+		 	res.send(result)
+		});
 	})
-	user.save(function(err,result){
-		console.log(result)
-		console.log('注册成功')
+
+app.route('/user/login')
+	.post(function(req, res, next) {
+		console.log('登录请求');
+		console.log(req.body);
+		needle.post(serverPath+'/user/login', req.body, function(err, resp, result) {
+		 	res.send(result)
+		});
 	})
-})
 
-app.post('/send_message',function(req,res){
-	var post=new Post({
-		title:        '标题',
-        content:      '正文',
-        stats:{
-            votes:    0,
-            favs:     0,
-        },
-        createAt:     new Date(),
-	})
-	post.save(function(err,result){
-		res.send('发送消息成功')
-	})
-})
-/////////////////////
-app.get('/needle',function(req,res){
-	needle.get('127.0.0.1:7777/api/article?foo=bar', function(err, resp,body) {
-	  	console.log(body);
-	  	res.send(body)
-	});
-})
-
-app.post('/needle',function(req,res){
-	console.log(req.body);
-	needle.post('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
-	 	res.send(body)
-	});
-})
-
-app.put('/needle',function(req,res){
-	needle.put('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
-	 	res.send(body)
-	});
-})
-
-app.delete('/needle',function(req,res){
-	needle.delete('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
-	 	res.send(body)
-	});
-})
 //*************************************************//
+app.route('/article')
+	.all(function(req, res, next) {
+	  	console.log('前端请求中间件');
+		next();
+	})
+	.get(function(req, res, next) {
+		needle.get(serverPath+'/article', function(err, resp, body) {
+		  	console.log(body);
+		  	res.send(body)
+		});
+	})
+	.post(function(req, res, next) {
+		console.log('发布文章请求值');
+		console.log(req.body);
+		needle.post(serverPath+'/article', req.body, function(err, resp, body) {
+			console.log(body);
+		 	res.send(body)
+		});
+	})
+	.put(function(req, res, next) {
+		needle.put(serverPath+'/article', req.body, function(err, resp, body) {
+			console.log(body);
+			switch(body.code){
+				case 0:
+					res.send(body.message)
+				break;
+				default:
+					res.send(body.message)
+			}
+		});
+	})
+	.delete(function(req, res, next) {
+		needle.delete(serverPath+'/article', req.body, function(err, resp, body) {
+		 	res.send(body)
+		});
+	})
 
-app.get('/article',function(req,res){
-	needle.get('127.0.0.1:7777/api/article?page=1', function(err, resp,body) {
-	  	console.log(body);
-	  	res.send(body)
-	});
-})
 
-app.post('/article',function(req,res){
-	needle.post('127.0.0.1:7777/api/article', req.body, function(err, resp, body) {
-		console.log(body);
-	 	res.send(body)
-	});
-})
-
-app.put('/article',function(req,res){
-	needle.put('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
-		console.log(body);
-		switch(body.code){
-			case 0:
-				res.send(body.message)
-			break;
-			default:
-				res.send(body.message)
-		}
-	});
-})
-
-app.delete('/article',function(req,res){
-	needle.delete('127.0.0.1:7777/api/article', 'foo=bar', function(err, resp, body) {
-	 	res.send(body)
-	});
-})
-
-app.get('*' , function(req, res, next) {
+app.get('*', auth, function(req, res, next) {
     res.render("index", {layout: false})
 })
+
+function auth(req,res,next) {
+	let token=req.headers['x-access-token']
+	if(token){
+		jwt.verify(token, 'secret', function(err, decoded) {
+			if(decoded){
+				let user=decoded
+				res.send({
+					token:true,
+					user
+				})
+			}else{
+				res.send({token:false})
+			}
+		})
+	}else{
+		next()
+	}
+}
 
 module.exports = app

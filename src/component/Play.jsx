@@ -30,10 +30,17 @@ class Play extends Component {
     }
     addArticle(e){
         let data={
-            title:this.state.articleTitle,
-            content:this.state.articleContent,
+            title:this.state.title,
+            content:this.state.content,
         }
         this.props.addArticle(data)
+        //在发表以后，输入框内容清空，状态内容清空
+        this.setState({
+            title:'',
+            content:'',
+        })
+        this.refs.title.value=""
+        this.refs.content.value=""
     }
     showId(e){
         alert(e.target.id)
@@ -51,8 +58,8 @@ class Play extends Component {
                 <div className="play">
                     <SendMessage />
                   
-                    <input name="articleTitle" onChange={this.handleChange.bind(this)} type="text" placeholder="标题" />
-                    <input name="articleContent" onChange={this.handleChange.bind(this)} type="text" placeholder="内容" />
+                    <input name="title" ref="title" onChange={this.handleChange.bind(this)} type="text" placeholder="标题" />
+                    <input name="content" ref="content" onChange={this.handleChange.bind(this)} type="text" placeholder="内容" />
                     <button onClick={this.addArticle.bind(this)}>添加新闻</button>
                    
                     {list.map(function(result,index){
@@ -68,56 +75,7 @@ class Play extends Component {
                             </li>)
                         })}
                     </ul>
-                {/*
-                    <button onClick={function(){
-                        fetch('/needle',{method: 'GET'})
-                            .then(function(response) {
-                                return response.json();
-                            })
-                            .then(function(data) {
-                                console.log(data);
-                            })
-                            .catch(function(e) {
-                                console.log("Oops, error");
-                            })
-                    }}>GET</button>
-                    <button onClick={function(){
-                        fetch('/needle',{method: 'POST'})
-                            .then(function(response) {
-                                return response.json();
-                            })
-                            .then(function(data) {
-                                console.log(data);
-                            })
-                            .catch(function(e) {
-                                console.log("Oops, error");
-                            })
-                    }}>POST</button>
-                    <button onClick={function(){
-                        fetch('/needle',{method: 'PUT'})
-                            .then(function(response) {
-                                return response.json();
-                            })
-                            .then(function(data) {
-                                console.log(data);
-                            })
-                            .catch(function(e) {
-                                console.log("Oops, error");
-                            })
-                    }}>PUT</button>
-                    <button onClick={function(){
-                        fetch('/needle',{method: 'DELETE'})
-                            .then(function(response) {
-                                return response.json();
-                            })
-                            .then(function(data) {
-                                console.log(data);
-                            })
-                            .catch(function(e) {
-                                console.log("Oops, error");
-                            })
-                    }}>DELETE</button>
-*/}
+                    
                 </div>
             </div>
         )

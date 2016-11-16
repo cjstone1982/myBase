@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 class Submit extends Component {
     render() {
-        console.log(this.props.canClick);
+        // console.log(this.props.canClick);
         if(!!this.props.canClick){
             return (<button onClick={this.props.thisClick} type="button" style={styles.button}>
                 {this.props.text}

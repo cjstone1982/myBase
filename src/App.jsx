@@ -56,18 +56,60 @@ ReactDOM.render(
         <Router history={browserHistory}>
 	        <Route path="/" component={Main}>
 	            <IndexRoute component={Index} />
-	            <Route path="/list" component={List} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/message" component={Message} />
-                <Route path="/play" component={Play} />
-                <Route path="/discover" component={Discover} />
-                <Route path="/mine" component={Mine} />
+	            <Route onEnter={token} path="/list" component={List} />
+                <Route onEnter={token} path="/message" component={Message} />
+                <Route onEnter={token} path="/play" component={Play} />
+                <Route onEnter={token} path="/discover" component={Discover} />
+                <Route onEnter={token} path="/mine" component={Mine} />
 	        </Route>
 	    </Router>
     </Provider>
     ,document.body.appendChild(document.createElement('div'))
 );
+
+function token (nextState, replace, next) {
+    
+    // var headers = new Headers({
+    //     'x-access-token': token
+    // });
+    // fetch('*', {
+    //     method: 'GET', 
+    //     headers: headers
+    // }).then(function(response) {
+    //     console.log(response);
+    //     return response.json();
+    // }).then(function(data) {
+    //     console.log(data);
+    // }).catch(function(e) {
+    //     console.log("error1");
+    // });
+    
+    //登录后的路径
+    let nextPath=nextState.location.pathname
+    sessionStorage.setItem('nextPath',nextPath)
+    
+    let token=localStorage.getItem('token')
+    if(token){
+        $.ajax({
+            type:'GET',
+            url:'*',
+            headers: {
+                'x-access-token': token
+            },
+            success:function(result){
+                if(!result.token){
+                    browserHistory.push('/login')
+                }
+                console.log(result);
+            }
+        })
+    }else{
+        replace('/login')
+    }
+    next()
+}
 
 //权限控制的中间
 function auth(nextState, replace, next) {

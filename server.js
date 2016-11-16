@@ -15,8 +15,8 @@ var settings     = require('./settings')
 // var mongoose  = require('mongoose')
 // mongoose.connect("mongodb://localhost:27017/myTestDB")
 //连接数据库
-db = require('./server/db')
-db.connect()
+// db = require('./server/db')
+// db.connect()
 
 var app = express()
 
@@ -62,8 +62,8 @@ app.use(session({
 }))
 app.use('/', routes)
 
-http.createServer(app).listen(settings.serverPort,function(){
-	console.log('server start at '+settings.serverPort+'')
+http.createServer(app).listen(settings.hostPort,function(){
+	console.log('server start at '+settings.hostPort+'')
 })
 
 

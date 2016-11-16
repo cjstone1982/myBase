@@ -5,6 +5,9 @@ import us from 'underscore'
 import '../extend/prototype' //prototype扩展
 import method from '../extend/method'
 
+import Alert from '../component/Alert'
+import { browserHistory } from 'react-router'
+
 function articleList2(state = [], action) {
     switch (action.type) {
         case GET_ARTICLE:
@@ -14,7 +17,7 @@ function articleList2(state = [], action) {
             console.log(...state);  //之前的状态
             console.log('之后状态');
             console.log(action.payload); //之后的状态
-            return [...state, action.payload]
+            return [action.payload, ...state]
         case PUT_ARTICLE:
             return state.arrEdit(action.index, action.value)
         case DELETE_ARTICLE:
@@ -41,11 +44,27 @@ function articleList(state = [], action) {
     }
 }
 
-function accounts (state = {}, action) {
+function register(state = {}, action) {
+    switch (action.type) {
+        case REGISTER:
+            Alert.remove()
+            Alert.add(action.payload.message,3000)
+            return action.payload
+        default:
+            return state
+    }
+}
+function login(state = {}, action) {
     switch (action.type) {
         case LOGIN:
-            return action.payload
-        case REGISTER:
+            Alert.remove()
+            localStorage.setItem('token',action.payload.token)
+            console.log(action.payload);
+            Alert.add(action.payload.message,2500)
+            //登录成功后跳转
+            setTimeout(function() {
+                browserHistory.push(sessionStorage.getItem('nextPath'))
+            }, 2500);
             return action.payload
         default:
             return state
@@ -65,8 +84,9 @@ function messages (state = [], action) {
 const todoApp = combineReducers({
     articleList,
     articleList2,
-    accounts,
-    messages
+    register,
+    login,
+    messages,
 })
 
 export default todoApp
