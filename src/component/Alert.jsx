@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router'
 import ReactDOM, {render} from 'react-dom'
-import uuid from 'node-uuid'
-function getUUID () {
-    return uuid.v1()
-}
+import {getUUID} from '../extend/method'
 
 class Alert extends Component {
     constructor(props) {

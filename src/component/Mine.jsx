@@ -16,11 +16,12 @@ class Mine extends Component {
 
         }
     }
-    componentWillMount(){
-
+    omponentWillMount(){
     }
     componentDidMount(){
-
+    }
+    componentWillUnmount(){
+        console.log('componentWillUnmount');
     }
     handleChange(e){
         var newState={}

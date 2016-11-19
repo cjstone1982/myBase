@@ -1,7 +1,6 @@
 import {combineReducers } from 'redux'
 import {ADD_OK, REMOVE_OK, GET_OK, EDIT_OK, LOGIN, REGISTER , SEND_MESSAGE} from './actions'
 import {GET_ARTICLE, ADD_ARTICLE, PUT_ARTICLE, DELETE_ARTICLE} from './actions'
-import us from 'underscore'
 import '../extend/prototype' //prototype扩展
 import method from '../extend/method'
 
@@ -58,8 +57,9 @@ function login(state = {}, action) {
     switch (action.type) {
         case LOGIN:
             Alert.remove()
-            localStorage.setItem('token',action.payload.token)
-            console.log(action.payload);
+            if(action.payload.token){
+                localStorage.setItem('token',action.payload.token)
+            }
             Alert.add(action.payload.message,2500)
             //登录成功后跳转
             setTimeout(function() {

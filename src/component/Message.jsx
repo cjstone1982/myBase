@@ -8,8 +8,6 @@ import * as action from '../redux/actions'
 
 //组件
 import TabBarFooter from './TabBarFooter'
-import Register from './Register'
-import Login from './Login'
 
 class Message extends Component {
     constructor(props) {
@@ -18,11 +16,12 @@ class Message extends Component {
 
         }
     }
-    componentWillMount(){
-        
+    omponentWillMount(){
     }
     componentDidMount(){
-
+    }
+    componentWillUnmount(){
+        console.log('componentWillUnmount');
     }
     handleChange(e){
         var newState={}
@@ -43,7 +42,6 @@ class Message extends Component {
                     <li>消息列表222</li>
                     <li>消息列表333</li>
                 </ul>
-                <Login />
             </div>
         )
     }

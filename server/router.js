@@ -45,6 +45,7 @@ app.route('/user/login')
 		console.log('登录请求');
 		console.log(req.body);
 		needle.post(serverPath+'/user/login', req.body, function(err, resp, result) {
+			console.log(result);
 		 	res.send(result)
 		});
 	})
@@ -95,15 +96,20 @@ app.get('*', auth, function(req, res, next) {
 function auth(req,res,next) {
 	let token=req.headers['x-access-token']
 	if(token){
-		jwt.verify(token, 'secret', function(err, decoded) {
-			if(decoded){
-				let user=decoded
+		jwt.verify(token, 'cjstone1982-webdesign-jwtsecret', function(err, user) {
+			if(user){
+				let nowDate=parseInt(Date.now()/1000)
+				if(nowDate>user.exp){
+					localStorage.removeItem('token')
+				}
 				res.send({
 					token:true,
+					now:nowDate,
+					message:nowDate>user.exp?'已过期，请重新登录':'当前在线',
 					user
 				})
 			}else{
-				res.send({token:false})
+				res.send({token:false,message:'当前未登录'})
 			}
 		})
 	}else{

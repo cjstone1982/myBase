@@ -8,9 +8,10 @@ import {Provider} from 'react-redux'
 import createStore from './redux/stores'
 
 //样式加载
-import 'flex.css'            //flex布局兼容性
-import './css/base.less'     //加载公共样式
-import './css/style.less'    //加载项目样式
+import 'flex.css'                //flex布局兼容性
+import './css/base.less'         //加载公共样式
+import './css/style.less'        //加载项目样式
+import './css/antd-mobile.less'  //antd-mobile主样式
 
 //组件加载
 import Index from './component/Index'
@@ -29,6 +30,7 @@ import {addTodo} from './redux/actions'
 //初始设置
 let store = createStore()
 store.subscribe(function () { //每次状态机改变的时候执行
+    console.log('当前state');
     console.log(store.getState())
 })
 
@@ -89,7 +91,6 @@ function token (nextState, replace, next) {
     //登录后的路径
     let nextPath=nextState.location.pathname
     sessionStorage.setItem('nextPath',nextPath)
-    
     let token=localStorage.getItem('token')
     if(token){
         $.ajax({

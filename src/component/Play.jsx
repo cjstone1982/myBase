@@ -20,8 +20,10 @@ class Play extends Component {
     componentWillMount(){
         this.props.getArticle()
     }
-    componentDidMount(){
-
+    omponentWillMount(){
+    }
+    componentWillUnmount(){
+        console.log('componentWillUnmount');
     }
     handleChange(e){
         var newState={}

@@ -1,5 +1,5 @@
-body{margin: 0; font-size: .9rem; font-family: 'STHeiti','微软雅黑'; -webkit-font-smoothing: antialiased;  -webkit-text-size-adjust:none; }
-body, dl, dd, h 1, h 2, h 3, h 4, h 5, h 6, p, form{ margin: 0; }
+body{margin: 0; font-size: 12px; font-family: 'STHeiti','微软雅黑'; -webkit-font-smoothing: antialiased;  -webkit-text-size-adjust:none; }
+body, dl, dd, h1, h2, h3, h4, h5, h6, p, form{ padding:0; marging:0 }
 html{overflow-Y: scroll; }
 ol,li,ul{ margin: 0; padding: 0; }
 ol,li{list-style: none; }
@@ -34,48 +34,6 @@ a:hover { color:#000; }
 /*hack*/
 .word { word-break:break-all; }/*英文强制换行*/
 .width_fixed { white-space:nowrap; text-overflow:ellipsis; overflow: hidden; }/*超出宽度的部分显示为...*/
-
-@grey1: #404040;
-@grey2: #636262;
-@grey3: #9f9f9f;
-@grey4: #b2b2b2;
-@grey5: #e7e7e7;
-
-@green1: #1b8a2d;
-@green2: #22ac38; 
-@green3: #24c53d; 
-
-@orange1: #fff8e8;
-@orange2: #ff8400; 
-@orange3: #ff5a00; 
-@orange4: #FFB015; 
-
-@color1: #ffb400;
-@color2: #e93131; 
-@color3: #22ad38;
-@color4: #eeeff1;  
-
-@btn1: #009D25;
-@btn2: #009D25;
-
-@bgGrey1:#eeeff0;
-@bgGrey2:#f5f5f5;
-
-@border1:#e1e1e1;
-
-.button(@width:100%, @height:30px, @size:14px, @bgcolor:@btnColor, @radius:@btnRadius){
-	width:@width; height:@height; color:#fff; background: @bgcolor; border:none; border-radius: @radius; font-weight: bold; font-size: @size; cursor: pointer;
-}
-
-/*调用demo .button('宽度','高度','字体大小','颜色','圆角'); */
-.button01{
-	.button(100%,30px,14px,red,5px);
-}
-
-/*输入框*/
-.input(@width:100%, @height:25px, @borderColor:#ddd, @ardius:5px){
-   width:@width; height:@height; line-height:15px; border:1px solid @borderColor; border-radius:@ardius; text-indent: .5em; color:#666;
-}
 
 /*阴影*/
 .shadow(@color:#ccc){-webkit-box-shadow: 0  0 3px @color; -moz-box-shadow: 0  0 3px @color; box-shadow: 0  0 3px @color; }
