@@ -1,3 +1,4 @@
+import 'whatwg-fetch'
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router'
 
@@ -171,9 +172,9 @@ class Index extends Component {
     }
 }
 
-let mapStateToProps = state => ({
-    list:state.articleList,
-    list2:state.articleList2,
-})
+let mapStateToProps = state => {
+    const {currentUser}=state
+    return {currentUser}
+}
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Index)

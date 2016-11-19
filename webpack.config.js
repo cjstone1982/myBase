@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');         //生成html
 module.exports={
     entry: {
         main:"./src/App",
-        react: [
+        common: [
             'react', 
             'react-dom', 
             'react-router', 
@@ -13,6 +13,7 @@ module.exports={
             'redux' ,
             'redux-thunk',
             'redux-logger',
+            'redux-promise',
             'flex.css',
             'antd-mobile/lib/modal',
             'antd-mobile/lib/button',
@@ -23,6 +24,7 @@ module.exports={
             'antd-mobile/lib/popup',
             'antd-mobile/lib/list',
             'antd-mobile/lib/image-picker',
+            'whatwg-fetch',
         ],
     },
     output: { 
@@ -59,10 +61,13 @@ module.exports={
             ImagePicker : 'antd-mobile/lib/image-picker',
         }
     },
+    resolveLoader: {
+        'fallback': path.join(__dirname, 'node_modules')
+      },
     plugins: [
         new ExtractTextPlugin("[name].css", {allChunks: true}),    //生成独立css
         // new webpack.optimize.CommonsChunkPlugin('common.js'),                          
-        new webpack.optimize.CommonsChunkPlugin('react', 'react.js'),               //提取公用代码
+        new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),             //提取公用代码
         // new webpack.optimize.UglifyJsPlugin({compress: {warnings: false }}),     //压缩代码
         new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({                                                     //根据模板插入css/js等生成最终HTML

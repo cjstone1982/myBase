@@ -1,18 +1,23 @@
-// action 类型
-export const ADD_OK = 'ADD_OK';
-export const REMOVE_OK = 'REMOVE_OK';
-export const GET_OK = 'GET_OK';
-export const EDIT_OK = 'EDIT_OK';
+//action 类型
+export const  ADD_OK         = 'ADD_OK';
+export const  REMOVE_OK      = 'REMOVE_OK';
+export const  GET_OK         = 'GET_OK';
+export const  EDIT_OK        = 'EDIT_OK';
 
-export const LOGIN = 'LOGIN';
-export const REGISTER = 'REGISTER';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
+//获取登录用户信息
+export const  CURRENT_USER   = 'CURRENT_USER';
 
-export const GET_ARTICLE = 'GET_ARTICLE'
-export const ADD_ARTICLE = 'ADD_ARTICLE'
-export const PUT_ARTICLE = 'PUT_ARTICLE'
-export const DELETE_ARTICLE = 'DELETE_ARTICLE'
+//账户
+export const  LOGIN          = 'LOGIN';         //登录
+export const  REGISTER       = 'REGISTER';      //注册
 
+//文章
+export const  GET_ARTICLE    = 'GET_ARTICLE'    //获取文章
+export const  ADD_ARTICLE    = 'ADD_ARTICLE'    //添加文章
+export const  PUT_ARTICLE    = 'PUT_ARTICLE'    //修改文章
+export const  DELETE_ARTICLE = 'DELETE_ARTICLE' //删除文章
+
+//获取文章
 export function getArticle (value) {
     return (dispatch,getState) => {
         fetch('/article', {
@@ -32,6 +37,7 @@ export function getArticle (value) {
     } 
 }
 
+//添加文章
 export function addArticle (value) {
     return (dispatch,getState) => {
         fetch('/article', {
@@ -52,8 +58,9 @@ export function addArticle (value) {
         });  
     } 
 }
+
+//登录
 export function login(value){
-    console.log('gogogogogogogog');
     return (dispatch,getState) => {
         fetch('/user/login', {
             method: "POST",
@@ -75,6 +82,7 @@ export function login(value){
     } 
 }
 
+//注册
 export function register(value){
     return (dispatch,getState) => {
         fetch('/user/register', {

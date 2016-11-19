@@ -1,3 +1,5 @@
+//Polyfills
+import 'whatwg-fetch'
 //资源加载
 import React, {Component, PropTypes} from 'react'
 import ReactDOM, {render} from 'react-dom'
@@ -30,8 +32,8 @@ import {addTodo} from './redux/actions'
 //初始设置
 let store = createStore()
 store.subscribe(function () { //每次状态机改变的时候执行
-    console.log('当前state');
-    console.log(store.getState())
+    // console.log('当前state');
+    // console.log(store.getState())
 })
 
 //主模板
@@ -65,6 +67,7 @@ ReactDOM.render(
                 <Route onEnter={token} path="/play" component={Play} />
                 <Route onEnter={token} path="/discover" component={Discover} />
                 <Route onEnter={token} path="/mine" component={Mine} />
+                <Route path="*" component={Index} />
 	        </Route>
 	    </Router>
     </Provider>
@@ -72,43 +75,56 @@ ReactDOM.render(
 );
 
 function token (nextState, replace, next) {
-    
-    // var headers = new Headers({
-    //     'x-access-token': token
-    // });
-    // fetch('*', {
-    //     method: 'GET', 
-    //     headers: headers
-    // }).then(function(response) {
-    //     console.log(response);
-    //     return response.json();
-    // }).then(function(data) {
-    //     console.log(data);
-    // }).catch(function(e) {
-    //     console.log("error1");
-    // });
-    
     //登录后的路径
     let nextPath=nextState.location.pathname
     sessionStorage.setItem('nextPath',nextPath)
+    //查看本地是否有token
     let token=localStorage.getItem('token')
+    var headers = new Headers({
+        'x-access-token': token
+    })
     if(token){
-        $.ajax({
-            type:'GET',
-            url:'*',
-            headers: {
-                'x-access-token': token
-            },
-            success:function(result){
-                if(!result.token){
-                    browserHistory.push('/login')
-                }
-                console.log(result);
+        fetch('*', {
+            method: 'GET', 
+            headers: headers
+        }).then(function(response) {
+            // console.log(response)
+            return response.json()
+        }).then(function(data) {
+            if(!data.token){
+                browserHistory.push('/login')
             }
+            store.dispatch({
+                type: 'CURRENT_USER',
+                payload: data.user
+            })
+        }).catch(function(e) {
+            console.log("fail");
         })
     }else{
         replace('/login')
     }
+    
+    // if(token){
+    //     $.ajax({
+    //         type:'GET',
+    //         url:'*',
+    //         headers: {
+    //             'x-access-token': token
+    //         },
+    //         success:function(result){
+    //             if(!result.token){
+    //                 browserHistory.push('/login')
+    //             }
+    //             store.dispatch({
+    //                 type: 'CURRENT_USER',
+    //                 payload: result.user
+    //             })
+    //         }
+    //     })
+    // }else{
+    //     replace('/login')
+    // }
     next()
 }
 

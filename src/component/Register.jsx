@@ -73,7 +73,7 @@ class Register extends Component {
 }
 
 let mapStateToProps = state => ({
-    registerState:state.register,
+    registerState:state.registerState,
 })
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

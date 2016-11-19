@@ -1,3 +1,4 @@
+import 'whatwg-fetch'
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router'
 
@@ -44,8 +45,9 @@ class Discover extends Component {
     }
 }
 
-let mapStateToProps = state => ({
-    // messageList:state.messageList,
-})
+let mapStateToProps = state => {
+    const {currentUser}=state
+    return {currentUser}
+}
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Discover)

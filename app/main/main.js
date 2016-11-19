@@ -1,4 +1,4 @@
-webpackJsonp([0],{
+webpackJsonp([1],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
@@ -6,6 +6,8 @@ webpackJsonp([0],{
 	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	__webpack_require__(406);
 
 	var _react = __webpack_require__(1);
 
@@ -19,55 +21,55 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _stores = __webpack_require__(256);
+	var _stores = __webpack_require__(407);
 
 	var _stores2 = _interopRequireDefault(_stores);
 
-	__webpack_require__(264);
-
-	__webpack_require__(268);
-
-	__webpack_require__(269);
-
 	__webpack_require__(270);
 
-	var _Index = __webpack_require__(271);
+	__webpack_require__(413);
+
+	__webpack_require__(414);
+
+	__webpack_require__(415);
+
+	var _Index = __webpack_require__(416);
 
 	var _Index2 = _interopRequireDefault(_Index);
 
-	var _List = __webpack_require__(405);
+	var _List = __webpack_require__(418);
 
 	var _List2 = _interopRequireDefault(_List);
 
-	var _Message = __webpack_require__(406);
+	var _Message = __webpack_require__(419);
 
 	var _Message2 = _interopRequireDefault(_Message);
 
-	var _Play = __webpack_require__(407);
+	var _Play = __webpack_require__(420);
 
 	var _Play2 = _interopRequireDefault(_Play);
 
-	var _Discover = __webpack_require__(409);
+	var _Discover = __webpack_require__(422);
 
 	var _Discover2 = _interopRequireDefault(_Discover);
 
-	var _Mine = __webpack_require__(410);
+	var _Mine = __webpack_require__(423);
 
 	var _Mine2 = _interopRequireDefault(_Mine);
 
-	var _TabBarFooter = __webpack_require__(272);
+	var _TabBarFooter = __webpack_require__(417);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
-	var _Register = __webpack_require__(411);
+	var _Register = __webpack_require__(424);
 
 	var _Register2 = _interopRequireDefault(_Register);
 
-	var _Login = __webpack_require__(413);
+	var _Login = __webpack_require__(426);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -75,7 +77,9 @@ webpackJsonp([0],{
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //资源加载
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //Polyfills
+
+	//资源加载
 
 
 	//Redux
@@ -95,10 +99,9 @@ webpackJsonp([0],{
 
 	//初始设置
 	var store = (0, _stores2.default)();
-	store.subscribe(function () {
-	    //每次状态机改变的时候执行
-	    console.log('当前state');
-	    console.log(store.getState());
+	store.subscribe(function () {//每次状态机改变的时候执行
+	    // console.log('当前state');
+	    // console.log(store.getState())
 	});
 
 	//主模板
@@ -149,49 +152,63 @@ webpackJsonp([0],{
 	            _react2.default.createElement(_reactRouter.Route, { onEnter: token, path: '/message', component: _Message2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { onEnter: token, path: '/play', component: _Play2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { onEnter: token, path: '/discover', component: _Discover2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { onEnter: token, path: '/mine', component: _Mine2.default })
+	            _react2.default.createElement(_reactRouter.Route, { onEnter: token, path: '/mine', component: _Mine2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _Index2.default })
 	        )
 	    )
 	), document.body.appendChild(document.createElement('div')));
 
 	function token(nextState, replace, next) {
-
-	    // var headers = new Headers({
-	    //     'x-access-token': token
-	    // });
-	    // fetch('*', {
-	    //     method: 'GET', 
-	    //     headers: headers
-	    // }).then(function(response) {
-	    //     console.log(response);
-	    //     return response.json();
-	    // }).then(function(data) {
-	    //     console.log(data);
-	    // }).catch(function(e) {
-	    //     console.log("error1");
-	    // });
-
 	    //登录后的路径
 	    var nextPath = nextState.location.pathname;
 	    sessionStorage.setItem('nextPath', nextPath);
+	    //查看本地是否有token
 	    var token = localStorage.getItem('token');
+	    var headers = new Headers({
+	        'x-access-token': token
+	    });
 	    if (token) {
-	        $.ajax({
-	            type: 'GET',
-	            url: '*',
-	            headers: {
-	                'x-access-token': token
-	            },
-	            success: function success(result) {
-	                if (!result.token) {
-	                    _reactRouter.browserHistory.push('/login');
-	                }
-	                console.log(result);
+	        fetch('*', {
+	            method: 'GET',
+	            headers: headers
+	        }).then(function (response) {
+	            // console.log(response)
+	            return response.json();
+	        }).then(function (data) {
+	            if (!data.token) {
+	                _reactRouter.browserHistory.push('/login');
 	            }
+	            store.dispatch({
+	                type: 'CURRENT_USER',
+	                payload: data.user
+	            });
+	        }).catch(function (e) {
+	            console.log("fail");
 	        });
 	    } else {
 	        replace('/login');
 	    }
+
+	    // if(token){
+	    //     $.ajax({
+	    //         type:'GET',
+	    //         url:'*',
+	    //         headers: {
+	    //             'x-access-token': token
+	    //         },
+	    //         success:function(result){
+	    //             if(!result.token){
+	    //                 browserHistory.push('/login')
+	    //             }
+	    //             store.dispatch({
+	    //                 type: 'CURRENT_USER',
+	    //                 payload: result.user
+	    //             })
+	    //         }
+	    //     })
+	    // }else{
+	    //     replace('/login')
+	    // }
 	    next();
 	}
 
@@ -212,7 +229,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 256:
+/***/ 407:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -223,30 +240,38 @@ webpackJsonp([0],{
 
 	var _redux = __webpack_require__(242);
 
-	var _reduxThunk = __webpack_require__(257);
+	var _reduxThunk = __webpack_require__(256);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(258);
+	var _reduxPromise = __webpack_require__(263);
+
+	var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
+
+	var _reduxLogger = __webpack_require__(257);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _reducers = __webpack_require__(259);
+	var _reducers = __webpack_require__(408);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var options = {
+		level: 'info',
+		duration: true,
+		diff: false };
+	var logger = (0, _reduxLogger2.default)(options);
+
 	exports.default = function (initialState) {
-		var store = (0, _redux.compose)((0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)()), window.devToolsExtension ? window.devToolsExtension() : function (f) {
-			return f;
-		})(_redux.createStore)(_reducers2.default, initialState);
-		return store;
+		var middleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxPromise2.default, logger);
+		return (0, _redux.compose)(middleware)(_redux.createStore)(_reducers2.default, initialState);
 	};
 
 /***/ },
 
-/***/ 259:
+/***/ 408:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -255,26 +280,43 @@ webpackJsonp([0],{
 	    value: true
 	});
 
+	var _reactRouter = __webpack_require__(172);
+
 	var _redux = __webpack_require__(242);
 
-	var _actions = __webpack_require__(260);
+	var _method = __webpack_require__(409);
 
-	__webpack_require__(261);
-
-	var _method = __webpack_require__(262);
-
-	var _method2 = _interopRequireDefault(_method);
-
-	var _Alert = __webpack_require__(263);
+	var _Alert = __webpack_require__(410);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
-	var _reactRouter = __webpack_require__(172);
+	__webpack_require__(411);
+
+	var _actions = __webpack_require__(412);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } //prototype扩展
 
+	//文章
+
+	//账户
+
+	//获取登录用户信息
+
+
+	function currentUser() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.CURRENT_USER:
+	            return action.payload;
+	            break;
+	        default:
+	            return state;
+	    }
+	}
 
 	function articleList2() {
 	    var _console;
@@ -320,20 +362,26 @@ webpackJsonp([0],{
 	    }
 	}
 
-	function register() {
+	function registerState() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case _actions.REGISTER:
 	            _Alert2.default.remove();
-	            _Alert2.default.add(action.payload.message, 3000);
+	            if (action.payload.token) {
+	                localStorage.setItem('token', action.payload.token);
+	            }
+	            _Alert2.default.add(action.payload.message, 2500);
+	            setTimeout(function () {
+	                _reactRouter.browserHistory.push(sessionStorage.getItem('nextPath'));
+	            }, 2500);
 	            return action.payload;
 	        default:
 	            return state;
 	    }
 	}
-	function login() {
+	function loginState() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	    var action = arguments[1];
 
@@ -366,19 +414,157 @@ webpackJsonp([0],{
 	    }
 	}
 
-	var todoApp = (0, _redux.combineReducers)({
+	var thisApp = (0, _redux.combineReducers)({
+	    currentUser: currentUser,
 	    articleList: articleList,
 	    articleList2: articleList2,
-	    register: register,
-	    login: login,
+	    registerState: registerState,
+	    loginState: loginState,
 	    messages: messages
 	});
 
-	exports.default = todoApp;
+	exports.default = thisApp;
 
 /***/ },
 
-/***/ 260:
+/***/ 409:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.test = function () {
+		console.log('test2');
+	};
+
+	exports.test1 = function () {
+		console.log('test3');
+	};
+
+	exports.getUUID = function () {
+		var d = new Date().getTime();
+		var uuid = 'cjxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+			var r = (d + Math.random() * 16) % 16 | 0;
+			d = Math.floor(d / 16);
+			return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+		});
+		return uuid;
+	};
+
+/***/ },
+
+/***/ 410:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _method = __webpack_require__(409);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Alert = function (_Component) {
+	    _inherits(Alert, _Component);
+
+	    function Alert(props) {
+	        _classCallCheck(this, Alert);
+
+	        var _this = _possibleConstructorReturn(this, (Alert.__proto__ || Object.getPrototypeOf(Alert)).call(this, props));
+
+	        _this.state = {
+	            id: (0, _method.getUUID)()
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Alert, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            $('.tips').show('500').animate({ top: '5px' }, "300");
+	            var that = this;
+	            setTimeout(function () {
+	                $('#' + _this2.state.id).remove();
+	            }, this.props.delay);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            console.log('unmount');
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            // console.log('render');
+	            return _react2.default.createElement(
+	                'div',
+	                { style: styles.tips, id: this.state.id },
+	                this.props.text
+	            );
+	        }
+	    }]);
+
+	    return Alert;
+	}(_react.Component);
+
+	var styles = {
+	    tips: {
+	        color: '#fff',
+	        display: 'block',
+	        background: 'orange',
+	        textAlign: 'center',
+	        animation: 'alertShow .5s',
+	        width: '80%',
+	        margin: '5px auto 0',
+	        padding: '10px 0',
+	        borderRadius: '5px',
+	        fontSize: '14px'
+	    }
+	};
+
+	exports.add = function (text, delay) {
+	    var dom = document.createElement('div');
+	    dom.style.zIndex = '9999';
+	    dom.style.position = 'relative';
+	    dom.className = 'tips';
+	    _reactDom2.default.render(_react2.default.createElement(Alert, { text: text, delay: delay }), document.body.appendChild(dom));
+	};
+
+	exports.remove = function () {
+	    $('.tips').remove();
+	};
+
+/***/ },
+
+/***/ 411:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Array.prototype.arrRemove = function (n) {
+	    if (n < 0) return this;else return this.slice(0, n).concat(this.slice(n + 1, this.length));
+	};
+
+/***/ },
+
+/***/ 412:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -394,21 +580,26 @@ webpackJsonp([0],{
 	exports.removeTodo = removeTodo;
 	exports.editTodo = editTodo;
 	exports.getTodo = getTodo;
-	// action 类型
+	//action 类型
 	var ADD_OK = exports.ADD_OK = 'ADD_OK';
 	var REMOVE_OK = exports.REMOVE_OK = 'REMOVE_OK';
 	var GET_OK = exports.GET_OK = 'GET_OK';
 	var EDIT_OK = exports.EDIT_OK = 'EDIT_OK';
 
-	var LOGIN = exports.LOGIN = 'LOGIN';
-	var REGISTER = exports.REGISTER = 'REGISTER';
-	var SEND_MESSAGE = exports.SEND_MESSAGE = 'SEND_MESSAGE';
+	//获取登录用户信息
+	var CURRENT_USER = exports.CURRENT_USER = 'CURRENT_USER';
 
-	var GET_ARTICLE = exports.GET_ARTICLE = 'GET_ARTICLE';
-	var ADD_ARTICLE = exports.ADD_ARTICLE = 'ADD_ARTICLE';
-	var PUT_ARTICLE = exports.PUT_ARTICLE = 'PUT_ARTICLE';
-	var DELETE_ARTICLE = exports.DELETE_ARTICLE = 'DELETE_ARTICLE';
+	//账户
+	var LOGIN = exports.LOGIN = 'LOGIN'; //登录
+	var REGISTER = exports.REGISTER = 'REGISTER'; //注册
 
+	//文章
+	var GET_ARTICLE = exports.GET_ARTICLE = 'GET_ARTICLE'; //获取文章
+	var ADD_ARTICLE = exports.ADD_ARTICLE = 'ADD_ARTICLE'; //添加文章
+	var PUT_ARTICLE = exports.PUT_ARTICLE = 'PUT_ARTICLE'; //修改文章
+	var DELETE_ARTICLE = exports.DELETE_ARTICLE = 'DELETE_ARTICLE'; //删除文章
+
+	//获取文章
 	function getArticle(value) {
 	    return function (dispatch, getState) {
 	        fetch('/article', {
@@ -426,6 +617,7 @@ webpackJsonp([0],{
 	    };
 	}
 
+	//添加文章
 	function addArticle(value) {
 	    return function (dispatch, getState) {
 	        fetch('/article', {
@@ -444,8 +636,9 @@ webpackJsonp([0],{
 	        });
 	    };
 	}
+
+	//登录
 	function login(value) {
-	    console.log('gogogogogogogog');
 	    return function (dispatch, getState) {
 	        fetch('/user/login', {
 	            method: "POST",
@@ -465,6 +658,7 @@ webpackJsonp([0],{
 	    };
 	}
 
+	//注册
 	function register(value) {
 	    return function (dispatch, getState) {
 	        fetch('/user/register', {
@@ -589,165 +783,28 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 261:
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Array.prototype.arrRemove = function (n) {
-	    if (n < 0) return this;else return this.slice(0, n).concat(this.slice(n + 1, this.length));
-	};
-
-/***/ },
-
-/***/ 262:
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.test = function () {
-		console.log('test2');
-	};
-
-	exports.test1 = function () {
-		console.log('test3');
-	};
-
-	exports.getUUID = function () {
-		var d = new Date().getTime();
-		var uuid = 'cjxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			var r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
-		});
-		return uuid;
-	};
-
-/***/ },
-
-/***/ 263:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(172);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _method = __webpack_require__(262);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Alert = function (_Component) {
-	    _inherits(Alert, _Component);
-
-	    function Alert(props) {
-	        _classCallCheck(this, Alert);
-
-	        var _this = _possibleConstructorReturn(this, (Alert.__proto__ || Object.getPrototypeOf(Alert)).call(this, props));
-
-	        _this.state = {
-	            id: (0, _method.getUUID)()
-	        };
-	        return _this;
-	    }
-
-	    _createClass(Alert, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            var _this2 = this;
-
-	            $('.tips').show('500').animate({ top: '5px' }, "300");
-	            var that = this;
-	            setTimeout(function () {
-	                $('#' + _this2.state.id).remove();
-	            }, this.props.delay);
-	        }
-	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            console.log('unmount');
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            // console.log('render');
-	            return _react2.default.createElement(
-	                'div',
-	                { style: styles.tips, id: this.state.id },
-	                this.props.text
-	            );
-	        }
-	    }]);
-
-	    return Alert;
-	}(_react.Component);
-
-	var styles = {
-	    tips: {
-	        color: '#fff',
-	        display: 'block',
-	        background: 'orange',
-	        textAlign: 'center',
-	        animation: 'alertShow .5s',
-	        width: '80%',
-	        margin: '5px auto 0',
-	        padding: '10px 0',
-	        borderRadius: '5px',
-	        fontSize: '14px'
-	    }
-	};
-
-	exports.add = function (text, delay) {
-	    var dom = document.createElement('div');
-	    dom.style.zIndex = '9999';
-	    dom.style.position = 'relative';
-	    dom.className = 'tips';
-	    _reactDom2.default.render(_react2.default.createElement(Alert, { text: text, delay: delay }), document.body.appendChild(dom));
-	};
-
-	exports.remove = function () {
-	    $('.tips').remove();
-	};
-
-/***/ },
-
-/***/ 268:
+/***/ 413:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 269:
+/***/ 414:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 270:
+/***/ 415:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 271:
+/***/ 416:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -757,6 +814,8 @@ webpackJsonp([0],{
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	__webpack_require__(406);
 
 	var _react = __webpack_require__(1);
 
@@ -768,47 +827,47 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(272);
+	var _TabBarFooter = __webpack_require__(417);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
-	var _Modal = __webpack_require__(273);
+	var _Modal = __webpack_require__(274);
 
 	var _Modal2 = _interopRequireDefault(_Modal);
 
-	var _Button = __webpack_require__(378);
+	var _Button = __webpack_require__(379);
 
 	var _Button2 = _interopRequireDefault(_Button);
 
-	var _WhiteSpace = __webpack_require__(390);
+	var _WhiteSpace = __webpack_require__(391);
 
 	var _WhiteSpace2 = _interopRequireDefault(_WhiteSpace);
 
-	var _WingBlank = __webpack_require__(391);
+	var _WingBlank = __webpack_require__(392);
 
 	var _WingBlank2 = _interopRequireDefault(_WingBlank);
 
-	var _Toast = __webpack_require__(392);
+	var _Toast = __webpack_require__(393);
 
 	var _Toast2 = _interopRequireDefault(_Toast);
 
-	var _Icon = __webpack_require__(388);
+	var _Icon = __webpack_require__(389);
 
 	var _Icon2 = _interopRequireDefault(_Icon);
 
-	var _Popup = __webpack_require__(397);
+	var _Popup = __webpack_require__(398);
 
 	var _Popup2 = _interopRequireDefault(_Popup);
 
-	var _List = __webpack_require__(398);
+	var _List = __webpack_require__(399);
 
 	var _List2 = _interopRequireDefault(_List);
 
-	var _ImagePicker = __webpack_require__(401);
+	var _ImagePicker = __webpack_require__(402);
 
 	var _ImagePicker2 = _interopRequireDefault(_ImagePicker);
 
@@ -914,7 +973,7 @@ webpackJsonp([0],{
 	                            _this2.onClose2('cancel');
 	                        }
 	                    },
-	                    '东吴证券 (5728）'
+	                    '\u4E1C\u5434\u8BC1\u5238 (5728\uFF09'
 	                ),
 	                _react2.default.createElement(
 	                    _List2.default.Item,
@@ -924,7 +983,7 @@ webpackJsonp([0],{
 	                            _this2.onClose2('cancel');
 	                        }
 	                    },
-	                    '东吴证券 (5728）'
+	                    '\u4E1C\u5434\u8BC1\u5238 (5728\uFF09'
 	                ),
 	                _react2.default.createElement(
 	                    _List2.default.Item,
@@ -935,7 +994,7 @@ webpackJsonp([0],{
 	                            _this2.onClose2('opt 1');
 	                        }
 	                    },
-	                    '更多'
+	                    '\u66F4\u591A'
 	                )
 	            ));
 	        }
@@ -997,7 +1056,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -1007,7 +1066,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    )
 	                ),
 	                _react2.default.createElement('img', { src: '/images/pic_maliao.jpg' }),
@@ -1038,21 +1097,21 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        _Button2.default,
 	                        { type: 'ghost', onClick: this.showModal.bind(this) },
-	                        '可关闭对话框'
+	                        '\u53EF\u5173\u95ED\u5BF9\u8BDD\u6846'
 	                    ),
 	                    _react2.default.createElement(
 	                        _Modal2.default,
 	                        {
-	                            title: '这是 title',
+	                            title: '\u8FD9\u662F title',
 	                            closable: true,
 	                            maskClosable: true,
 	                            transparent: true,
 	                            onClose: this.onClose.bind(this),
 	                            visible: this.state.visible
 	                        },
-	                        '这是内容...',
+	                        '\u8FD9\u662F\u5185\u5BB9...',
 	                        _react2.default.createElement('br', null),
-	                        '这是内容...',
+	                        '\u8FD9\u662F\u5185\u5BB9...',
 	                        _react2.default.createElement('br', null)
 	                    )
 	                ),
@@ -1062,7 +1121,7 @@ webpackJsonp([0],{
 	                    _Button2.default,
 	                    { inline: true, style: { margin: 10 }, onClick: this.sw },
 	                    custom ? '自定义' : '常用的',
-	                    '选择图片的方法'
+	                    '\u9009\u62E9\u56FE\u7247\u7684\u65B9\u6CD5'
 	                ),
 	                custom ? _react2.default.createElement(_ImagePicker2.default, {
 	                    files: files,
@@ -1088,10 +1147,9 @@ webpackJsonp([0],{
 	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        list: state.articleList,
-	        list2: state.articleList2
-	    };
+	    var currentUser = state.currentUser;
+
+	    return { currentUser: currentUser };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return (0, _redux.bindActionCreators)(action, dispatch);
@@ -1100,7 +1158,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 272:
+/***/ 417:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1146,12 +1204,12 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'i',
 	                        { className: 'icon iconfont' },
-	                        ''
+	                        '\uE605'
 	                    ),
 	                    _react2.default.createElement(
 	                        'b',
 	                        null,
-	                        '首页'
+	                        '\u9996\u9875'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -1160,12 +1218,12 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'i',
 	                        { className: 'icon iconfont' },
-	                        ''
+	                        '\uE600'
 	                    ),
 	                    _react2.default.createElement(
 	                        'b',
 	                        null,
-	                        '消息'
+	                        '\u6D88\u606F'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -1174,12 +1232,12 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'i',
 	                        { className: 'icon iconfont' },
-	                        ''
+	                        '\uE604'
 	                    ),
 	                    _react2.default.createElement(
 	                        'b',
 	                        null,
-	                        '约起'
+	                        '\u7EA6\u8D77'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -1188,12 +1246,12 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'i',
 	                        { className: 'icon iconfont' },
-	                        ''
+	                        '\uE602'
 	                    ),
 	                    _react2.default.createElement(
 	                        'b',
 	                        null,
-	                        '发现'
+	                        '\u53D1\u73B0'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -1202,12 +1260,12 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'i',
 	                        { className: 'icon iconfont' },
-	                        ''
+	                        '\uE601'
 	                    ),
 	                    _react2.default.createElement(
 	                        'b',
 	                        null,
-	                        '我的'
+	                        '\u6211\u7684'
 	                    )
 	                )
 	            );
@@ -1221,7 +1279,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 405:
+/***/ 418:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1242,7 +1300,7 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
@@ -1274,16 +1332,16 @@ webpackJsonp([0],{
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                '我是列表页',
+	                '\u6211\u662F\u5217\u8868\u9875',
 	                _react2.default.createElement(
 	                    _reactRouter.Link,
 	                    { to: '/' },
-	                    '首页'
+	                    '\u9996\u9875'
 	                ),
 	                _react2.default.createElement(
 	                    _reactRouter.Link,
 	                    { to: '/list' },
-	                    '列表页'
+	                    '\u5217\u8868\u9875'
 	                )
 	            );
 	        }
@@ -1310,7 +1368,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 406:
+/***/ 419:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1331,11 +1389,11 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(272);
+	var _TabBarFooter = __webpack_require__(417);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
@@ -1398,7 +1456,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -1408,7 +1466,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -1417,17 +1475,17 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'li',
 	                        null,
-	                        '消息列表111'
+	                        '\u6D88\u606F\u5217\u8868111'
 	                    ),
 	                    _react2.default.createElement(
 	                        'li',
 	                        null,
-	                        '消息列表222'
+	                        '\u6D88\u606F\u5217\u8868222'
 	                    ),
 	                    _react2.default.createElement(
 	                        'li',
 	                        null,
-	                        '消息列表333'
+	                        '\u6D88\u606F\u5217\u8868333'
 	                    )
 	                )
 	            );
@@ -1438,9 +1496,9 @@ webpackJsonp([0],{
 	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        // messageList:state.messageList,
-	    };
+	    var currentUser = state.currentUser;
+
+	    return { currentUser: currentUser };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return (0, _redux.bindActionCreators)(action, dispatch);
@@ -1449,7 +1507,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 407:
+/***/ 420:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1462,6 +1520,8 @@ webpackJsonp([0],{
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	__webpack_require__(406);
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -1472,15 +1532,15 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(272);
+	var _TabBarFooter = __webpack_require__(417);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
-	var _SendMessage = __webpack_require__(408);
+	var _SendMessage = __webpack_require__(421);
 
 	var _SendMessage2 = _interopRequireDefault(_SendMessage);
 
@@ -1517,7 +1577,9 @@ webpackJsonp([0],{
 	    _createClass(Play, [{
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            this.props.getArticle();
+	            var getArticle = this.props.getArticle;
+
+	            getArticle();
 	        }
 	    }, {
 	        key: 'omponentWillMount',
@@ -1525,7 +1587,7 @@ webpackJsonp([0],{
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            console.log('componentWillUnmount');
+	            console.info('componentWillUnmount');
 	        }
 	    }, {
 	        key: 'handleChange',
@@ -1537,11 +1599,16 @@ webpackJsonp([0],{
 	    }, {
 	        key: 'addArticle',
 	        value: function addArticle(e) {
+	            var _props = this.props;
+	            var currentUser = _props.currentUser;
+	            var addArticle = _props.addArticle;
+
 	            var data = {
 	                title: this.state.title,
-	                content: this.state.content
+	                content: this.state.content,
+	                id: currentUser.id
 	            };
-	            this.props.addArticle(data);
+	            addArticle(data);
 	            //在发表以后，输入框内容清空，状态内容清空
 	            this.setState({
 	                title: '',
@@ -1561,9 +1628,10 @@ webpackJsonp([0],{
 	            var _this2 = this;
 
 	            var that = this;
-	            var _props = this.props;
-	            var list = _props.list;
-	            var list2 = _props.list2;
+	            var _props2 = this.props;
+	            var currentUser = _props2.currentUser;
+	            var articleList = _props2.articleList;
+	            var articleList2 = _props2.articleList2;
 
 	            return _react2.default.createElement(
 	                'div',
@@ -1574,7 +1642,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -1584,21 +1652,24 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'play' },
+	                    '\u5F53\u524D\u7528\u6237:',
+	                    currentUser.username,
+	                    currentUser.nickname,
 	                    _react2.default.createElement(_SendMessage2.default, null),
-	                    _react2.default.createElement('input', { name: 'title', ref: 'title', onChange: this.handleChange.bind(this), type: 'text', placeholder: '标题' }),
-	                    _react2.default.createElement('input', { name: 'content', ref: 'content', onChange: this.handleChange.bind(this), type: 'text', placeholder: '内容' }),
+	                    _react2.default.createElement('input', { name: 'title', ref: 'title', onChange: this.handleChange.bind(this), type: 'text', placeholder: '\u6807\u9898' }),
+	                    _react2.default.createElement('input', { name: 'content', ref: 'content', onChange: this.handleChange.bind(this), type: 'text', placeholder: '\u5185\u5BB9' }),
 	                    _react2.default.createElement(
 	                        'button',
 	                        { onClick: this.addArticle.bind(this) },
-	                        '添加新闻'
+	                        '\u6DFB\u52A0\u65B0\u95FB'
 	                    ),
-	                    list.map(function (result, index) {
+	                    articleList.map(function (result, index) {
 	                        return _react2.default.createElement(
 	                            'div',
 	                            { key: index },
@@ -1608,7 +1679,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'ul',
 	                        { style: styles.list },
-	                        list2.map(function (result, index) {
+	                        articleList2.map(function (result, index) {
 	                            return _react2.default.createElement(
 	                                'li',
 	                                { style: styles.li, onClick: _this2.showId.bind(_this2), key: index, id: result._id },
@@ -1646,14 +1717,14 @@ webpackJsonp([0],{
 	        fontSize: '12px',
 	        color: '#999'
 	    }
-
 	};
 
 	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        list: state.articleList,
-	        list2: state.articleList2
-	    };
+	    var currentUser = state.currentUser;
+	    var articleList = state.articleList;
+	    var articleList2 = state.articleList2;
+
+	    return { currentUser: currentUser, articleList: articleList, articleList2: articleList2 };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return (0, _redux.bindActionCreators)(action, dispatch);
@@ -1662,7 +1733,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 408:
+/***/ 421:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1683,7 +1754,7 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
@@ -1741,7 +1812,7 @@ webpackJsonp([0],{
 	                _react2.default.createElement(
 	                    'button',
 	                    { onClick: this.handleSendMessage.bind(this) },
-	                    '发送消息'
+	                    '\u53D1\u9001\u6D88\u606F'
 	                )
 	            );
 	        }
@@ -1762,7 +1833,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 409:
+/***/ 422:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1772,6 +1843,8 @@ webpackJsonp([0],{
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	__webpack_require__(406);
 
 	var _react = __webpack_require__(1);
 
@@ -1783,11 +1856,11 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(272);
+	var _TabBarFooter = __webpack_require__(417);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
@@ -1845,7 +1918,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -1855,13 +1928,13 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'discover' },
-	                    '发现'
+	                    '\u53D1\u73B0'
 	                )
 	            );
 	        }
@@ -1871,9 +1944,9 @@ webpackJsonp([0],{
 	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        // messageList:state.messageList,
-	    };
+	    var currentUser = state.currentUser;
+
+	    return { currentUser: currentUser };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return (0, _redux.bindActionCreators)(action, dispatch);
@@ -1882,7 +1955,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 410:
+/***/ 423:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1903,11 +1976,11 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(272);
+	var _TabBarFooter = __webpack_require__(417);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
@@ -1970,7 +2043,7 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -1980,13 +2053,13 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '菜单'
+	                        '\u83DC\u5355'
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'mine' },
-	                    '我的'
+	                    '\u6211\u7684'
 	                )
 	            );
 	        }
@@ -1996,9 +2069,9 @@ webpackJsonp([0],{
 	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        // messageList:state.messageList,
-	    };
+	    var currentUser = state.currentUser;
+
+	    return { currentUser: currentUser };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return (0, _redux.bindActionCreators)(action, dispatch);
@@ -2007,7 +2080,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 411:
+/***/ 424:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2028,15 +2101,15 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _Submit = __webpack_require__(412);
+	var _Submit = __webpack_require__(425);
 
 	var _Submit2 = _interopRequireDefault(_Submit);
 
-	var _Alert = __webpack_require__(263);
+	var _Alert = __webpack_require__(410);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -2131,20 +2204,20 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'form',
 	                        null,
-	                        _react2.default.createElement('input', { type: 'text', name: 'username', placeholder: '用户名', onChange: this.handleChange.bind(this) }),
-	                        _react2.default.createElement('input', { type: 'password', name: 'password', placeholder: '密码', onChange: this.handleChange.bind(this) }),
-	                        _react2.default.createElement('input', { type: 'password', name: 're_password', placeholder: '确认密码', onChange: this.handleChange.bind(this) }),
-	                        _react2.default.createElement('input', { type: 'nickname', name: 'nickname', placeholder: '昵称', onChange: this.handleChange.bind(this) }),
-	                        _react2.default.createElement(_Submit2.default, { thisClick: this.handleRegister.bind(this), canClick: this.state.canClick, text: '立即注册' })
+	                        _react2.default.createElement('input', { type: 'text', name: 'username', placeholder: '\u7528\u6237\u540D', onChange: this.handleChange.bind(this) }),
+	                        _react2.default.createElement('input', { type: 'password', name: 'password', placeholder: '\u5BC6\u7801', onChange: this.handleChange.bind(this) }),
+	                        _react2.default.createElement('input', { type: 'password', name: 're_password', placeholder: '\u786E\u8BA4\u5BC6\u7801', onChange: this.handleChange.bind(this) }),
+	                        _react2.default.createElement('input', { type: 'nickname', name: 'nickname', placeholder: '\u6635\u79F0', onChange: this.handleChange.bind(this) }),
+	                        _react2.default.createElement(_Submit2.default, { thisClick: this.handleRegister.bind(this), canClick: this.state.canClick, text: '\u7ACB\u5373\u6CE8\u518C' })
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'link' },
-	                        '已有账号？',
+	                        '\u5DF2\u6709\u8D26\u53F7\uFF1F',
 	                        _react2.default.createElement(
 	                            _reactRouter.Link,
 	                            { to: '/login' },
-	                            '立即登录'
+	                            '\u7ACB\u5373\u767B\u5F55'
 	                        )
 	                    )
 	                )
@@ -2157,7 +2230,7 @@ webpackJsonp([0],{
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        registerState: state.register
+	        registerState: state.registerState
 	    };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -2167,7 +2240,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 412:
+/***/ 425:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2252,7 +2325,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 413:
+/***/ 426:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2262,6 +2335,8 @@ webpackJsonp([0],{
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	__webpack_require__(406);
 
 	var _react = __webpack_require__(1);
 
@@ -2273,15 +2348,15 @@ webpackJsonp([0],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(260);
+	var _actions = __webpack_require__(412);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _Submit = __webpack_require__(412);
+	var _Submit = __webpack_require__(425);
 
 	var _Submit2 = _interopRequireDefault(_Submit);
 
-	var _Alert = __webpack_require__(263);
+	var _Alert = __webpack_require__(410);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -2323,7 +2398,7 @@ webpackJsonp([0],{
 	            var newState = {};
 	            newState[e.target.name] = e.target.value;
 	            this.setState(newState);
-	            console.log(this.state);
+	            // console.log(this.state);
 	        }
 	    }, {
 	        key: 'rules',
@@ -2343,7 +2418,7 @@ webpackJsonp([0],{
 	    }, {
 	        key: 'handleLogin',
 	        value: function handleLogin() {
-	            console.log('handleLogin');
+	            // console.log('handleLogin');
 	            this.setState({ canClick: false });
 	            if (!this.rules()) {
 	                return false;
@@ -2357,9 +2432,10 @@ webpackJsonp([0],{
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var stateLogin = this.props.stateLogin;
+	            console.log(this.props);
+	            var loginState = this.props.loginState;
 
-	            if (stateLogin.state == 'error') {
+	            if (loginState.state == 'error') {
 	                this.state.canClick = true;
 	            }
 	            return _react2.default.createElement(
@@ -2371,18 +2447,18 @@ webpackJsonp([0],{
 	                    _react2.default.createElement(
 	                        'form',
 	                        null,
-	                        _react2.default.createElement('input', { type: 'text', name: 'username', onChange: this.handleChange.bind(this), placeholder: '用户名' }),
-	                        _react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange.bind(this), placeholder: '密码' }),
-	                        _react2.default.createElement(_Submit2.default, { thisClick: this.handleLogin.bind(this), canClick: this.state.canClick, text: '立即登录' })
+	                        _react2.default.createElement('input', { type: 'text', name: 'username', onChange: this.handleChange.bind(this), placeholder: '\u7528\u6237\u540D' }),
+	                        _react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange.bind(this), placeholder: '\u5BC6\u7801' }),
+	                        _react2.default.createElement(_Submit2.default, { thisClick: this.handleLogin.bind(this), canClick: this.state.canClick, text: '\u7ACB\u5373\u767B\u5F55' })
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'link' },
-	                        '没有账号？',
+	                        '\u6CA1\u6709\u8D26\u53F7\uFF1F',
 	                        _react2.default.createElement(
 	                            _reactRouter.Link,
 	                            { to: '/register' },
-	                            '立即注册'
+	                            '\u7ACB\u5373\u6CE8\u518C'
 	                        )
 	                    )
 	                )
@@ -2395,7 +2471,7 @@ webpackJsonp([0],{
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        stateLogin: state.login
+	        loginState: state.loginState
 	    };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {

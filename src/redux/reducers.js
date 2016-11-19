@@ -1,11 +1,25 @@
-import {combineReducers } from 'redux'
-import {ADD_OK, REMOVE_OK, GET_OK, EDIT_OK, LOGIN, REGISTER , SEND_MESSAGE} from './actions'
-import {GET_ARTICLE, ADD_ARTICLE, PUT_ARTICLE, DELETE_ARTICLE} from './actions'
-import '../extend/prototype' //prototype扩展
-import method from '../extend/method'
-
-import Alert from '../component/Alert'
 import { browserHistory } from 'react-router'
+import {combineReducers } from 'redux'
+import {getUUID} from '../extend/method'
+import Alert from '../component/Alert'
+import '../extend/prototype' //prototype扩展
+import {ADD_OK, REMOVE_OK, GET_OK, EDIT_OK, SEND_MESSAGE} from './actions'
+//文章
+import {GET_ARTICLE, ADD_ARTICLE, PUT_ARTICLE, DELETE_ARTICLE} from './actions'
+//账户
+import {LOGIN, REGISTER} from './actions'
+//获取登录用户信息
+import {CURRENT_USER} from './actions'
+
+function currentUser (state={}, action) {
+    switch(action.type){
+        case CURRENT_USER:
+            return action.payload
+        break;
+        default:
+            return state
+    }
+}
 
 function articleList2(state = [], action) {
     switch (action.type) {
@@ -43,17 +57,23 @@ function articleList(state = [], action) {
     }
 }
 
-function register(state = {}, action) {
+function registerState(state = {}, action) {
     switch (action.type) {
         case REGISTER:
             Alert.remove()
-            Alert.add(action.payload.message,3000)
+            if(action.payload.token){
+                localStorage.setItem('token',action.payload.token)
+            }
+            Alert.add(action.payload.message,2500)
+            setTimeout(function() {
+                browserHistory.push(sessionStorage.getItem('nextPath'))
+            }, 2500);
             return action.payload
         default:
             return state
     }
 }
-function login(state = {}, action) {
+function loginState(state = {}, action) {
     switch (action.type) {
         case LOGIN:
             Alert.remove()
@@ -80,13 +100,13 @@ function messages (state = [], action) {
     }
 }
 
-
-const todoApp = combineReducers({
+const thisApp = combineReducers({
+    currentUser,
     articleList,
     articleList2,
-    register,
-    login,
+    registerState,
+    loginState,
     messages,
 })
 
-export default todoApp
+export default thisApp

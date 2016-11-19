@@ -1,3 +1,4 @@
+import 'whatwg-fetch'
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router'
 
@@ -23,7 +24,7 @@ class Login extends Component {
         var newState={}
         newState[e.target.name]=e.target.value
         this.setState(newState)
-        console.log(this.state);
+        // console.log(this.state);
     }
     rules(){
         if(!this.state.username){
@@ -39,7 +40,7 @@ class Login extends Component {
         return true
     }
     handleLogin(){
-        console.log('handleLogin');
+        // console.log('handleLogin');
         this.setState({canClick:false })
         if(!this.rules()){return false}
         Alert.add('登录提交中...',3000)
@@ -49,8 +50,9 @@ class Login extends Component {
         })
     }
     render() {
-        const {stateLogin}=this.props
-        if(stateLogin.state=='error'){
+        console.log(this.props);
+        const {loginState}=this.props
+        if(loginState.state=='error'){
             this.state.canClick=true
         }
         return (<div className="accounts">
@@ -69,7 +71,7 @@ class Login extends Component {
 }
 
 let mapStateToProps = state => ({
-    stateLogin:state.login
+    loginState:state.loginState
 })
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

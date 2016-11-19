@@ -5,13 +5,11 @@ var qs      = require('querystring')
 var fs      = require('fs')
 var multer  = require('multer')
 var upload  = multer({dest: './app/uploads/',})
-var needle  =  require('needle')
-// var needle  = require('needle')
+var needle  = require('needle')
 // var storage  = multer.memoryStorage()
 // var upload   = multer({ storage: storage })
-// var jwt = require('jwt-simple');
+
 var jwt = require("jsonwebtoken");
-var expressJwt = require("express-jwt");
 
 var settings=require('../settings')
 var host=settings.serverHost
@@ -20,26 +18,24 @@ var serverPath=host+':'+port
 
 var app = express.Router()
 
-// var db      = require("./db")
-// var Concern = db.model("Concern")
-// var Remind  = db.model("Remind")
-// var Post    = db.model("Post")
-// var User    = db.model("User")
-
 //开启跨域
 app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     next()
 });
 
+//注册
 app.route('/user/register')
 	.post(function(req, res, next) {
+		console.log('注册请求');
+		console.log(req.body);
 		needle.post(serverPath+'/user/register', req.body, function(err, resp, result) {
 			console.log(result);
 		 	res.send(result)
 		});
 	})
 
+//登录
 app.route('/user/login')
 	.post(function(req, res, next) {
 		console.log('登录请求');
@@ -50,7 +46,7 @@ app.route('/user/login')
 		});
 	})
 
-//*************************************************//
+//文章
 app.route('/article')
 	.all(function(req, res, next) {
 	  	console.log('前端请求中间件');
@@ -89,6 +85,7 @@ app.route('/article')
 	})
 
 
+//渲染页面及登录验证
 app.get('*', auth, function(req, res, next) {
     res.render("index", {layout: false})
 })
