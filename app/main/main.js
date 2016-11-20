@@ -160,17 +160,12 @@ webpackJsonp([1],{
 
 	function token(nextState, replace, next) {
 	    //登录后的路径
-	    var nextPath = nextState.location.pathname;
-	    sessionStorage.setItem('nextPath', nextPath);
+	    sessionStorage.setItem('nextPath', nextState.location.pathname);
 	    //查看本地是否有token
-	    var token = localStorage.getItem('token');
-	    var headers = new Headers({
-	        'x-access-token': token
-	    });
 	    if (token) {
 	        fetch('*', {
 	            method: 'GET',
-	            headers: headers
+	            headers: { 'x-access-token': localStorage.getItem('token') }
 	        }).then(function (response) {
 	            // console.log(response)
 	            return response.json();
@@ -189,26 +184,6 @@ webpackJsonp([1],{
 	        replace('/login');
 	    }
 
-	    // if(token){
-	    //     $.ajax({
-	    //         type:'GET',
-	    //         url:'*',
-	    //         headers: {
-	    //             'x-access-token': token
-	    //         },
-	    //         success:function(result){
-	    //             if(!result.token){
-	    //                 browserHistory.push('/login')
-	    //             }
-	    //             store.dispatch({
-	    //                 type: 'CURRENT_USER',
-	    //                 payload: result.user
-	    //             })
-	    //         }
-	    //     })
-	    // }else{
-	    //     replace('/login')
-	    // }
 	    next();
 	}
 
@@ -599,6 +574,8 @@ webpackJsonp([1],{
 	var PUT_ARTICLE = exports.PUT_ARTICLE = 'PUT_ARTICLE'; //修改文章
 	var DELETE_ARTICLE = exports.DELETE_ARTICLE = 'DELETE_ARTICLE'; //删除文章
 
+	console.log('actions actions actions actions actions actions');
+
 	//获取文章
 	function getArticle(value) {
 	    return function (dispatch, getState) {
@@ -621,8 +598,11 @@ webpackJsonp([1],{
 	function addArticle(value) {
 	    return function (dispatch, getState) {
 	        fetch('/article', {
-	            method: "POST",
-	            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/x-www-form-urlencoded',
+	                'x-access-token': localStorage.getItem('token')
+	            },
 	            body: $.param(value)
 	        }).then(function (response) {
 	            return response.json();
@@ -1605,8 +1585,7 @@ webpackJsonp([1],{
 
 	            var data = {
 	                title: this.state.title,
-	                content: this.state.content,
-	                id: currentUser.id
+	                content: this.state.content
 	            };
 	            addArticle(data);
 	            //在发表以后，输入框内容清空，状态内容清空

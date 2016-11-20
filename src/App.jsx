@@ -76,17 +76,12 @@ ReactDOM.render(
 
 function token (nextState, replace, next) {
     //登录后的路径
-    let nextPath=nextState.location.pathname
-    sessionStorage.setItem('nextPath',nextPath)
+    sessionStorage.setItem('nextPath',nextState.location.pathname)
     //查看本地是否有token
-    let token=localStorage.getItem('token')
-    var headers = new Headers({
-        'x-access-token': token
-    })
     if(token){
         fetch('*', {
             method: 'GET', 
-            headers: headers
+            headers: {'x-access-token': localStorage.getItem('token')}
         }).then(function(response) {
             // console.log(response)
             return response.json()
@@ -105,26 +100,6 @@ function token (nextState, replace, next) {
         replace('/login')
     }
     
-    // if(token){
-    //     $.ajax({
-    //         type:'GET',
-    //         url:'*',
-    //         headers: {
-    //             'x-access-token': token
-    //         },
-    //         success:function(result){
-    //             if(!result.token){
-    //                 browserHistory.push('/login')
-    //             }
-    //             store.dispatch({
-    //                 type: 'CURRENT_USER',
-    //                 payload: result.user
-    //             })
-    //         }
-    //     })
-    // }else{
-    //     replace('/login')
-    // }
     next()
 }
 

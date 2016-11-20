@@ -10,13 +10,17 @@ var needle  = require('needle')
 // var upload   = multer({ storage: storage })
 
 var jwt = require("jsonwebtoken");
-
 var settings=require('../settings')
 var host=settings.serverHost
 var port=settings.serverPort
 var serverPath=host+':'+port
 
 var app = express.Router()
+var constant=express()
+//jwt读取密匙并写入到常量
+var pem = fs.readFileSync('cert.pem').toString()
+constant.set('jwt',pem)
+var cert=constant.get('jwt')
 
 //开启跨域
 app.all('*', function(req, res, next) {
@@ -26,6 +30,10 @@ app.all('*', function(req, res, next) {
 
 //注册
 app.route('/user/register')
+	.all(function(req, res, next) {
+	  	console.log('注册请求中间件');
+		next();
+	})
 	.post(function(req, res, next) {
 		console.log('注册请求');
 		console.log(req.body);
@@ -37,6 +45,10 @@ app.route('/user/register')
 
 //登录
 app.route('/user/login')
+	.all(function(req, res, next) {
+	  	console.log('登录请求中间件');
+		next();
+	})
 	.post(function(req, res, next) {
 		console.log('登录请求');
 		console.log(req.body);
@@ -49,8 +61,7 @@ app.route('/user/login')
 //文章
 app.route('/article')
 	.all(function(req, res, next) {
-	  	console.log('前端请求中间件');
-		next();
+		next()
 	})
 	.get(function(req, res, next) {
 		needle.get(serverPath+'/article', function(err, resp, body) {
@@ -58,9 +69,9 @@ app.route('/article')
 		  	res.send(body)
 		});
 	})
-	.post(function(req, res, next) {
-		console.log('发布文章请求值');
-		console.log(req.body);
+	.post(auth, function(req, res, next) {
+		let decoded = jwt.verify(req.headers['x-access-token'], cert)
+		Object.assign(req.body, {id:decoded.id})
 		needle.post(serverPath+'/article', req.body, function(err, resp, body) {
 			console.log(body);
 		 	res.send(body)
@@ -86,14 +97,43 @@ app.route('/article')
 
 
 //渲染页面及登录验证
-app.get('*', auth, function(req, res, next) {
+app.get('*', authLogin, function(req, res, next) {
     res.render("index", {layout: false})
 })
 
+//操作权限校验
 function auth(req,res,next) {
+	console.log('操作权限校验');
 	let token=req.headers['x-access-token']
 	if(token){
-		jwt.verify(token, 'cjstone1982-webdesign-jwtsecret', function(err, user) {
+		jwt.verify(token, cert,function(err,decoded){
+			if(decoded){
+				console.log('权限验证通过');
+				next()
+			}else{
+				console.log('权限验证失败');
+				res.json({
+					'code':3002,
+					'state':'error',
+					'message':'权限验证未通过',
+				})
+			}
+		})
+	}else{
+		res.json({
+			'code':3001,
+			'state':'error',
+			'message':'当前未登录',
+		})
+	}
+}
+
+//登录状态校验
+function authLogin(req,res,next) { 
+	//console.log('登录状态校验');
+	let token=req.headers['x-access-token']
+	if(token){
+		jwt.verify(token, cert, function(err, user) {
 			if(user){
 				let nowDate=parseInt(Date.now()/1000)
 				if(nowDate>user.exp){

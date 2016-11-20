@@ -17,6 +17,8 @@ export const  ADD_ARTICLE    = 'ADD_ARTICLE'    //添加文章
 export const  PUT_ARTICLE    = 'PUT_ARTICLE'    //修改文章
 export const  DELETE_ARTICLE = 'DELETE_ARTICLE' //删除文章
 
+console.log('actions actions actions actions actions actions');
+
 //获取文章
 export function getArticle (value) {
     return (dispatch,getState) => {
@@ -41,8 +43,11 @@ export function getArticle (value) {
 export function addArticle (value) {
     return (dispatch,getState) => {
         fetch('/article', {
-            method: "POST",
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'x-access-token': localStorage.getItem('token')
+            },
             body: $.param(value)
         })
         .then(response => {

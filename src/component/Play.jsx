@@ -37,7 +37,6 @@ class Play extends Component {
         let data={
             title:this.state.title,
             content:this.state.content,
-            id:currentUser.id,
         }
         addArticle(data)
         //在发表以后，输入框内容清空，状态内容清空
