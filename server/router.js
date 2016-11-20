@@ -38,7 +38,7 @@ app.route('/user/register')
 		console.log('注册请求');
 		console.log(req.body);
 		needle.post(serverPath+'/user/register', req.body, function(err, resp, result) {
-			console.log(result);
+			if(err){ sendServerError(req,res)}
 		 	res.send(result)
 		});
 	})
@@ -51,9 +51,8 @@ app.route('/user/login')
 	})
 	.post(function(req, res, next) {
 		console.log('登录请求');
-		console.log(req.body);
 		needle.post(serverPath+'/user/login', req.body, function(err, resp, result) {
-			console.log(result);
+			if(err){ sendServerError(req,res)}
 		 	res.send(result)
 		});
 	})
@@ -152,6 +151,16 @@ function authLogin(req,res,next) {
 	}else{
 		next()
 	}
+}
+
+//返回标准错误
+function sendServerError (req,res) { //通用的服务器错误返回
+	res.json({
+		'code':5001,
+		'state':'error',
+		'message':'后端服务器响应失败',
+		'data':{},
+	})
 }
 
 module.exports = app

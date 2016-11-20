@@ -1,3 +1,5 @@
+import Alert from '../component/Alert'
+
 //action 类型
 export const  ADD_OK         = 'ADD_OK';
 export const  REMOVE_OK      = 'REMOVE_OK';
@@ -60,6 +62,7 @@ export function addArticle (value) {
             })
         }).catch(function (err) {
             console.log("服务器连接失败");
+
         });  
     } 
 }
@@ -82,7 +85,14 @@ export function login(value){
                 payload: data
             })
         }).catch(function (err) {
-            console.log("服务器连接失败");
+            console.log("后端服务器连接失败");
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    state:'error',
+                    message:'后端服务器连接失败',
+                }
+            })
         });  
     } 
 }

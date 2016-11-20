@@ -82,9 +82,11 @@ function loginState(state = {}, action) {
             }
             Alert.add(action.payload.message,2500)
             //登录成功后跳转
-            setTimeout(function() {
-                browserHistory.push(sessionStorage.getItem('nextPath'))
-            }, 2500);
+            if(action.payload.state=='success'){
+                setTimeout(function() {
+                    browserHistory.push(sessionStorage.getItem('nextPath'))
+                }, 2500)
+            }
             return action.payload
         default:
             return state

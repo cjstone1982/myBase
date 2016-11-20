@@ -1,7 +1,7 @@
 var compression  = require('compression'); //gzip静态页面压缩
 var express      = require('express')
 var path         = require('path')
-var favicon      = require('serve-favicon')
+// var favicon      = require('serve-favicon')
 var logger       = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser   = require('body-parser')
@@ -41,7 +41,7 @@ var options = {
     }
 }
 app.use(express.static(path.join(__dirname, 'app'),options))
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+// app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')))
 app.use(session({
     secret: 'stone-secret',
     // key: 'stone-dogs', //cookie的名称 不设置就是id随机
@@ -61,6 +61,13 @@ app.use(session({
     saveUninitialized: false, //必须关闭才能使用缓存
 }))
 app.use('/', routes)
+
+app.use(logErrors);
+function logErrors(err, req, res, next) {
+    console.log('前端服务器发生了错误，错误内容为');
+    console.error(err.stack);
+    next();
+}
 
 http.createServer(app).listen(settings.hostPort,function(){
 	console.log('server start at '+settings.hostPort+'')

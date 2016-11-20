@@ -20,6 +20,10 @@ import Icon        from 'Icon'
 import Popup       from 'Popup'
 import List        from 'List'
 import ImagePicker from 'ImagePicker'
+import NavBar      from 'NavBar'
+import Popover     from 'Popover'
+const Item = Popover.Item;
+
 
 const data = [{
     url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
@@ -35,6 +39,7 @@ class Index extends Component {
         this.state = {
             color:'red2',
             visible: false,
+            visiblePopover: false,
             sel: '',
             files: data, 
             custom: false
@@ -68,6 +73,18 @@ class Index extends Component {
         this.setState({
             visible: false,
         })
+    }
+    onSelect(opt) {
+        console.log(opt.props.value);
+        this.setState({
+            visiblePopover: false,
+            selected: opt.props.value,
+        });
+    }
+    handleVisibleChange(visiblePopover) {
+        this.setState({
+            visiblePopover,
+        });
     }
     onClick() {
         Popup.show(
@@ -120,13 +137,35 @@ class Index extends Component {
         const { files, custom } = this.state;
         return (
             <div>
+                <NavBar leftContent="返回" mode="light" 
+                    onLeftClick={() => console.log('onLeftClick')}
+                    rightContent={[<Icon key="0" type="search" />,
+                        <Popover key="1" visible={this.state.visiblePopover}
+                          overlay={[
+                                (<Item key="4" value="scan" iconName="scan" data-seed="logId">扫一扫</Item>),
+                                (<Item key="5" value="special" iconName="qrcode" style={{ whiteSpace: 'nowrap' }}>我的二维码</Item>),
+                                (<Item key="6" value="button ct" iconName="question-circle-o">帮助</Item>),
+                            ]}
+                            popupAlign={{offset: [12, 10]}}
+                            onVisibleChange={this.handleVisibleChange.bind(this)} onSelect={this.onSelect.bind(this)} >
+                            <div style={{height: '100%', display: 'flex', alignItems: 'center', }} >
+                                <Icon type="ellipsis" />
+                            </div>
+                        </Popover>
+                      ]}>
+                    中间大标题
+                </NavBar>
+                {/*
                 <div className="header">
                     <div className="btn">菜单</div>
                     <div className="title">4Pgo</div>
                     <div className="btn">菜单</div>
                 </div>
+                */}
+                <img src="../images/test3.jpg" />
 
-                <img src="/images/pic_maliao.jpg" />
+                <img width="80" height="80" src={require('../images/test.jpg')} />
+                <img width="80" height="80" src={require('../images/test2.jpg')} />
                 
                 <input type="text" name="color" ref="color" onChange={this.handleChange.bind(this)}/>
                 <button onClick={ function(){ that.handleReset.bind(that); addTodo(that.state.color) }}>ADD</button>

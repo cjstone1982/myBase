@@ -37,7 +37,8 @@ module.exports={
             {test: /\.js$/, loader: "babel-loader",query: {presets: ['react','es2015']}},   /*es6 to es5*/
             {test: /\.jsx$/,loader: 'babel-loader', query: {presets: ['react', 'es2015']}}, /*jsx to js,es5 to es6*/
             {test: /\.css$/, loader: "style!css"},                                          /*css to css*/
-            {test: /\.(jpg|png|otf)$/, loader: "url?limit=1024"},                           /*images 打包*/
+            // {test: /\.(jpg|png|otf)$/, loader: "url?limit=824"},                           /*images 打包*/
+            {test: /\.(jpg|png|otf)$/, loader: 'url-loader?limit=8096&name=/images/[name].[ext]'},  　
             {test: /\.less/, exclude: /^node_modules$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!autoprefixer-loader!less-loader')}
         ]
     },
@@ -59,6 +60,8 @@ module.exports={
             Popup       : 'antd-mobile/lib/popup',
             List        : 'antd-mobile/lib/list',
             ImagePicker : 'antd-mobile/lib/image-picker',
+            NavBar      : 'antd-mobile/lib/nav-bar',
+            Popover      : 'antd-mobile/lib/popover',
         }
     },
     resolveLoader: {
