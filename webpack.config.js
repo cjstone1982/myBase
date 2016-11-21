@@ -34,8 +34,8 @@ module.exports={
     },
     module: {
         loaders: [
-            {test: /\.js$/, loader: "babel-loader",query: {presets: ['react','es2015']}},   /*es6 to es5*/
-            {test: /\.jsx$/,loader: 'babel-loader', query: {presets: ['react', 'es2015']}}, /*jsx to js,es5 to es6*/
+            {test: /\.js$/, loader: "babel-loader", query: {presets: ['react','es2015'] , cacheDirectory: true}},   /*es6 to es5*/
+            {test: /\.jsx$/,loader: 'babel-loader', query: {presets: ['react', 'es2015'], cacheDirectory: true}}, /*jsx to js,es5 to es6*/
             {test: /\.css$/, loader: "style!css"},                                          /*css to css*/
             // {test: /\.(jpg|png|otf)$/, loader: "url?limit=824"},                           /*images 打包*/
             {test: /\.(jpg|png|otf)$/, loader: 'url-loader?limit=8096&name=/images/[name].[ext]'},  　
