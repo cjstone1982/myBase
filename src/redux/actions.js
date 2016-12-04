@@ -1,25 +1,65 @@
 import Alert from '../component/Alert'
 
 //action 类型
-export const  ADD_OK         = 'ADD_OK';
-export const  REMOVE_OK      = 'REMOVE_OK';
-export const  GET_OK         = 'GET_OK';
-export const  EDIT_OK        = 'EDIT_OK';
+export const  ADD_OK           = 'ADD_OK';
+export const  REMOVE_OK        = 'REMOVE_OK';
+export const  GET_OK           = 'GET_OK';
+export const  EDIT_OK          = 'EDIT_OK';
 
 //获取登录用户信息
-export const  CURRENT_USER   = 'CURRENT_USER';
+export const  CURRENT_USER     = 'CURRENT_USER';
 
 //账户
-export const  LOGIN          = 'LOGIN';         //登录
-export const  REGISTER       = 'REGISTER';      //注册
+export const  LOGIN            = 'LOGIN';         //登录
+export const  REGISTER         = 'REGISTER';      //注册
 
 //文章
-export const  GET_ARTICLE    = 'GET_ARTICLE'    //获取文章
-export const  ADD_ARTICLE    = 'ADD_ARTICLE'    //添加文章
-export const  PUT_ARTICLE    = 'PUT_ARTICLE'    //修改文章
-export const  DELETE_ARTICLE = 'DELETE_ARTICLE' //删除文章
+export const  GET_ARTICLE      = 'GET_ARTICLE'    //获取文章
+export const  ADD_ARTICLE      = 'ADD_ARTICLE'    //添加文章
+export const  PUT_ARTICLE      = 'PUT_ARTICLE'    //修改文章
+export const  DELETE_ARTICLE   = 'DELETE_ARTICLE' //删除文章
 
-console.log('actions actions actions actions actions actions');
+export const  OPEN_LOADING     = 'OPEN_LOADING'     //打开加载页面
+export const  CLOSE_LOADING    = 'CLOSE_LOADING'    //关闭加载页面
+
+export const  SHOW_MATCH    = 'SHOW_MATCH'    //打开加载发布页面
+export const  HIDE_MATCH    = 'HIDE_MATCH'    //打开加载发布页面
+
+// console.log('actions actions actions actions actions actions');
+
+export function showMatch () {
+    return (dispatch,getState)=>{
+        dispatch({
+            type:'SHOW_MATCH',
+            payload:{show:true}
+        })
+    }
+}
+export function hideMatch () {
+    return (dispatch,getState)=>{
+        dispatch({
+            type:'HIDE_MATCH',
+            payload:{show:false}
+        })
+    }
+}
+
+export function openLoading () {
+    return (dispatch,getState)=>{
+        dispatch({
+            type:'OPEN_LOADING',
+            payload:{open:1}
+        })
+    }
+}
+export function closeLoading () {
+    return (dispatch,getState)=>{
+        dispatch({
+            type:'CLOSE_LOADING',
+            payload:{open:0}
+        })
+    }
+}
 
 //获取文章
 export function getArticle (value) {
@@ -34,6 +74,10 @@ export function getArticle (value) {
             dispatch({
                 type: 'GET_ARTICLE',
                 payload: data
+            })
+            dispatch({
+                type:'CLOSE_LOADING',
+                payload:{open:0}
             })
         }).catch(function (err) {
             console.log("服务器连接失败");

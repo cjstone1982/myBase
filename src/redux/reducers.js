@@ -10,6 +10,36 @@ import {GET_ARTICLE, ADD_ARTICLE, PUT_ARTICLE, DELETE_ARTICLE} from './actions'
 import {LOGIN, REGISTER} from './actions'
 //获取登录用户信息
 import {CURRENT_USER} from './actions'
+//打开关闭加载页面
+import {OPEN_LOADING,CLOSE_LOADING} from './actions'
+//打开发布页面
+import {SHOW_MATCH,HIDE_MATCH} from './actions'
+
+function match (state={}, action) {
+    switch(action.type){
+        case SHOW_MATCH:
+            return action.payload
+        break;
+        case HIDE_MATCH:
+            return action.payload
+        break;
+        default:
+            return state
+    }
+}
+
+function loading (state={}, action) {
+    switch(action.type){
+        case OPEN_LOADING:
+            return action.payload
+        break;
+        case CLOSE_LOADING:
+            return action.payload
+        break;
+        default:
+            return state
+    }
+}
 
 function currentUser (state={}, action) {
     switch(action.type){
@@ -24,6 +54,7 @@ function currentUser (state={}, action) {
 function articleList2(state = [], action) {
     switch (action.type) {
         case GET_ARTICLE:
+            console.log('GET_ARTICLE 10');
             return action.payload
         case ADD_ARTICLE:
             console.log('之前状态');
@@ -109,6 +140,8 @@ const thisApp = combineReducers({
     registerState,
     loginState,
     messages,
+    loading,
+    match,
 })
 
 export default thisApp

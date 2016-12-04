@@ -11,9 +11,10 @@ import createStore from './redux/stores'
 
 //样式加载
 import 'flex.css'                //flex布局兼容性
-import './css/base.less'         //加载公共样式
-import './css/style.less'        //加载项目样式
-import './css/antd-mobile.less'  //antd-mobile主样式
+import './css/base'         //加载公共样式
+import './css/style'        //加载项目样式
+import './css/antd-mobile'  //antd-mobile主样式
+
 
 //组件加载
 import Index from './component/Index'
@@ -35,6 +36,7 @@ store.subscribe(function () { //每次状态机改变的时候执行
     // console.log('当前state');
     // console.log(store.getState())
 })
+
 
 //主模板
 class Main extends Component {
@@ -59,7 +61,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
 	        <Route path="/" component={Main}>
-	            <IndexRoute component={Index} />
+	            <IndexRoute onEnter={delay} component={Index} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
 	            <Route onEnter={token} path="/list" component={List} />
@@ -74,8 +76,16 @@ ReactDOM.render(
     ,document.body.appendChild(document.createElement('div'))
 );
 
+function delay (nextState, replace, next) {
+    const redirectDelay=300
+    setTimeout(function() {
+        next()
+    }, redirectDelay);
+}
+
 function token (nextState, replace, next) {
     //登录后的路径
+    const redirectDelay=300
     sessionStorage.setItem('nextPath',nextState.location.pathname)
     //查看本地是否有token
     if(token){
@@ -93,14 +103,20 @@ function token (nextState, replace, next) {
                 type: 'CURRENT_USER',
                 payload: data.user
             })
+            console.log("已登录");
+            setTimeout(function() {
+               next() 
+            }, redirectDelay);
+            
         }).catch(function(e) {
-            console.log("fail");
+            console.log("未登录");
         })
     }else{
         replace('/login')
+        setTimeout(function() {
+              next()
+        }, redirectDelay);
     }
-    
-    next()
 }
 
 //权限控制的中间

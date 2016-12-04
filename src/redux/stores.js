@@ -4,6 +4,8 @@ import promise from 'redux-promise';
 import createLogger from 'redux-logger'
 import reducers from './reducers';
 
+import mylog from './middleware/mylog'
+
 const options={
 	level: 'info',
 	duration:true,
@@ -12,6 +14,11 @@ const options={
 const logger = createLogger(options);
 
 export default (initialState) => {
-	let middleware=applyMiddleware(thunk, promise, logger)
+	let middleware=applyMiddleware(
+		thunk, 
+		promise, 
+		logger, 
+		mylog 
+	)
 	return compose(middleware)(createStore)(reducers, initialState);
 };

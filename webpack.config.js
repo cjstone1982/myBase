@@ -24,6 +24,7 @@ module.exports={
             'antd-mobile/lib/popup',
             'antd-mobile/lib/list',
             'antd-mobile/lib/image-picker',
+            'antd-mobile/lib/notice-bar',
             'whatwg-fetch',
         ],
     },
@@ -44,7 +45,7 @@ module.exports={
     },
     resolve: {
         modulesDirectories: ['node_modules', path.join(__dirname, '../node_modules')],
-        extensions: ['', '.web.js', '.js', '.json', '.jsx'],
+        extensions: ['', '.web.js', '.js', '.json', '.jsx', '.less','.css'],
         alias: {//后续直接 require('jquery') 即可
             // jquery          : './src/source/js/jquery.min.js',
             // moment          : './src/source/js/moment.min.js',
@@ -61,15 +62,18 @@ module.exports={
             List        : 'antd-mobile/lib/list',
             ImagePicker : 'antd-mobile/lib/image-picker',
             NavBar      : 'antd-mobile/lib/nav-bar',
-            Popover      : 'antd-mobile/lib/popover',
+            Popover     : 'antd-mobile/lib/popover',
+            Icon        : 'antd-mobile/lib/icon',
+            Flex        : 'antd-mobile/lib/flex',
+            Carousel    : 'antd-mobile/lib/carousel',
+            NoticeBar    : 'antd-mobile/lib/notice-bar',
         }
     },
     resolveLoader: {
         'fallback': path.join(__dirname, 'node_modules')
-      },
+    },
     plugins: [
         new ExtractTextPlugin("[name].css", {allChunks: true}),    //生成独立css
-        // new webpack.optimize.CommonsChunkPlugin('common.js'),                          
         new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),             //提取公用代码
         // new webpack.optimize.UglifyJsPlugin({compress: {warnings: false }}),     //压缩代码
         new webpack.NoErrorsPlugin(),

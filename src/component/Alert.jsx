@@ -11,7 +11,7 @@ class Alert extends Component {
         };
     }
     componentDidMount(){
-        $('.tips').show('500').animate({top: '5px'}, "300")
+        $('.tips').animate({top: '15%'}, "400")
         let that=this
         setTimeout(()=>{
             $('#'+this.state.id).remove()
@@ -21,7 +21,6 @@ class Alert extends Component {
         console.log('unmount');
     }
     render() {
-        // console.log('render');
         return (<div style={styles.tips} id={this.state.id}>
             {this.props.text}
         </div>)
@@ -38,15 +37,19 @@ var styles={
         width:'80%',
         margin:'5px auto 0',
         padding:'10px 0',
-        borderRadius:'5px',
-        fontSize:'14px'
+        borderRadius:'3pt',
+        fontSize:'10pt',
+        border:'0pt solid #fff',
+        boxShadow:'0 0 2px 2px #fff',
     },
 }
 
 exports.add = function(text,delay){
     let dom=document.createElement('div')
     dom.style.zIndex='9999'
-    dom.style.position='relative'
+    dom.style.position='fixed'
+    dom.style.width='100%'
+    dom.style.top='13%'
     dom.className='tips'
     ReactDOM.render(<Alert text={text} delay={delay}  />, document.body.appendChild(dom) )
 }

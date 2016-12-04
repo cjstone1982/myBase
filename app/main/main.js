@@ -7,7 +7,7 @@ webpackJsonp([1],{
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	__webpack_require__(406);
+	__webpack_require__(407);
 
 	var _react = __webpack_require__(1);
 
@@ -21,55 +21,55 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _stores = __webpack_require__(407);
+	var _stores = __webpack_require__(408);
 
 	var _stores2 = _interopRequireDefault(_stores);
 
 	__webpack_require__(270);
 
-	__webpack_require__(413);
-
-	__webpack_require__(414);
-
 	__webpack_require__(415);
 
-	var _Index = __webpack_require__(416);
+	__webpack_require__(416);
+
+	__webpack_require__(417);
+
+	var _Index = __webpack_require__(418);
 
 	var _Index2 = _interopRequireDefault(_Index);
 
-	var _List = __webpack_require__(450);
+	var _List = __webpack_require__(451);
 
 	var _List2 = _interopRequireDefault(_List);
 
-	var _Message = __webpack_require__(451);
+	var _Message = __webpack_require__(452);
 
 	var _Message2 = _interopRequireDefault(_Message);
 
-	var _Play = __webpack_require__(452);
+	var _Play = __webpack_require__(461);
 
 	var _Play2 = _interopRequireDefault(_Play);
 
-	var _Discover = __webpack_require__(454);
+	var _Discover = __webpack_require__(463);
 
 	var _Discover2 = _interopRequireDefault(_Discover);
 
-	var _Mine = __webpack_require__(455);
+	var _Mine = __webpack_require__(464);
 
 	var _Mine2 = _interopRequireDefault(_Mine);
 
-	var _TabBarFooter = __webpack_require__(417);
+	var _TabBarFooter = __webpack_require__(419);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
-	var _Register = __webpack_require__(456);
+	var _Register = __webpack_require__(465);
 
 	var _Register2 = _interopRequireDefault(_Register);
 
-	var _Login = __webpack_require__(458);
+	var _Login = __webpack_require__(467);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90,6 +90,7 @@ webpackJsonp([1],{
 	//加载公共样式
 	//加载项目样式
 	//antd-mobile主样式
+
 
 	//组件加载
 
@@ -145,7 +146,7 @@ webpackJsonp([1],{
 	        _react2.default.createElement(
 	            _reactRouter.Route,
 	            { path: '/', component: Main },
-	            _react2.default.createElement(_reactRouter.IndexRoute, { component: _Index2.default }),
+	            _react2.default.createElement(_reactRouter.IndexRoute, { onEnter: delay, component: _Index2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '/register', component: _Register2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { onEnter: token, path: '/list', component: _List2.default }),
@@ -158,8 +159,16 @@ webpackJsonp([1],{
 	    )
 	), document.body.appendChild(document.createElement('div')));
 
+	function delay(nextState, replace, next) {
+	    var redirectDelay = 300;
+	    setTimeout(function () {
+	        next();
+	    }, redirectDelay);
+	}
+
 	function token(nextState, replace, next) {
 	    //登录后的路径
+	    var redirectDelay = 300;
 	    sessionStorage.setItem('nextPath', nextState.location.pathname);
 	    //查看本地是否有token
 	    if (token) {
@@ -177,14 +186,19 @@ webpackJsonp([1],{
 	                type: 'CURRENT_USER',
 	                payload: data.user
 	            });
+	            console.log("已登录");
+	            setTimeout(function () {
+	                next();
+	            }, redirectDelay);
 	        }).catch(function (e) {
-	            console.log("fail");
+	            console.log("未登录");
 	        });
 	    } else {
 	        replace('/login');
+	        setTimeout(function () {
+	            next();
+	        }, redirectDelay);
 	    }
-
-	    next();
 	}
 
 	//权限控制的中间
@@ -204,7 +218,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 407:
+/***/ 408:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -227,9 +241,13 @@ webpackJsonp([1],{
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _reducers = __webpack_require__(408);
+	var _reducers = __webpack_require__(409);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
+
+	var _mylog = __webpack_require__(414);
+
+	var _mylog2 = _interopRequireDefault(_mylog);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -240,13 +258,13 @@ webpackJsonp([1],{
 	var logger = (0, _reduxLogger2.default)(options);
 
 	exports.default = function (initialState) {
-		var middleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxPromise2.default, logger);
+		var middleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxPromise2.default, logger, _mylog2.default);
 		return (0, _redux.compose)(middleware)(_redux.createStore)(_reducers2.default, initialState);
 	};
 
 /***/ },
 
-/***/ 408:
+/***/ 409:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -259,15 +277,15 @@ webpackJsonp([1],{
 
 	var _redux = __webpack_require__(242);
 
-	var _method = __webpack_require__(409);
+	var _method = __webpack_require__(410);
 
-	var _Alert = __webpack_require__(410);
+	var _Alert = __webpack_require__(411);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
-	__webpack_require__(411);
+	__webpack_require__(412);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -279,6 +297,42 @@ webpackJsonp([1],{
 
 	//获取登录用户信息
 
+	//打开关闭加载页面
+
+	//打开发布页面
+
+
+	function match() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.SHOW_MATCH:
+	            return action.payload;
+	            break;
+	        case _actions.HIDE_MATCH:
+	            return action.payload;
+	            break;
+	        default:
+	            return state;
+	    }
+	}
+
+	function loading() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.OPEN_LOADING:
+	            return action.payload;
+	            break;
+	        case _actions.CLOSE_LOADING:
+	            return action.payload;
+	            break;
+	        default:
+	            return state;
+	    }
+	}
 
 	function currentUser() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -301,6 +355,7 @@ webpackJsonp([1],{
 
 	    switch (action.type) {
 	        case _actions.GET_ARTICLE:
+	            console.log('GET_ARTICLE 10');
 	            return action.payload;
 	        case _actions.ADD_ARTICLE:
 	            console.log('之前状态');
@@ -397,14 +452,16 @@ webpackJsonp([1],{
 	    articleList2: articleList2,
 	    registerState: registerState,
 	    loginState: loginState,
-	    messages: messages
+	    messages: messages,
+	    loading: loading,
+	    match: match
 	});
 
 	exports.default = thisApp;
 
 /***/ },
 
-/***/ 409:
+/***/ 410:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -429,7 +486,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 410:
+/***/ 411:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -446,7 +503,7 @@ webpackJsonp([1],{
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _method = __webpack_require__(409);
+	var _method = __webpack_require__(410);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -475,7 +532,7 @@ webpackJsonp([1],{
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            $('.tips').show('500').animate({ top: '5px' }, "300");
+	            $('.tips').animate({ top: '15%' }, "400");
 	            var that = this;
 	            setTimeout(function () {
 	                $('#' + _this2.state.id).remove();
@@ -489,7 +546,6 @@ webpackJsonp([1],{
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            // console.log('render');
 	            return _react2.default.createElement(
 	                'div',
 	                { style: styles.tips, id: this.state.id },
@@ -511,15 +567,19 @@ webpackJsonp([1],{
 	        width: '80%',
 	        margin: '5px auto 0',
 	        padding: '10px 0',
-	        borderRadius: '5px',
-	        fontSize: '14px'
+	        borderRadius: '3pt',
+	        fontSize: '10pt',
+	        border: '0pt solid #fff',
+	        boxShadow: '0 0 2px 2px #fff'
 	    }
 	};
 
 	exports.add = function (text, delay) {
 	    var dom = document.createElement('div');
 	    dom.style.zIndex = '9999';
-	    dom.style.position = 'relative';
+	    dom.style.position = 'fixed';
+	    dom.style.width = '100%';
+	    dom.style.top = '13%';
 	    dom.className = 'tips';
 	    _reactDom2.default.render(_react2.default.createElement(Alert, { text: text, delay: delay }), document.body.appendChild(dom));
 	};
@@ -530,7 +590,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 411:
+/***/ 412:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -541,7 +601,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 412:
+/***/ 413:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -549,7 +609,11 @@ webpackJsonp([1],{
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.DELETE_ARTICLE = exports.PUT_ARTICLE = exports.ADD_ARTICLE = exports.GET_ARTICLE = exports.REGISTER = exports.LOGIN = exports.CURRENT_USER = exports.EDIT_OK = exports.GET_OK = exports.REMOVE_OK = exports.ADD_OK = undefined;
+	exports.HIDE_MATCH = exports.SHOW_MATCH = exports.CLOSE_LOADING = exports.OPEN_LOADING = exports.DELETE_ARTICLE = exports.PUT_ARTICLE = exports.ADD_ARTICLE = exports.GET_ARTICLE = exports.REGISTER = exports.LOGIN = exports.CURRENT_USER = exports.EDIT_OK = exports.GET_OK = exports.REMOVE_OK = exports.ADD_OK = undefined;
+	exports.showMatch = showMatch;
+	exports.hideMatch = hideMatch;
+	exports.openLoading = openLoading;
+	exports.closeLoading = closeLoading;
 	exports.getArticle = getArticle;
 	exports.addArticle = addArticle;
 	exports.login = login;
@@ -559,7 +623,7 @@ webpackJsonp([1],{
 	exports.editTodo = editTodo;
 	exports.getTodo = getTodo;
 
-	var _Alert = __webpack_require__(410);
+	var _Alert = __webpack_require__(411);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -584,7 +648,47 @@ webpackJsonp([1],{
 	var PUT_ARTICLE = exports.PUT_ARTICLE = 'PUT_ARTICLE'; //修改文章
 	var DELETE_ARTICLE = exports.DELETE_ARTICLE = 'DELETE_ARTICLE'; //删除文章
 
-	console.log('actions actions actions actions actions actions');
+	var OPEN_LOADING = exports.OPEN_LOADING = 'OPEN_LOADING'; //打开加载页面
+	var CLOSE_LOADING = exports.CLOSE_LOADING = 'CLOSE_LOADING'; //关闭加载页面
+
+	var SHOW_MATCH = exports.SHOW_MATCH = 'SHOW_MATCH'; //打开加载发布页面
+	var HIDE_MATCH = exports.HIDE_MATCH = 'HIDE_MATCH'; //打开加载发布页面
+
+	// console.log('actions actions actions actions actions actions');
+
+	function showMatch() {
+	    return function (dispatch, getState) {
+	        dispatch({
+	            type: 'SHOW_MATCH',
+	            payload: { show: true }
+	        });
+	    };
+	}
+	function hideMatch() {
+	    return function (dispatch, getState) {
+	        dispatch({
+	            type: 'HIDE_MATCH',
+	            payload: { show: false }
+	        });
+	    };
+	}
+
+	function openLoading() {
+	    return function (dispatch, getState) {
+	        dispatch({
+	            type: 'OPEN_LOADING',
+	            payload: { open: 1 }
+	        });
+	    };
+	}
+	function closeLoading() {
+	    return function (dispatch, getState) {
+	        dispatch({
+	            type: 'CLOSE_LOADING',
+	            payload: { open: 0 }
+	        });
+	    };
+	}
 
 	//获取文章
 	function getArticle(value) {
@@ -597,6 +701,10 @@ webpackJsonp([1],{
 	            dispatch({
 	                type: 'GET_ARTICLE',
 	                payload: data
+	            });
+	            dispatch({
+	                type: 'CLOSE_LOADING',
+	                payload: { open: 0 }
 	            });
 	        }).catch(function (err) {
 	            console.log("服务器连接失败");
@@ -780,17 +888,29 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 413:
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-
 /***/ 414:
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = mylog;
+	function mylog(_ref) {
+	    var dispatch = _ref.dispatch;
+	    var getState = _ref.getState;
+
+	    return function (next) {
+	        return function (action) {
+	            //before
+
+	            var nextValue = next(action);
+	            //after
+	            return nextValue;
+	        };
+	    };
+	}
 
 /***/ },
 
@@ -802,6 +922,20 @@ webpackJsonp([1],{
 /***/ },
 
 /***/ 416:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 417:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 418:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -810,9 +944,11 @@ webpackJsonp([1],{
 	    value: true
 	});
 
+	var _ul, _card, _info;
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	__webpack_require__(406);
+	__webpack_require__(407);
 
 	var _react = __webpack_require__(1);
 
@@ -824,13 +960,21 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(417);
+	var _TabBarFooter = __webpack_require__(419);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
+
+	var _Alert = __webpack_require__(411);
+
+	var _Alert2 = _interopRequireDefault(_Alert);
+
+	var _Loading = __webpack_require__(420);
+
+	var _Loading2 = _interopRequireDefault(_Loading);
 
 	var _Modal = __webpack_require__(274);
 
@@ -868,17 +1012,23 @@ webpackJsonp([1],{
 
 	var _ImagePicker2 = _interopRequireDefault(_ImagePicker);
 
-	var _NavBar = __webpack_require__(418);
+	var _NavBar = __webpack_require__(421);
 
 	var _NavBar2 = _interopRequireDefault(_NavBar);
 
-	var _Popover = __webpack_require__(419);
+	var _Popover = __webpack_require__(422);
 
 	var _Popover2 = _interopRequireDefault(_Popover);
+
+	var _NoticeBar = __webpack_require__(406);
+
+	var _NoticeBar2 = _interopRequireDefault(_NoticeBar);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -892,18 +1042,13 @@ webpackJsonp([1],{
 	//组件
 
 
+	//公用组件
+
+
 	//antd-mobile
 
 
 	var Item = _Popover2.default.Item;
-
-	var data = [{
-	    url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
-	    id: '2121'
-	}, {
-	    url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
-	    id: '2122'
-	}];
 
 	var Index = function (_Component) {
 	    _inherits(Index, _Component);
@@ -913,50 +1058,11 @@ webpackJsonp([1],{
 
 	        var _this = _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).call(this, props));
 
-	        _this.state = {
-	            color: 'red2',
-	            visible: false,
-	            visiblePopover: false,
-	            sel: '',
-	            files: data,
-	            custom: false
-	        };
+	        _this.state = {};
 	        return _this;
 	    }
 
 	    _createClass(Index, [{
-	        key: 'onChange',
-	        value: function onChange(files, type, index) {
-	            console.log(files, type, index);
-	            this.setState({
-	                files: files
-	            });
-	        }
-	    }, {
-	        key: 'onAddImageClick',
-	        value: function onAddImageClick() {
-	            this.setState({
-	                files: this.state.files.concat({
-	                    url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
-	                    id: '3'
-	                })
-	            });
-	        }
-	    }, {
-	        key: 'sw',
-	        value: function sw() {
-	            this.setState({
-	                custom: !this.state.custom
-	            });
-	        }
-	    }, {
-	        key: 'showModal',
-	        value: function showModal() {
-	            this.setState({
-	                visible: true
-	            });
-	        }
-	    }, {
 	        key: 'onClose',
 	        value: function onClose() {
 	            this.setState({
@@ -966,6 +1072,13 @@ webpackJsonp([1],{
 	    }, {
 	        key: 'onSelect',
 	        value: function onSelect(opt) {
+	            if (opt.props.value == 'logout') {
+	                localStorage.removeItem('token');
+	                _Alert2.default.add('用户登出成功', 2000);
+	                setTimeout(function () {
+	                    location.replace(document.referrer);
+	                }, 2000);
+	            }
 	            console.log(opt.props.value);
 	            this.setState({
 	                visiblePopover: false,
@@ -980,83 +1093,24 @@ webpackJsonp([1],{
 	            });
 	        }
 	    }, {
-	        key: 'onClick',
-	        value: function onClick() {
-	            var _this2 = this;
-
-	            _Popup2.default.show(_react2.default.createElement(
-	                _List2.default,
-	                { renderHeader: function renderHeader() {
-	                        return '账户总览 (已绑定3个）';
-	                    } },
-	                _react2.default.createElement(
-	                    _List2.default.Item,
-	                    {
-	                        thumb: 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png',
-	                        onClick: function onClick() {
-	                            _this2.onClose2('cancel');
-	                        }
-	                    },
-	                    '\u4E1C\u5434\u8BC1\u5238 (5728\uFF09'
-	                ),
-	                _react2.default.createElement(
-	                    _List2.default.Item,
-	                    {
-	                        thumb: 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png',
-	                        onClick: function onClick() {
-	                            _this2.onClose2('cancel');
-	                        }
-	                    },
-	                    '\u4E1C\u5434\u8BC1\u5238 (5728\uFF09'
-	                ),
-	                _react2.default.createElement(
-	                    _List2.default.Item,
-	                    {
-	                        thumb: 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png',
-	                        arrow: 'horizontal',
-	                        onClick: function onClick() {
-	                            _this2.onClose2('opt 1');
-	                        }
-	                    },
-	                    '\u66F4\u591A'
-	                )
-	            ));
-	        }
-	    }, {
-	        key: 'onClose2',
-	        value: function onClose2(sel) {
-	            // if (sel === 'opt 1') {
-	            //   // 演示再弹出内容
-	            //   this.newInstance();
-	            //   return;
-	            // }
-	            this.setState({ sel: sel });
-	            _Popup2.default.hide();
-	        }
-	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {}
 	    }, {
 	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
+	        value: function componentDidMount() {
+	            var closeLoading = this.props.closeLoading;
+
+	            closeLoading();
+	        }
 	    }, {
 	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            console.log('componentWillUnmount');
-	        }
+	        value: function componentWillUnmount() {}
 	    }, {
 	        key: 'handleChange',
 	        value: function handleChange(e) {
 	            var newState = {};
 	            newState[e.target.name] = e.target.value;
 	            this.setState(newState);
-	        }
-	    }, {
-	        key: 'handleReset',
-	        value: function handleReset(e) {
-	            console.log(e);
-	            console.log('handleReset');
-	            this.refs.color.value = '12345';
 	        }
 	    }, {
 	        key: 'render',
@@ -1074,10 +1128,10 @@ webpackJsonp([1],{
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(_Loading2.default, null),
 	                _react2.default.createElement(
 	                    _NavBar2.default,
-	                    { leftContent: '\u8FD4\u56DE', mode: 'light',
-	                        onLeftClick: function onLeftClick() {
+	                    { leftContent: '\u8FD4\u56DE', mode: 'light', onLeftClick: function onLeftClick() {
 	                            return console.log('onLeftClick');
 	                        },
 	                        rightContent: [_react2.default.createElement(_Icon2.default, { key: '0', type: 'search' }), _react2.default.createElement(
@@ -1095,6 +1149,10 @@ webpackJsonp([1],{
 	                                    Item,
 	                                    { key: '6', value: 'button ct', iconName: 'question-circle-o' },
 	                                    '\u5E2E\u52A9'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '7', value: 'logout', iconName: 'question-circle-o' },
+	                                    '\u767B\u51FA'
 	                                )],
 	                                popupAlign: { offset: [12, 10] },
 	                                onVisibleChange: this.handleVisibleChange.bind(this), onSelect: this.onSelect.bind(this) },
@@ -1104,86 +1162,286 @@ webpackJsonp([1],{
 	                                _react2.default.createElement(_Icon2.default, { type: 'ellipsis' })
 	                            )
 	                        )] },
-	                    '\u4E2D\u95F4\u5927\u6807\u9898'
+	                    '4PGO\u793E'
 	                ),
-	                _react2.default.createElement('img', { src: '../images/test3.jpg' }),
-	                _react2.default.createElement('img', { width: '80', height: '80', src: __webpack_require__(448) }),
-	                _react2.default.createElement('img', { width: '80', height: '80', src: __webpack_require__(449) }),
-	                _react2.default.createElement('input', { type: 'text', name: 'color', ref: 'color', onChange: this.handleChange.bind(this) }),
+	                _react2.default.createElement('div', { style: { height: 45 } }),
 	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: function onClick() {
-	                            that.handleReset.bind(that);addTodo(that.state.color);
-	                        } },
-	                    'ADD'
+	                    _NoticeBar2.default,
+	                    { type: 'info', mode: 'link', onClick: this.onClick },
+	                    '\u5F53\u524D\u4E0E312\u540D\u6218\u53CB\u6B63\u5728\u7EA6'
 	                ),
 	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: function onClick() {
-	                            return removeTodo(1);
-	                        } },
-	                    'REMOVE'
-	                ),
-	                _react2.default.createElement(
-	                    _Button2.default,
-	                    { onClick: this.showModal.bind(this) },
-	                    'Start'
-	                ),
-	                _react2.default.createElement(_WhiteSpace2.default, { size: 'lg' }),
-	                _react2.default.createElement(
-	                    _WingBlank2.default,
-	                    null,
+	                    'ul',
+	                    { style: styles.ul },
 	                    _react2.default.createElement(
-	                        _Button2.default,
-	                        { type: 'ghost', onClick: this.showModal.bind(this) },
-	                        '\u53EF\u5173\u95ED\u5BF9\u8BDD\u6846'
+	                        'li',
+	                        { style: styles.li },
+	                        '\u6700\u65B0'
 	                    ),
 	                    _react2.default.createElement(
-	                        _Modal2.default,
-	                        {
-	                            title: '\u8FD9\u662F title',
-	                            closable: true,
-	                            maskClosable: true,
-	                            transparent: true,
-	                            onClose: this.onClose.bind(this),
-	                            visible: this.state.visible
-	                        },
-	                        '\u8FD9\u662F\u5185\u5BB9...',
-	                        _react2.default.createElement('br', null),
-	                        '\u8FD9\u662F\u5185\u5BB9...',
-	                        _react2.default.createElement('br', null)
+	                        'li',
+	                        { style: styles.li },
+	                        '\u63A8\u8350'
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        { style: styles.li },
+	                        '\u70ED\u95E8'
 	                    )
 	                ),
-	                _react2.default.createElement(_WhiteSpace2.default, { size: 'lg' }),
-	                _react2.default.createElement(_Icon2.default, { onClick: this.onClick.bind(this), style: { fontSize: '30px' }, type: 'play-circle' }),
 	                _react2.default.createElement(
-	                    _Button2.default,
-	                    { inline: true, style: { margin: 10 }, onClick: this.sw },
-	                    custom ? '自定义' : '常用的',
-	                    '\u9009\u62E9\u56FE\u7247\u7684\u65B9\u6CD5'
+	                    'div',
+	                    { style: styles.card },
+	                    _react2.default.createElement('img', { style: styles.face, src: '../uploads/ff.jpg' }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.content },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.user },
+	                            '\u70B9\u77F3\u6210\u91D1250'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.info },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.baTitle },
+	                                '\u6218\u4E89\u673A\u56684'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.platform },
+	                                'PC'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.date },
+	                                '3\u5929\u524D'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.title },
+	                            '\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.content },
+	                            '\u6211\u662F\u5185\u5BB9\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.imgFirst },
+	                            _react2.default.createElement('img', { style: styles.img, src: '../uploads/ff.jpg' })
+	                        )
+	                    )
 	                ),
-	                custom ? _react2.default.createElement(_ImagePicker2.default, {
-	                    files: files,
-	                    onChange: this.onChange.bind(this),
-	                    onImageClick: function onImageClick(index, fs) {
-	                        return console.log(index, fs);
-	                    },
-	                    onAddImageClick: this.onAddImageClick,
-	                    selectable: files.length < 5
-	                }) : _react2.default.createElement(_ImagePicker2.default, {
-	                    files: files,
-	                    onChange: this.onChange.bind(this),
-	                    onImageClick: function onImageClick(index, fs) {
-	                        return console.log(index, fs);
-	                    },
-	                    selectable: files.length < 5
-	                })
+	                _react2.default.createElement(
+	                    'div',
+	                    { style: styles.card },
+	                    _react2.default.createElement('img', { style: styles.face, src: '../uploads/ff.jpg' }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.content },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.user },
+	                            '\u70B9\u77F3\u6210\u91D1250'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.info },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.baTitle },
+	                                '\u6218\u4E89\u673A\u56684'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.platform },
+	                                'PC'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.date },
+	                                '3\u5929\u524D'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.title },
+	                            '\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.content },
+	                            '\u6211\u662F\u5185\u5BB9\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.imgFirst },
+	                            _react2.default.createElement('img', { style: styles.img, src: '../uploads/ff.jpg' })
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { style: styles.card },
+	                    _react2.default.createElement('img', { style: styles.face, src: '../uploads/ff.jpg' }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.content },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.user },
+	                            '\u70B9\u77F3\u6210\u91D1250'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.info },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.baTitle },
+	                                '\u6218\u4E89\u673A\u56684'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.platform },
+	                                'PC'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.date },
+	                                '3\u5929\u524D'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.title },
+	                            '\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.content },
+	                            '\u6211\u662F\u5185\u5BB9\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.imgFirst },
+	                            _react2.default.createElement('img', { style: styles.img, src: '../uploads/ff.jpg' })
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { style: styles.card },
+	                    _react2.default.createElement('img', { style: styles.face, src: '../uploads/ff.jpg' }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.content },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.user },
+	                            '\u70B9\u77F3\u6210\u91D1250'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.info },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.baTitle },
+	                                '\u6218\u4E89\u673A\u56684'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.platform },
+	                                'PC'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.date },
+	                                '3\u5929\u524D'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.title },
+	                            '\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6\u6211\u662F\u6807\u9898\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.content },
+	                            '\u6211\u662F\u5185\u5BB9\u54E6'
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { style: styles.imgFirst },
+	                            _react2.default.createElement('img', { style: styles.img, src: '../uploads/ff.jpg' })
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement('div', { style: { height: 55 } })
 	            );
 	        }
 	    }]);
 
 	    return Index;
 	}(_react.Component);
+
+	var styles = {
+	    ul: (_ul = {
+	        display: 'flex'
+	    }, _defineProperty(_ul, 'display', '-webkit-flex'), _defineProperty(_ul, 'justifyContent', 'space-around'), _defineProperty(_ul, 'borderBottom', '1pt solid #eee'), _ul),
+	    li: {
+	        padding: '10pt 0',
+	        fontSize: '13pt'
+	    },
+	    face: {
+	        width: '20pt',
+	        height: '20pt',
+	        borderRadius: '100%',
+	        margin: '0 3%'
+	    },
+	    card: (_card = {
+	        display: 'flex'
+	    }, _defineProperty(_card, 'display', '-webkit-flex'), _defineProperty(_card, 'padding', '10pt 0'), _defineProperty(_card, 'borderBottom', '1pt solid #eee'), _card),
+	    info: (_info = {
+	        display: 'flex'
+	    }, _defineProperty(_info, 'display', '-webkit-flex'), _defineProperty(_info, 'padding', '0pt 0'), _info),
+	    baTitle: {
+	        fontSize: '12pt',
+	        padding: '2pt 0 0 0'
+	    },
+	    platform: {
+	        fontSize: '9pt',
+	        color: '#666',
+	        marginLeft: '10pt',
+	        padding: '3pt'
+	    },
+	    date: {
+	        fontSize: '9pt',
+	        color: '#888',
+	        marginLeft: '10pt',
+	        padding: '3pt'
+	    },
+	    title: {
+	        width: '92%',
+	        padding: '0pt 0',
+	        lineHeight: '130%',
+	        fontSize: '14pt',
+	        color: '#000'
+	    },
+	    content: {
+	        padding: '5pt 0 5pt 0',
+	        color: '#666',
+	        lineHeight: '130%',
+	        fontSize: '11pt'
+	    },
+	    img: {
+	        width: '90%'
+	    }
+	};
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    var currentUser = state.currentUser;
@@ -1197,7 +1455,221 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 417:
+/***/ 419:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _footer;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _redux = __webpack_require__(242);
+
+	var _reactRedux = __webpack_require__(235);
+
+	var _actions = __webpack_require__(413);
+
+	var action = _interopRequireWildcard(_actions);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//redux
+
+
+	var TabBarFooter = function (_Component) {
+	    _inherits(TabBarFooter, _Component);
+
+	    function TabBarFooter(props) {
+	        _classCallCheck(this, TabBarFooter);
+
+	        var _this = _possibleConstructorReturn(this, (TabBarFooter.__proto__ || Object.getPrototypeOf(TabBarFooter)).call(this, props));
+
+	        _this.state = {
+	            faqi: false
+	        };
+	        return _this;
+	    }
+
+	    _createClass(TabBarFooter, [{
+	        key: 'openLoading',
+	        value: function openLoading(e) {
+	            var _props = this.props;
+	            var openLoading = _props.openLoading;
+	            var loading = _props.loading;
+
+	            if (e.currentTarget.getAttribute('href') != window.location.pathname) {
+	                openLoading();
+	                $(e.currentTarget).siblings().removeAttr('style').css(styles.link);
+	                $(e.currentTarget).animate({ height: "40pt" });
+	                $(e.currentTarget).css(styles.active);
+	            }
+	            console.log('openLoading');
+	            console.log(e.currentTarget.getAttribute('href'));
+	            if (e.currentTarget.getAttribute('href') == '/play') {
+	                this.setState({
+	                    faqi: true
+	                });
+	                $(e.currentTarget).css(styles.active2);
+	            } else {
+	                this.setState({
+	                    faqi: false
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'handleMatch',
+	        value: function handleMatch() {
+	            var _props2 = this.props;
+	            var showMatch = _props2.showMatch;
+	            var match = _props2.match;
+
+	            if (!match.show) {
+	                showMatch();
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            console.log('render');
+	            return _react2.default.createElement(
+	                'div',
+	                { style: styles.footer },
+	                _react2.default.createElement(
+	                    _reactRouter.IndexLink,
+	                    { style: styles.link, onClick: this.openLoading.bind(this), to: '/' },
+	                    _react2.default.createElement('i', { style: styles.i, className: 'iconfont icon-asmkticon0142' }),
+	                    _react2.default.createElement(
+	                        'b',
+	                        { style: styles.b },
+	                        '\u9996\u9875'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { style: styles.link, onClick: this.openLoading.bind(this), to: '/message' },
+	                    _react2.default.createElement('i', { style: styles.i, className: 'iconfont icon-xiaoxi' }),
+	                    _react2.default.createElement(
+	                        'b',
+	                        { style: styles.b },
+	                        '\u6D88\u606F'
+	                    )
+	                ),
+	                this.state.faqi ? _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { style: styles.link, onClick: this.handleMatch.bind(this), to: '/play' },
+	                    _react2.default.createElement('i', { style: styles.i, className: 'iconfont icon-faqifaqiactive' }),
+	                    _react2.default.createElement(
+	                        'b',
+	                        { style: styles.b },
+	                        '\u53D1\u8D77'
+	                    )
+	                ) : _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { style: styles.link, onClick: this.openLoading.bind(this), to: '/play' },
+	                    _react2.default.createElement('i', { style: styles.i, className: 'iconfont icon-faqifaqiactive' }),
+	                    _react2.default.createElement(
+	                        'b',
+	                        { style: styles.b },
+	                        '\u7EA6\u8D77'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { style: styles.link, onClick: this.openLoading.bind(this), to: '/discover' },
+	                    _react2.default.createElement('i', { style: styles.i, className: 'iconfont icon-faxian' }),
+	                    _react2.default.createElement(
+	                        'b',
+	                        { style: styles.b },
+	                        '\u53D1\u73B0'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { style: styles.link, onClick: this.openLoading.bind(this), to: '/mine' },
+	                    _react2.default.createElement('i', { style: styles.i, className: 'iconfont icon-wode' }),
+	                    _react2.default.createElement(
+	                        'b',
+	                        { style: styles.b },
+	                        '\u6211\u7684'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TabBarFooter;
+	}(_react.Component);
+
+	var styles = {
+	    footer: (_footer = {
+	        display: '-webkit-flex'
+	    }, _defineProperty(_footer, 'display', 'flex'), _defineProperty(_footer, 'justifyContent', 'space-around'), _defineProperty(_footer, 'background', '#f9f9f9'), _defineProperty(_footer, 'position', 'fixed'), _defineProperty(_footer, 'zIndex', 100), _defineProperty(_footer, 'bottom', 0), _defineProperty(_footer, 'width', '100%'), _defineProperty(_footer, 'height', '45px'), _defineProperty(_footer, 'padding', '5px 0'), _footer),
+	    link: {
+	        padding: '0 10pt 0 10pt',
+	        textAlign: 'center',
+	        borderRadius: '5px'
+	    },
+	    active: {
+	        padding: '0 10pt 0 10pt',
+	        textAlign: 'center',
+	        borderRadius: '5px',
+	        background: '#000',
+	        color: '#fff'
+	    },
+	    active2: {
+	        padding: '0 10pt 0 10pt',
+	        textAlign: 'center',
+	        borderRadius: '5px',
+	        background: '#dd001a',
+	        color: '#fff'
+	    },
+	    i: {
+	        fontSize: '18pt',
+	        clear: 'both'
+	    },
+	    b: {
+	        display: 'block',
+	        fontWeight: 'normal',
+	        paddingTop: '1pt'
+	    }
+	};
+
+	var mapStateToProps = function mapStateToProps(state) {
+	    var match = state.match;
+
+	    return {
+	        match: match
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return (0, _redux.bindActionCreators)(action, dispatch);
+	};
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TabBarFooter);
+
+/***/ },
+
+/***/ 420:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1212,7 +1684,15 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(172);
+	var _redux = __webpack_require__(242);
+
+	var _reactRedux = __webpack_require__(235);
+
+	var _actions = __webpack_require__(413);
+
+	var action = _interopRequireWildcard(_actions);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1222,103 +1702,87 @@ webpackJsonp([1],{
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TabBarFooter = function (_Component) {
-	    _inherits(TabBarFooter, _Component);
+	//redux
 
-	    function TabBarFooter() {
-	        _classCallCheck(this, TabBarFooter);
 
-	        return _possibleConstructorReturn(this, (TabBarFooter.__proto__ || Object.getPrototypeOf(TabBarFooter)).apply(this, arguments));
+	var Loading = function (_Component) {
+	    _inherits(Loading, _Component);
+
+	    function Loading(props) {
+	        _classCallCheck(this, Loading);
+
+	        var _this = _possibleConstructorReturn(this, (Loading.__proto__ || Object.getPrototypeOf(Loading)).call(this, props));
+
+	        _this.state = {
+	            redirectDelay: 300
+	        };
+	        return _this;
 	    }
 
-	    _createClass(TabBarFooter, [{
+	    _createClass(Loading, [{
+	        key: 'componentDidUpdate',
+	        value: function componentDidUpdate() {
+	            var open = this.props.loading.open;
+
+	            if (open == 1) {
+	                $('#leftDoor').animate({ width: '50%' }, this.state.redirectDelay, 'swing');
+	                $('#rightDoor').animate({ width: '50%' }, this.state.redirectDelay, 'swing');
+	            } else if (open == 0) {
+	                $('#leftDoor').animate({ width: '0px' }, this.state.redirectDelay, 'swing');
+	                $('#rightDoor').animate({ width: '0px' }, this.state.redirectDelay, 'swing');
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'tab-bar-footer' },
-	                _react2.default.createElement(
-	                    _reactRouter.IndexLink,
-	                    { activeClassName: 'footer-active', to: '/' },
-	                    _react2.default.createElement(
-	                        'i',
-	                        { className: 'icon iconfont' },
-	                        '\uE605'
-	                    ),
-	                    _react2.default.createElement(
-	                        'b',
-	                        null,
-	                        '\u9996\u9875'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { activeClassName: 'footer-active', to: '/message' },
-	                    _react2.default.createElement(
-	                        'i',
-	                        { className: 'icon iconfont' },
-	                        '\uE600'
-	                    ),
-	                    _react2.default.createElement(
-	                        'b',
-	                        null,
-	                        '\u6D88\u606F'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { activeClassName: 'footer-active', to: '/play' },
-	                    _react2.default.createElement(
-	                        'i',
-	                        { className: 'icon iconfont' },
-	                        '\uE604'
-	                    ),
-	                    _react2.default.createElement(
-	                        'b',
-	                        null,
-	                        '\u7EA6\u8D77'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { activeClassName: 'footer-active', to: '/discover' },
-	                    _react2.default.createElement(
-	                        'i',
-	                        { className: 'icon iconfont' },
-	                        '\uE602'
-	                    ),
-	                    _react2.default.createElement(
-	                        'b',
-	                        null,
-	                        '\u53D1\u73B0'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactRouter.Link,
-	                    { activeClassName: 'footer-active', to: '/mine' },
-	                    _react2.default.createElement(
-	                        'i',
-	                        { className: 'icon iconfont' },
-	                        '\uE601'
-	                    ),
-	                    _react2.default.createElement(
-	                        'b',
-	                        null,
-	                        '\u6211\u7684'
-	                    )
-	                )
+	                null,
+	                _react2.default.createElement('div', { id: 'leftDoor', style: styles.leftDoor }),
+	                _react2.default.createElement('div', { id: 'rightDoor', style: styles.rightDoor })
 	            );
 	        }
 	    }]);
 
-	    return TabBarFooter;
+	    return Loading;
 	}(_react.Component);
 
-	exports.default = TabBarFooter;
+	var styles = {
+	    leftDoor: {
+	        width: '50%',
+	        height: '1000px',
+	        position: 'fixed',
+	        left: 0,
+	        top: '45px',
+	        background: '#efefef',
+	        zIndex: 99
+	    },
+	    rightDoor: {
+	        width: '50%',
+	        height: '1000px',
+	        position: 'fixed',
+	        right: 0,
+	        top: '45px',
+	        background: '#efefef',
+	        zIndex: 99
+	    }
+	};
+
+	var mapStateToProps = function mapStateToProps(state) {
+	    var loading = state.loading;
+
+	    return {
+	        loading: loading
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return (0, _redux.bindActionCreators)(action, dispatch);
+	};
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Loading);
 
 /***/ },
 
-/***/ 418:
+/***/ 421:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1421,7 +1885,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 419:
+/***/ 422:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1451,11 +1915,11 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _rcTooltip = __webpack_require__(420);
+	var _rcTooltip = __webpack_require__(423);
 
 	var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
 
-	var _item = __webpack_require__(447);
+	var _item = __webpack_require__(450);
 
 	var _item2 = _interopRequireDefault(_item);
 
@@ -1546,16 +2010,16 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 420:
+/***/ 423:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(421);
+	module.exports = __webpack_require__(424);
 
 /***/ },
 
-/***/ 421:
+/***/ 424:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1578,9 +2042,9 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _placements = __webpack_require__(422);
+	var _placements = __webpack_require__(425);
 
-	var _rcTrigger = __webpack_require__(423);
+	var _rcTrigger = __webpack_require__(426);
 
 	var _rcTrigger2 = _interopRequireDefault(_rcTrigger);
 
@@ -1693,7 +2157,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 422:
+/***/ 425:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1787,16 +2251,16 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 423:
+/***/ 426:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(424);
+	module.exports = __webpack_require__(427);
 
 /***/ },
 
-/***/ 424:
+/***/ 427:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1823,21 +2287,21 @@ webpackJsonp([1],{
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _contains = __webpack_require__(425);
+	var _contains = __webpack_require__(428);
 
 	var _contains2 = _interopRequireDefault(_contains);
 
-	var _addEventListener = __webpack_require__(426);
+	var _addEventListener = __webpack_require__(429);
 
 	var _addEventListener2 = _interopRequireDefault(_addEventListener);
 
-	var _Popup = __webpack_require__(430);
+	var _Popup = __webpack_require__(433);
 
 	var _Popup2 = _interopRequireDefault(_Popup);
 
-	var _utils = __webpack_require__(445);
+	var _utils = __webpack_require__(448);
 
-	var _getContainerRenderMixin = __webpack_require__(446);
+	var _getContainerRenderMixin = __webpack_require__(449);
 
 	var _getContainerRenderMixin2 = _interopRequireDefault(_getContainerRenderMixin);
 
@@ -2272,7 +2736,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 425:
+/***/ 428:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2291,7 +2755,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 426:
+/***/ 429:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2301,7 +2765,7 @@ webpackJsonp([1],{
 	});
 	exports["default"] = addEventListenerWrap;
 
-	var _addDomEventListener = __webpack_require__(427);
+	var _addDomEventListener = __webpack_require__(430);
 
 	var _addDomEventListener2 = _interopRequireDefault(_addDomEventListener);
 
@@ -2324,7 +2788,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 427:
+/***/ 430:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2338,7 +2802,7 @@ webpackJsonp([1],{
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _EventObject = __webpack_require__(428);
+	var _EventObject = __webpack_require__(431);
 
 	var _EventObject2 = _interopRequireDefault(_EventObject);
 
@@ -2369,7 +2833,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 428:
+/***/ 431:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2388,7 +2852,7 @@ webpackJsonp([1],{
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
-	var _EventBaseObject = __webpack_require__(429);
+	var _EventBaseObject = __webpack_require__(432);
 
 	var _EventBaseObject2 = _interopRequireDefault(_EventBaseObject);
 
@@ -2655,7 +3119,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 429:
+/***/ 432:
 /***/ function(module, exports) {
 
 	/**
@@ -2724,7 +3188,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 430:
+/***/ 433:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2751,7 +3215,7 @@ webpackJsonp([1],{
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _rcAlign = __webpack_require__(431);
+	var _rcAlign = __webpack_require__(434);
 
 	var _rcAlign2 = _interopRequireDefault(_rcAlign);
 
@@ -2759,11 +3223,11 @@ webpackJsonp([1],{
 
 	var _rcAnimate2 = _interopRequireDefault(_rcAnimate);
 
-	var _PopupInner = __webpack_require__(443);
+	var _PopupInner = __webpack_require__(446);
 
 	var _PopupInner2 = _interopRequireDefault(_PopupInner);
 
-	var _LazyRenderBox = __webpack_require__(444);
+	var _LazyRenderBox = __webpack_require__(447);
 
 	var _LazyRenderBox2 = _interopRequireDefault(_LazyRenderBox);
 
@@ -2931,7 +3395,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 431:
+/***/ 434:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2940,7 +3404,7 @@ webpackJsonp([1],{
 	  value: true
 	});
 
-	var _Align = __webpack_require__(432);
+	var _Align = __webpack_require__(435);
 
 	var _Align2 = _interopRequireDefault(_Align);
 
@@ -2954,7 +3418,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 432:
+/***/ 435:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2971,15 +3435,15 @@ webpackJsonp([1],{
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _domAlign = __webpack_require__(433);
+	var _domAlign = __webpack_require__(436);
 
 	var _domAlign2 = _interopRequireDefault(_domAlign);
 
-	var _addEventListener = __webpack_require__(426);
+	var _addEventListener = __webpack_require__(429);
 
 	var _addEventListener2 = _interopRequireDefault(_addEventListener);
 
-	var _isWindow = __webpack_require__(442);
+	var _isWindow = __webpack_require__(445);
 
 	var _isWindow2 = _interopRequireDefault(_isWindow);
 
@@ -3116,7 +3580,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 433:
+/***/ 436:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3125,27 +3589,27 @@ webpackJsonp([1],{
 	  value: true
 	});
 
-	var _utils = __webpack_require__(434);
+	var _utils = __webpack_require__(437);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _getOffsetParent = __webpack_require__(436);
+	var _getOffsetParent = __webpack_require__(439);
 
 	var _getOffsetParent2 = _interopRequireDefault(_getOffsetParent);
 
-	var _getVisibleRectForElement = __webpack_require__(437);
+	var _getVisibleRectForElement = __webpack_require__(440);
 
 	var _getVisibleRectForElement2 = _interopRequireDefault(_getVisibleRectForElement);
 
-	var _adjustForViewport = __webpack_require__(438);
+	var _adjustForViewport = __webpack_require__(441);
 
 	var _adjustForViewport2 = _interopRequireDefault(_adjustForViewport);
 
-	var _getRegion = __webpack_require__(439);
+	var _getRegion = __webpack_require__(442);
 
 	var _getRegion2 = _interopRequireDefault(_getRegion);
 
-	var _getElFuturePos = __webpack_require__(440);
+	var _getElFuturePos = __webpack_require__(443);
 
 	var _getElFuturePos2 = _interopRequireDefault(_getElFuturePos);
 
@@ -3342,7 +3806,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 434:
+/***/ 437:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3359,7 +3823,7 @@ webpackJsonp([1],{
 	  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 	};
 
-	var _propertyUtils = __webpack_require__(435);
+	var _propertyUtils = __webpack_require__(438);
 
 	var RE_NUM = /[\-+]?(?:\d*\.|)\d+(?:[eE][\-+]?\d+|)/.source;
 
@@ -3912,7 +4376,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 435:
+/***/ 438:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4028,7 +4492,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 436:
+/***/ 439:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4037,7 +4501,7 @@ webpackJsonp([1],{
 	  value: true
 	});
 
-	var _utils = __webpack_require__(434);
+	var _utils = __webpack_require__(437);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
@@ -4089,7 +4553,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 437:
+/***/ 440:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4098,11 +4562,11 @@ webpackJsonp([1],{
 	  value: true
 	});
 
-	var _utils = __webpack_require__(434);
+	var _utils = __webpack_require__(437);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
-	var _getOffsetParent = __webpack_require__(436);
+	var _getOffsetParent = __webpack_require__(439);
 
 	var _getOffsetParent2 = _interopRequireDefault(_getOffsetParent);
 
@@ -4173,7 +4637,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 438:
+/***/ 441:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4182,7 +4646,7 @@ webpackJsonp([1],{
 	  value: true
 	});
 
-	var _utils = __webpack_require__(434);
+	var _utils = __webpack_require__(437);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
@@ -4236,7 +4700,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 439:
+/***/ 442:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4245,7 +4709,7 @@ webpackJsonp([1],{
 	  value: true
 	});
 
-	var _utils = __webpack_require__(434);
+	var _utils = __webpack_require__(437);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
@@ -4280,7 +4744,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 440:
+/***/ 443:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4289,7 +4753,7 @@ webpackJsonp([1],{
 	  value: true
 	});
 
-	var _getAlignOffset = __webpack_require__(441);
+	var _getAlignOffset = __webpack_require__(444);
 
 	var _getAlignOffset2 = _interopRequireDefault(_getAlignOffset);
 
@@ -4324,7 +4788,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 441:
+/***/ 444:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4370,7 +4834,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 442:
+/***/ 445:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4388,7 +4852,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 443:
+/***/ 446:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4401,7 +4865,7 @@ webpackJsonp([1],{
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _LazyRenderBox = __webpack_require__(444);
+	var _LazyRenderBox = __webpack_require__(447);
 
 	var _LazyRenderBox2 = _interopRequireDefault(_LazyRenderBox);
 
@@ -4440,7 +4904,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 444:
+/***/ 447:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4498,7 +4962,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 445:
+/***/ 448:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4542,7 +5006,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 446:
+/***/ 449:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4651,7 +5115,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 447:
+/***/ 450:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4762,21 +5226,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 448:
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "/images/test.jpg";
-
-/***/ },
-
-/***/ 449:
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "/images/test2.jpg";
-
-/***/ },
-
-/***/ 450:
+/***/ 451:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4797,7 +5247,7 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
@@ -4865,7 +5315,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 451:
+/***/ 452:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4886,13 +5336,77 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(417);
+	var _TabBarFooter = __webpack_require__(419);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
+
+	var _Alert = __webpack_require__(411);
+
+	var _Alert2 = _interopRequireDefault(_Alert);
+
+	var _Loading = __webpack_require__(420);
+
+	var _Loading2 = _interopRequireDefault(_Loading);
+
+	var _Li = __webpack_require__(453);
+
+	var _Li2 = _interopRequireDefault(_Li);
+
+	var _Modal = __webpack_require__(274);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
+
+	var _Button = __webpack_require__(379);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _WhiteSpace = __webpack_require__(391);
+
+	var _WhiteSpace2 = _interopRequireDefault(_WhiteSpace);
+
+	var _WingBlank = __webpack_require__(392);
+
+	var _WingBlank2 = _interopRequireDefault(_WingBlank);
+
+	var _Toast = __webpack_require__(393);
+
+	var _Toast2 = _interopRequireDefault(_Toast);
+
+	var _Icon = __webpack_require__(389);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _Popup = __webpack_require__(398);
+
+	var _Popup2 = _interopRequireDefault(_Popup);
+
+	var _List = __webpack_require__(399);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	var _ImagePicker = __webpack_require__(402);
+
+	var _ImagePicker2 = _interopRequireDefault(_ImagePicker);
+
+	var _NavBar = __webpack_require__(421);
+
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+
+	var _Popover = __webpack_require__(422);
+
+	var _Popover2 = _interopRequireDefault(_Popover);
+
+	var _Flex = __webpack_require__(403);
+
+	var _Flex2 = _interopRequireDefault(_Flex);
+
+	var _Carousel = __webpack_require__(454);
+
+	var _Carousel2 = _interopRequireDefault(_Carousel);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -4910,6 +5424,17 @@ webpackJsonp([1],{
 	//组件
 
 
+	//公用组件
+
+
+	//antd-mobile
+
+
+	var Item = _Popover2.default.Item;
+
+	//60kb
+
+
 	var Message = function (_Component) {
 	    _inherits(Message, _Component);
 
@@ -4923,15 +5448,14 @@ webpackJsonp([1],{
 	    }
 
 	    _createClass(Message, [{
-	        key: 'omponentWillMount',
-	        value: function omponentWillMount() {}
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {}
 	    }, {
 	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
-	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            console.log('componentWillUnmount');
+	        value: function componentDidMount() {
+	            var closeLoading = this.props.closeLoading;
+
+	            closeLoading();
 	        }
 	    }, {
 	        key: 'handleChange',
@@ -4941,56 +5465,101 @@ webpackJsonp([1],{
 	            this.setState(newState);
 	        }
 	    }, {
+	        key: 'onClose',
+	        value: function onClose() {
+	            this.setState({
+	                visible: false
+	            });
+	        }
+	    }, {
+	        key: 'onSelect',
+	        value: function onSelect(opt) {
+	            if (opt.props.value == 'logout') {
+	                localStorage.removeItem('token');
+	                _Alert2.default.add('用户登出成功', 2000);
+	                setTimeout(function () {
+	                    location.replace(document.referrer);
+	                }, 2000);
+	            }
+	            console.log(opt.props.value);
+	            this.setState({
+	                visiblePopover: false,
+	                selected: opt.props.value
+	            });
+	        }
+	    }, {
+	        key: 'handleVisibleChange',
+	        value: function handleVisibleChange(visiblePopover) {
+	            this.setState({
+	                visiblePopover: visiblePopover
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var that = this;
+	            var settings = {
+	                dots: true,
+	                autoplay: true,
+	                infinite: true,
+	                selectedIndex: this.state.current,
+	                beforeChange: this.beforeSlide,
+	                afterChange: this.slideTo
+	            };
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(_Loading2.default, null),
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'header' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'btn' },
-	                        '\u83DC\u5355'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'title' },
-	                        '4Pgo'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'btn' },
-	                        '\u83DC\u5355'
-	                    )
+	                    _NavBar2.default,
+	                    { leftContent: '\u8FD4\u56DE', mode: 'light', onLeftClick: function onLeftClick() {
+	                            return console.log('onLeftClick');
+	                        },
+	                        rightContent: [_react2.default.createElement(_Icon2.default, { key: '0', type: 'search' }), _react2.default.createElement(
+	                            _Popover2.default,
+	                            { key: '1', visible: this.state.visiblePopover,
+	                                overlay: [_react2.default.createElement(
+	                                    Item,
+	                                    { key: '4', value: 'scan', iconName: 'scan', 'data-seed': 'logId' },
+	                                    '\u626B\u4E00\u626B'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '5', value: 'special', iconName: 'qrcode', style: { whiteSpace: 'nowrap' } },
+	                                    '\u6211\u7684\u4E8C\u7EF4\u7801'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '6', value: 'button ct', iconName: 'question-circle-o' },
+	                                    '\u5E2E\u52A9'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '7', value: 'logout', iconName: 'question-circle-o' },
+	                                    '\u767B\u51FA'
+	                                )],
+	                                popupAlign: { offset: [12, 10] },
+	                                onVisibleChange: this.handleVisibleChange.bind(this), onSelect: this.onSelect.bind(this) },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: { height: '100%', display: 'flex', alignItems: 'center' } },
+	                                _react2.default.createElement(_Icon2.default, { type: 'ellipsis' })
+	                            )
+	                        )] },
+	                    '\u6D88\u606F'
 	                ),
-	                _react2.default.createElement(
-	                    'ul',
-	                    { className: 'message-list' },
-	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        '\u6D88\u606F\u5217\u8868111'
-	                    ),
-	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        '\u6D88\u606F\u5217\u8868222'
-	                    ),
-	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        '\u6D88\u606F\u5217\u8868333'
-	                    )
-	                )
+	                _react2.default.createElement('div', { style: { height: 45 } }),
+	                _react2.default.createElement(_Li2.default, { ico: 'mail', title: '@\u6211', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'message', title: '\u8BC4\u8BBA', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'like', title: '\u8D5E', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { blank: '10' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'heart-o', title: '\u6211\u7684\u5173\u6CE8', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'team', title: '\u6211\u7684\u961F\u53CB', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { blank: '10' })
 	            );
 	        }
 	    }]);
 
 	    return Message;
 	}(_react.Component);
+
+	var styles = {};
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    var currentUser = state.currentUser;
@@ -5004,7 +5573,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 452:
+/***/ 453:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5017,7 +5586,2178 @@ webpackJsonp([1],{
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	__webpack_require__(406);
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _Icon = __webpack_require__(389);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Li = function (_Component) {
+	    _inherits(Li, _Component);
+
+	    function Li(props) {
+	        _classCallCheck(this, Li);
+
+	        var _this = _possibleConstructorReturn(this, (Li.__proto__ || Object.getPrototypeOf(Li)).call(this, props));
+
+	        _this.state = {};
+	        return _this;
+	    }
+
+	    _createClass(Li, [{
+	        key: 'render',
+	        value: function render() {
+	            // console.log('render li');
+	            var that = this;
+	            if (this.props.blank) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { style: { height: this.props.blank + 'px', background: '#f1f1f1' } },
+	                    '\xA0'
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { style: styles.li },
+	                    _react2.default.createElement(_Icon2.default, { style: styles.ico, type: this.props.ico }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.title },
+	                        this.props.title
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.count },
+	                        '9'
+	                    ),
+	                    _react2.default.createElement(_Icon2.default, { style: styles.ico2, type: 'right' })
+	                );
+	            }
+	        }
+	    }]);
+
+	    return Li;
+	}(_react.Component);
+
+	var styles = {
+	    li: (_li = {
+	        height: '35pt',
+	        lineHeight: '35pt',
+	        borderBottom: '1pt solid #eee',
+	        display: 'flex'
+	    }, _defineProperty(_li, 'display', '-webkit-flex'), _defineProperty(_li, 'justifyContent', 'flex-start'), _li),
+	    ico: {
+	        fontSize: '14pt',
+	        margin: '11pt',
+	        flex: 1
+	    },
+	    title: {
+	        fontSize: '12pt',
+	        flex: 8
+	    },
+	    ico2: {
+	        flex: 1,
+	        fontSize: '14pt',
+	        margin: '11pt',
+	        color: '#ccc',
+	        alignContent: 'flex-end ',
+	        alignSelf: 'flex-end'
+	    },
+	    count: {
+	        margin: '11pt 0 0 0',
+	        height: '13pt',
+	        lineHeight: '14pt',
+	        textAlign: 'center',
+	        color: "#fff",
+	        padding: '0 5pt',
+	        background: '#dd001a',
+	        borderRadius: '5px',
+	        fontSize: '9pt'
+	    }
+	};
+
+	exports.default = Li;
+
+/***/ },
+
+/***/ 454:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports["default"] = undefined;
+
+	var _defineProperty2 = __webpack_require__(276);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+	var _classCallCheck2 = __webpack_require__(295);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(296);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(350);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(373);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _nukaCarousel = __webpack_require__(455);
+
+	var _nukaCarousel2 = _interopRequireDefault(_nukaCarousel);
+
+	var _objectAssign = __webpack_require__(4);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { "default": obj };
+	}
+
+	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
+	    for (var s, i = 1, n = arguments.length; i < n; i++) {
+	        s = arguments[i];
+	        for (var p in s) {
+	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+	        }
+	    }
+	    return t;
+	};
+
+	var Carousel = function (_React$Component) {
+	    (0, _inherits3["default"])(Carousel, _React$Component);
+
+	    function Carousel(props) {
+	        (0, _classCallCheck3["default"])(this, Carousel);
+
+	        var _this = (0, _possibleConstructorReturn3["default"])(this, _React$Component.call(this, props));
+
+	        _this.state = {
+	            selectedIndex: _this.props.selectedIndex
+	        };
+	        _this.onChange = _this.onChange.bind(_this);
+	        return _this;
+	    }
+
+	    Carousel.prototype.onChange = function onChange(index) {
+	        this.setState({ selectedIndex: index });
+	    };
+
+	    Carousel.prototype.render = function render() {
+	        var _props = this.props,
+	            prefixCls = _props.prefixCls,
+	            children = _props.children;
+
+	        var current = this.state.selectedIndex;
+	        var wrapCls = void 0;
+	        if (!children) {
+	            return null;
+	        }
+	        var props = (0, _objectAssign2["default"])({}, this.props);
+	        if (props.infinite) {
+	            props.wrapAround = true;
+	        }
+	        if (props.selectedIndex) {
+	            props.slideIndex = props.selectedIndex;
+	        }
+	        if (props.beforeChange) {
+	            props.beforeSlide = props.beforeChange;
+	        }
+	        if (props.afterChange) {
+	            props.afterSlide = props.afterChange;
+	        }
+	        if (props.vertical) {
+	            wrapCls = props.prefixCls + ' ' + props.prefixCls + '-vertical';
+	        }
+	        var Decorators = [];
+	        if (props.dots) {
+	            Decorators = [{
+	                component: _react2["default"].createClass({
+	                    displayName: 'component',
+	                    render: function render() {
+	                        var self = this;
+	                        var indexes = this.getIndexes(self.props.slideCount, self.props.slidesToScroll);
+	                        return _react2["default"].createElement("div", { className: prefixCls + '-wrap' }, indexes.map(function (index) {
+	                            var _classNames;
+
+	                            var dotCls = (0, _classnames2["default"])((_classNames = {}, (0, _defineProperty3["default"])(_classNames, prefixCls + '-wrap-dot', true), (0, _defineProperty3["default"])(_classNames, prefixCls + '-wrap-dot-active', index === current), _classNames));
+	                            return _react2["default"].createElement("div", { className: dotCls, key: index }, _react2["default"].createElement("span", null));
+	                        }));
+	                    },
+	                    getIndexes: function getIndexes(count, inc) {
+	                        var arr = [];
+	                        for (var i = 0; i < count; i += inc) {
+	                            arr.push(i);
+	                        }
+	                        return arr;
+	                    }
+	                }),
+	                position: 'BottomCenter'
+	            }];
+	        }
+	        return _react2["default"].createElement("div", { className: wrapCls }, _react2["default"].createElement(_nukaCarousel2["default"], __assign({}, props, { decorators: Decorators, afterSlide: this.onChange })));
+	    };
+
+	    return Carousel;
+	}(_react2["default"].Component);
+
+	exports["default"] = Carousel;
+
+	Carousel.defaultProps = {
+	    prefixCls: 'am-carousel',
+	    dots: true,
+	    arrows: false,
+	    autoplay: false,
+	    infinite: false,
+	    edgeEasing: 'linear',
+	    cellAlign: 'center',
+	    selectedIndex: 0
+	};
+	module.exports = exports['default'];
+
+/***/ },
+
+/***/ 455:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Carousel = __webpack_require__(456);
+
+	module.exports = Carousel;
+
+/***/ },
+
+/***/ 456:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }return target;
+	};
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _kwReactTweenState = __webpack_require__(457);
+
+	var _kwReactTweenState2 = _interopRequireDefault(_kwReactTweenState);
+
+	var _decorators = __webpack_require__(459);
+
+	var _decorators2 = _interopRequireDefault(_decorators);
+
+	var _objectAssign = __webpack_require__(4);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+	var _exenv = __webpack_require__(460);
+
+	var _exenv2 = _interopRequireDefault(_exenv);
+
+	var addEvent = function addEvent(elem, type, eventHandle) {
+	  if (elem === null || typeof elem === 'undefined') {
+	    return;
+	  }
+	  if (elem.addEventListener) {
+	    elem.addEventListener(type, eventHandle, false);
+	  } else if (elem.attachEvent) {
+	    elem.attachEvent('on' + type, eventHandle);
+	  } else {
+	    elem['on' + type] = eventHandle;
+	  }
+	};
+
+	var removeEvent = function removeEvent(elem, type, eventHandle) {
+	  if (elem === null || typeof elem === 'undefined') {
+	    return;
+	  }
+	  if (elem.removeEventListener) {
+	    elem.removeEventListener(type, eventHandle, false);
+	  } else if (elem.detachEvent) {
+	    elem.detachEvent('on' + type, eventHandle);
+	  } else {
+	    elem['on' + type] = null;
+	  }
+	};
+
+	var Carousel = _react2['default'].createClass({
+	  displayName: 'Carousel',
+
+	  mixins: [_kwReactTweenState2['default'].Mixin],
+
+	  propTypes: {
+	    afterSlide: _react2['default'].PropTypes.func,
+	    autoplay: _react2['default'].PropTypes.bool,
+	    autoplayInterval: _react2['default'].PropTypes.number,
+	    beforeSlide: _react2['default'].PropTypes.func,
+	    cellAlign: _react2['default'].PropTypes.oneOf(['left', 'center', 'right']),
+	    cellSpacing: _react2['default'].PropTypes.number,
+	    data: _react2['default'].PropTypes.func,
+	    decorators: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.shape({
+	      component: _react2['default'].PropTypes.func,
+	      position: _react2['default'].PropTypes.oneOf(['TopLeft', 'TopCenter', 'TopRight', 'CenterLeft', 'CenterCenter', 'CenterRight', 'BottomLeft', 'BottomCenter', 'BottomRight']),
+	      style: _react2['default'].PropTypes.object
+	    })),
+	    dragging: _react2['default'].PropTypes.bool,
+	    easing: _react2['default'].PropTypes.string,
+	    edgeEasing: _react2['default'].PropTypes.string,
+	    framePadding: _react2['default'].PropTypes.string,
+	    frameOverflow: _react2['default'].PropTypes.string,
+	    initialSlideHeight: _react2['default'].PropTypes.number,
+	    initialSlideWidth: _react2['default'].PropTypes.number,
+	    slideIndex: _react2['default'].PropTypes.number,
+	    slidesToShow: _react2['default'].PropTypes.number,
+	    slidesToScroll: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.number, _react2['default'].PropTypes.oneOf(['auto'])]),
+	    slideWidth: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.number]),
+	    speed: _react2['default'].PropTypes.number,
+	    vertical: _react2['default'].PropTypes.bool,
+	    width: _react2['default'].PropTypes.string,
+	    wrapAround: _react2['default'].PropTypes.bool
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      afterSlide: function afterSlide() {},
+	      autoplay: false,
+	      autoplayInterval: 3000,
+	      beforeSlide: function beforeSlide() {},
+	      cellAlign: 'left',
+	      cellSpacing: 0,
+	      data: function data() {},
+	      decorators: _decorators2['default'],
+	      dragging: true,
+	      easing: 'easeOutCirc',
+	      edgeEasing: 'easeOutElastic',
+	      framePadding: '0px',
+	      frameOverflow: 'hidden',
+	      slideIndex: 0,
+	      slidesToScroll: 1,
+	      slidesToShow: 1,
+	      slideWidth: 1,
+	      speed: 500,
+	      vertical: false,
+	      width: '100%',
+	      wrapAround: false
+	    };
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      currentSlide: this.props.slideIndex,
+	      dragging: false,
+	      frameWidth: 0,
+	      left: 0,
+	      slideCount: 0,
+	      slidesToScroll: this.props.slidesToScroll,
+	      slideWidth: 0,
+	      top: 0
+	    };
+	  },
+
+	  componentWillMount: function componentWillMount() {
+	    this.setInitialDimensions();
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.setDimensions();
+	    this.bindEvents();
+	    this.setExternalData();
+	    if (this.props.autoplay) {
+	      this.startAutoplay();
+	    }
+	  },
+
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({
+	      slideCount: nextProps.children.length
+	    });
+	    this.setDimensions(nextProps);
+	    if (this.props.slideIndex !== nextProps.slideIndex && nextProps.slideIndex !== this.state.currentSlide) {
+	      this.goToSlide(nextProps.slideIndex);
+	    }
+	    if (this.props.autoplay !== nextProps.autoplay) {
+	      if (nextProps.autoplay) {
+	        this.startAutoplay();
+	      } else {
+	        this.stopAutoplay();
+	      }
+	    }
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.unbindEvents();
+	    this.stopAutoplay();
+	  },
+
+	  render: function render() {
+	    var self = this;
+	    var children = _react2['default'].Children.count(this.props.children) > 1 ? this.formatChildren(this.props.children) : this.props.children;
+	    return _react2['default'].createElement('div', { className: ['slider', this.props.className || ''].join(' '), ref: 'slider', style: (0, _objectAssign2['default'])(this.getSliderStyles(), this.props.style || {}) }, _react2['default'].createElement('div', _extends({ className: 'slider-frame',
+	      ref: 'frame',
+	      style: this.getFrameStyles()
+	    }, this.getTouchEvents(), this.getMouseEvents(), {
+	      onClick: this.handleClick }), _react2['default'].createElement('ul', { className: 'slider-list', ref: 'list', style: this.getListStyles() }, children)), this.props.decorators ? this.props.decorators.map(function (Decorator, index) {
+	      return _react2['default'].createElement('div', {
+	        style: (0, _objectAssign2['default'])(self.getDecoratorStyles(Decorator.position), Decorator.style || {}),
+	        className: 'slider-decorator-' + index,
+	        key: index }, _react2['default'].createElement(Decorator.component, {
+	        currentSlide: self.state.currentSlide,
+	        slideCount: self.state.slideCount,
+	        frameWidth: self.state.frameWidth,
+	        slideWidth: self.state.slideWidth,
+	        slidesToScroll: self.state.slidesToScroll,
+	        cellSpacing: self.props.cellSpacing,
+	        slidesToShow: self.props.slidesToShow,
+	        wrapAround: self.props.wrapAround,
+	        nextSlide: self.nextSlide,
+	        previousSlide: self.previousSlide,
+	        goToSlide: self.goToSlide }));
+	    }) : null, _react2['default'].createElement('style', { type: 'text/css', dangerouslySetInnerHTML: { __html: self.getStyleTagStyles() } }));
+	  },
+
+	  // Touch Events
+
+	  touchObject: {},
+
+	  getTouchEvents: function getTouchEvents() {
+	    var self = this;
+
+	    return {
+	      onTouchStart: function onTouchStart(e) {
+	        self.touchObject = {
+	          startX: e.touches[0].pageX,
+	          startY: e.touches[0].pageY
+	        };
+	        self.handleMouseOver();
+	      },
+	      onTouchMove: function onTouchMove(e) {
+	        var direction = self.swipeDirection(self.touchObject.startX, e.touches[0].pageX, self.touchObject.startY, e.touches[0].pageY);
+
+	        if (direction !== 0) {
+	          e.preventDefault();
+	        }
+
+	        var length = self.props.vertical ? Math.round(Math.sqrt(Math.pow(e.touches[0].pageY - self.touchObject.startY, 2))) : Math.round(Math.sqrt(Math.pow(e.touches[0].pageX - self.touchObject.startX, 2)));
+
+	        self.touchObject = {
+	          startX: self.touchObject.startX,
+	          startY: self.touchObject.startY,
+	          endX: e.touches[0].pageX,
+	          endY: e.touches[0].pageY,
+	          length: length,
+	          direction: direction
+	        };
+
+	        self.setState({
+	          left: self.props.vertical ? 0 : self.getTargetLeft(self.touchObject.length * self.touchObject.direction),
+	          top: self.props.vertical ? self.getTargetLeft(self.touchObject.length * self.touchObject.direction) : 0
+	        });
+	      },
+	      onTouchEnd: function onTouchEnd(e) {
+	        self.handleSwipe(e);
+	        self.handleMouseOut();
+	      },
+	      onTouchCancel: function onTouchCancel(e) {
+	        self.handleSwipe(e);
+	      }
+	    };
+	  },
+
+	  clickSafe: true,
+
+	  getMouseEvents: function getMouseEvents() {
+	    var self = this;
+
+	    if (this.props.dragging === false) {
+	      return null;
+	    }
+
+	    return {
+	      onMouseOver: function onMouseOver() {
+	        self.handleMouseOver();
+	      },
+	      onMouseOut: function onMouseOut() {
+	        self.handleMouseOut();
+	      },
+	      onMouseDown: function onMouseDown(e) {
+	        self.touchObject = {
+	          startX: e.clientX,
+	          startY: e.clientY
+	        };
+
+	        self.setState({
+	          dragging: true
+	        });
+	      },
+	      onMouseMove: function onMouseMove(e) {
+	        if (!self.state.dragging) {
+	          return;
+	        }
+
+	        var direction = self.swipeDirection(self.touchObject.startX, e.clientX, self.touchObject.startY, e.clientY);
+
+	        if (direction !== 0) {
+	          e.preventDefault();
+	        }
+
+	        var length = self.props.vertical ? Math.round(Math.sqrt(Math.pow(e.clientY - self.touchObject.startY, 2))) : Math.round(Math.sqrt(Math.pow(e.clientX - self.touchObject.startX, 2)));
+
+	        self.touchObject = {
+	          startX: self.touchObject.startX,
+	          startY: self.touchObject.startY,
+	          endX: e.clientX,
+	          endY: e.clientY,
+	          length: length,
+	          direction: direction
+	        };
+
+	        self.setState({
+	          left: self.props.vertical ? 0 : self.getTargetLeft(self.touchObject.length * self.touchObject.direction),
+	          top: self.props.vertical ? self.getTargetLeft(self.touchObject.length * self.touchObject.direction) : 0
+	        });
+	      },
+	      onMouseUp: function onMouseUp(e) {
+	        if (!self.state.dragging) {
+	          return;
+	        }
+
+	        self.handleSwipe(e);
+	      },
+	      onMouseLeave: function onMouseLeave(e) {
+	        if (!self.state.dragging) {
+	          return;
+	        }
+
+	        self.handleSwipe(e);
+	      }
+	    };
+	  },
+
+	  handleMouseOver: function handleMouseOver() {
+	    if (this.props.autoplay) {
+	      this.autoplayPaused = true;
+	      this.stopAutoplay();
+	    }
+	  },
+
+	  handleMouseOut: function handleMouseOut() {
+	    if (this.props.autoplay && this.autoplayPaused) {
+	      this.startAutoplay();
+	      this.autoplayPaused = null;
+	    }
+	  },
+
+	  handleClick: function handleClick(e) {
+	    if (this.clickSafe === true) {
+	      e.preventDefault();
+	      e.stopPropagation();
+
+	      if (e.nativeEvent) {
+	        e.nativeEvent.stopPropagation();
+	      }
+	    }
+	  },
+
+	  handleSwipe: function handleSwipe(e) {
+	    if (typeof this.touchObject.length !== 'undefined' && this.touchObject.length > 44) {
+	      this.clickSafe = true;
+	    } else {
+	      this.clickSafe = false;
+	    }
+
+	    var slidesToShow = this.props.slidesToShow;
+	    if (this.props.slidesToScroll === 'auto') {
+	      slidesToShow = this.state.slidesToScroll;
+	    }
+
+	    if (this.touchObject.length > this.state.slideWidth / slidesToShow / 5) {
+	      if (this.touchObject.direction === 1) {
+	        if (this.state.currentSlide >= _react2['default'].Children.count(this.props.children) - slidesToShow && !this.props.wrapAround) {
+	          this.animateSlide(_kwReactTweenState2['default'].easingTypes[this.props.edgeEasing]);
+	        } else {
+	          this.nextSlide();
+	        }
+	      } else if (this.touchObject.direction === -1) {
+	        if (this.state.currentSlide <= 0 && !this.props.wrapAround) {
+	          this.animateSlide(_kwReactTweenState2['default'].easingTypes[this.props.edgeEasing]);
+	        } else {
+	          this.previousSlide();
+	        }
+	      }
+	    } else {
+	      this.goToSlide(this.state.currentSlide);
+	    }
+
+	    this.touchObject = {};
+
+	    this.setState({
+	      dragging: false
+	    });
+	  },
+
+	  swipeDirection: function swipeDirection(x1, x2, y1, y2) {
+
+	    var xDist, yDist, r, swipeAngle;
+
+	    xDist = x1 - x2;
+	    yDist = y1 - y2;
+	    r = Math.atan2(yDist, xDist);
+
+	    swipeAngle = Math.round(r * 180 / Math.PI);
+	    if (swipeAngle < 0) {
+	      swipeAngle = 360 - Math.abs(swipeAngle);
+	    }
+	    if (swipeAngle <= 45 && swipeAngle >= 0) {
+	      return 1;
+	    }
+	    if (swipeAngle <= 360 && swipeAngle >= 315) {
+	      return 1;
+	    }
+	    if (swipeAngle >= 135 && swipeAngle <= 225) {
+	      return -1;
+	    }
+	    if (this.props.vertical === true) {
+	      if (swipeAngle >= 35 && swipeAngle <= 135) {
+	        return 1;
+	      } else {
+	        return -1;
+	      }
+	    }
+	    return 0;
+	  },
+
+	  autoplayIterator: function autoplayIterator() {
+	    if (this.props.wrapAround) {
+	      return this.nextSlide();
+	    }
+	    if (this.state.currentSlide !== this.state.slideCount - this.state.slidesToShow) {
+	      this.nextSlide();
+	    } else {
+	      this.stopAutoplay();
+	    }
+	  },
+
+	  startAutoplay: function startAutoplay() {
+	    this.autoplayID = setInterval(this.autoplayIterator, this.props.autoplayInterval);
+	  },
+
+	  resetAutoplay: function resetAutoplay() {
+	    if (this.props.autoplay && !this.autoplayPaused) {
+	      this.stopAutoplay();
+	      this.startAutoplay();
+	    }
+	  },
+
+	  stopAutoplay: function stopAutoplay() {
+	    this.autoplayID && clearInterval(this.autoplayID);
+	  },
+
+	  // Action Methods
+
+	  goToSlide: function goToSlide(index) {
+	    var self = this;
+	    if (index >= _react2['default'].Children.count(this.props.children) || index < 0) {
+	      if (!this.props.wrapAround) {
+	        return;
+	      };
+	      if (index >= _react2['default'].Children.count(this.props.children)) {
+	        this.props.beforeSlide(this.state.currentSlide, 0);
+	        return this.setState({
+	          currentSlide: 0
+	        }, function () {
+	          self.animateSlide(null, null, self.getTargetLeft(null, index), function () {
+	            self.animateSlide(null, 0.01);
+	            self.props.afterSlide(0);
+	            self.resetAutoplay();
+	            self.setExternalData();
+	          });
+	        });
+	      } else {
+	        var endSlide = _react2['default'].Children.count(this.props.children) - this.state.slidesToScroll;
+	        this.props.beforeSlide(this.state.currentSlide, endSlide);
+	        return this.setState({
+	          currentSlide: endSlide
+	        }, function () {
+	          self.animateSlide(null, null, self.getTargetLeft(null, index), function () {
+	            self.animateSlide(null, 0.01);
+	            self.props.afterSlide(endSlide);
+	            self.resetAutoplay();
+	            self.setExternalData();
+	          });
+	        });
+	      }
+	    }
+
+	    this.props.beforeSlide(this.state.currentSlide, index);
+
+	    this.setState({
+	      currentSlide: index
+	    }, function () {
+	      self.animateSlide();
+	      this.props.afterSlide(index);
+	      self.resetAutoplay();
+	      self.setExternalData();
+	    });
+	  },
+
+	  nextSlide: function nextSlide() {
+	    var childrenCount = _react2['default'].Children.count(this.props.children);
+	    var slidesToShow = this.props.slidesToShow;
+	    if (this.props.slidesToScroll === 'auto') {
+	      slidesToShow = this.state.slidesToScroll;
+	    }
+	    if (this.state.currentSlide >= childrenCount - slidesToShow && !this.props.wrapAround) {
+	      return;
+	    }
+
+	    if (this.props.wrapAround) {
+	      this.goToSlide(this.state.currentSlide + this.state.slidesToScroll);
+	    } else {
+	      if (this.props.slideWidth !== 1) {
+	        return this.goToSlide(this.state.currentSlide + this.state.slidesToScroll);
+	      }
+	      this.goToSlide(Math.min(this.state.currentSlide + this.state.slidesToScroll, childrenCount - slidesToShow));
+	    }
+	  },
+
+	  previousSlide: function previousSlide() {
+	    if (this.state.currentSlide <= 0 && !this.props.wrapAround) {
+	      return;
+	    }
+
+	    if (this.props.wrapAround) {
+	      this.goToSlide(this.state.currentSlide - this.state.slidesToScroll);
+	    } else {
+	      this.goToSlide(Math.max(0, this.state.currentSlide - this.state.slidesToScroll));
+	    }
+	  },
+
+	  // Animation
+
+	  animateSlide: function animateSlide(easing, duration, endValue, callback) {
+	    this.tweenState(this.props.vertical ? 'top' : 'left', {
+	      easing: easing || _kwReactTweenState2['default'].easingTypes[this.props.easing],
+	      duration: duration || this.props.speed,
+	      endValue: endValue || this.getTargetLeft(),
+	      onEnd: callback || null
+	    });
+	  },
+
+	  getTargetLeft: function getTargetLeft(touchOffset, slide) {
+	    var offset;
+	    var target = slide || this.state.currentSlide;
+	    switch (this.props.cellAlign) {
+	      case 'left':
+	        {
+	          offset = 0;
+	          offset -= this.props.cellSpacing * target;
+	          break;
+	        }
+	      case 'center':
+	        {
+	          offset = (this.state.frameWidth - this.state.slideWidth) / 2;
+	          offset -= this.props.cellSpacing * target;
+	          break;
+	        }
+	      case 'right':
+	        {
+	          offset = this.state.frameWidth - this.state.slideWidth;
+	          offset -= this.props.cellSpacing * target;
+	          break;
+	        }
+	    }
+
+	    var left = this.state.slideWidth * target;
+
+	    var lastSlide = this.state.currentSlide > 0 && target + this.state.slidesToScroll >= this.state.slideCount;
+
+	    if (lastSlide && this.props.slideWidth !== 1 && !this.props.wrapAround && this.props.slidesToScroll === 'auto') {
+	      left = this.state.slideWidth * this.state.slideCount - this.state.frameWidth;
+	      offset = 0;
+	      offset -= this.props.cellSpacing * (this.state.slideCount - 1);
+	    }
+
+	    offset -= touchOffset || 0;
+
+	    return (left - offset) * -1;
+	  },
+
+	  // Bootstrapping
+
+	  bindEvents: function bindEvents() {
+	    var self = this;
+	    if (_exenv2['default'].canUseDOM) {
+	      addEvent(window, 'resize', self.onResize);
+	      addEvent(document, 'readystatechange', self.onReadyStateChange);
+	    }
+	  },
+
+	  onResize: function onResize() {
+	    this.setDimensions();
+	  },
+
+	  onReadyStateChange: function onReadyStateChange() {
+	    this.setDimensions();
+	  },
+
+	  unbindEvents: function unbindEvents() {
+	    var self = this;
+	    if (_exenv2['default'].canUseDOM) {
+	      removeEvent(window, 'resize', self.onResize);
+	      removeEvent(document, 'readystatechange', self.onReadyStateChange);
+	    }
+	  },
+
+	  formatChildren: function formatChildren(children) {
+	    var self = this;
+	    var positionValue = this.props.vertical ? this.getTweeningValue('top') : this.getTweeningValue('left');
+	    return _react2['default'].Children.map(children, function (child, index) {
+	      return _react2['default'].createElement('li', { className: 'slider-slide', style: self.getSlideStyles(index, positionValue), key: index }, child);
+	    });
+	  },
+
+	  setInitialDimensions: function setInitialDimensions() {
+	    var self = this,
+	        slideWidth,
+	        frameHeight,
+	        slideHeight;
+
+	    slideWidth = this.props.vertical ? this.props.initialSlideHeight || 0 : this.props.initialSlideWidth || 0;
+	    slideHeight = this.props.initialSlideHeight ? this.props.initialSlideHeight * this.props.slidesToShow : 0;
+
+	    frameHeight = slideHeight + this.props.cellSpacing * (this.props.slidesToShow - 1);
+
+	    this.setState({
+	      slideHeight: slideHeight,
+	      frameWidth: this.props.vertical ? frameHeight : '100%',
+	      slideCount: _react2['default'].Children.count(this.props.children),
+	      slideWidth: slideWidth
+	    }, function () {
+	      self.setLeft();
+	      self.setExternalData();
+	    });
+	  },
+
+	  setDimensions: function setDimensions(props) {
+	    props = props || this.props;
+
+	    var self = this,
+	        slideWidth,
+	        slidesToScroll,
+	        firstSlide,
+	        frame,
+	        frameWidth,
+	        frameHeight,
+	        slideHeight;
+
+	    slidesToScroll = props.slidesToScroll;
+	    frame = this.refs.frame;
+	    firstSlide = frame.childNodes[0].childNodes[0];
+	    if (firstSlide) {
+	      firstSlide.style.height = 'auto';
+	      slideHeight = this.props.vertical ? firstSlide.offsetHeight * props.slidesToShow : firstSlide.offsetHeight;
+	    } else {
+	      slideHeight = 100;
+	    }
+
+	    if (typeof props.slideWidth !== 'number') {
+	      slideWidth = parseInt(props.slideWidth);
+	    } else {
+	      if (props.vertical) {
+	        slideWidth = slideHeight / props.slidesToShow * props.slideWidth;
+	      } else {
+	        slideWidth = frame.offsetWidth / props.slidesToShow * props.slideWidth;
+	      }
+	    }
+
+	    if (!props.vertical) {
+	      slideWidth -= props.cellSpacing * ((100 - 100 / props.slidesToShow) / 100);
+	    }
+
+	    frameHeight = slideHeight + props.cellSpacing * (props.slidesToShow - 1);
+	    frameWidth = props.vertical ? frameHeight : frame.offsetWidth;
+
+	    if (props.slidesToScroll === 'auto') {
+	      slidesToScroll = Math.floor(frameWidth / (slideWidth + props.cellSpacing));
+	    }
+
+	    this.setState({
+	      slideHeight: slideHeight,
+	      frameWidth: frameWidth,
+	      slideWidth: slideWidth,
+	      slidesToScroll: slidesToScroll,
+	      left: props.vertical ? 0 : this.getTargetLeft(),
+	      top: props.vertical ? this.getTargetLeft() : 0
+	    }, function () {
+	      self.setLeft();
+	    });
+	  },
+
+	  setLeft: function setLeft() {
+	    this.setState({
+	      left: this.props.vertical ? 0 : this.getTargetLeft(),
+	      top: this.props.vertical ? this.getTargetLeft() : 0
+	    });
+	  },
+
+	  // Data
+
+	  setExternalData: function setExternalData() {
+	    if (this.props.data) {
+	      this.props.data();
+	    }
+	  },
+
+	  // Styles
+
+	  getListStyles: function getListStyles() {
+	    var listWidth = this.state.slideWidth * _react2['default'].Children.count(this.props.children);
+	    var spacingOffset = this.props.cellSpacing * _react2['default'].Children.count(this.props.children);
+	    var transform = 'translate3d(' + this.getTweeningValue('left') + 'px, ' + this.getTweeningValue('top') + 'px, 0)';
+	    return {
+	      transform: transform,
+	      WebkitTransform: transform,
+	      msTransform: 'translate(' + this.getTweeningValue('left') + 'px, ' + this.getTweeningValue('top') + 'px)',
+	      position: 'relative',
+	      display: 'block',
+	      margin: this.props.vertical ? this.props.cellSpacing / 2 * -1 + 'px 0px' : '0px ' + this.props.cellSpacing / 2 * -1 + 'px',
+	      padding: 0,
+	      height: this.props.vertical ? listWidth + spacingOffset : this.state.slideHeight,
+	      width: this.props.vertical ? 'auto' : listWidth + spacingOffset,
+	      cursor: this.state.dragging === true ? 'pointer' : 'inherit',
+	      boxSizing: 'border-box',
+	      MozBoxSizing: 'border-box'
+	    };
+	  },
+
+	  getFrameStyles: function getFrameStyles() {
+	    return {
+	      position: 'relative',
+	      display: 'block',
+	      overflow: this.props.frameOverflow,
+	      height: this.props.vertical ? this.state.frameWidth || 'initial' : 'auto',
+	      margin: this.props.framePadding,
+	      padding: 0,
+	      transform: 'translate3d(0, 0, 0)',
+	      WebkitTransform: 'translate3d(0, 0, 0)',
+	      msTransform: 'translate(0, 0)',
+	      boxSizing: 'border-box',
+	      MozBoxSizing: 'border-box'
+	    };
+	  },
+
+	  getSlideStyles: function getSlideStyles(index, positionValue) {
+	    var targetPosition = this.getSlideTargetPosition(index, positionValue);
+	    return {
+	      position: 'absolute',
+	      left: this.props.vertical ? 0 : targetPosition,
+	      top: this.props.vertical ? targetPosition : 0,
+	      display: this.props.vertical ? 'block' : 'inline-block',
+	      listStyleType: 'none',
+	      verticalAlign: 'top',
+	      width: this.props.vertical ? '100%' : this.state.slideWidth,
+	      height: 'auto',
+	      boxSizing: 'border-box',
+	      MozBoxSizing: 'border-box',
+	      marginLeft: this.props.vertical ? 'auto' : this.props.cellSpacing / 2,
+	      marginRight: this.props.vertical ? 'auto' : this.props.cellSpacing / 2,
+	      marginTop: this.props.vertical ? this.props.cellSpacing / 2 : 'auto',
+	      marginBottom: this.props.vertical ? this.props.cellSpacing / 2 : 'auto'
+	    };
+	  },
+
+	  getSlideTargetPosition: function getSlideTargetPosition(index, positionValue) {
+	    var slidesToShow = this.state.frameWidth / this.state.slideWidth;
+	    var targetPosition = (this.state.slideWidth + this.props.cellSpacing) * index;
+	    var end = (this.state.slideWidth + this.props.cellSpacing) * slidesToShow * -1;
+
+	    if (this.props.wrapAround) {
+	      var slidesBefore = Math.ceil(positionValue / this.state.slideWidth);
+	      if (this.state.slideCount - slidesBefore <= index) {
+	        return (this.state.slideWidth + this.props.cellSpacing) * (this.state.slideCount - index) * -1;
+	      }
+
+	      var slidesAfter = Math.ceil((Math.abs(positionValue) - Math.abs(end)) / this.state.slideWidth);
+
+	      if (this.state.slideWidth !== 1) {
+	        slidesAfter = Math.ceil((Math.abs(positionValue) - this.state.slideWidth) / this.state.slideWidth);
+	      }
+
+	      if (index <= slidesAfter - 1) {
+	        return (this.state.slideWidth + this.props.cellSpacing) * (this.state.slideCount + index);
+	      }
+	    }
+
+	    return targetPosition;
+	  },
+
+	  getSliderStyles: function getSliderStyles() {
+	    return {
+	      position: 'relative',
+	      display: 'block',
+	      width: this.props.width,
+	      height: 'auto',
+	      boxSizing: 'border-box',
+	      MozBoxSizing: 'border-box',
+	      visibility: this.state.slideWidth ? 'visible' : 'hidden'
+	    };
+	  },
+
+	  getStyleTagStyles: function getStyleTagStyles() {
+	    return '.slider-slide > img {width: 100%; display: block;}';
+	  },
+
+	  getDecoratorStyles: function getDecoratorStyles(position) {
+	    switch (position) {
+	      case 'TopLeft':
+	        {
+	          return {
+	            position: 'absolute',
+	            top: 0,
+	            left: 0
+	          };
+	        }
+	      case 'TopCenter':
+	        {
+	          return {
+	            position: 'absolute',
+	            top: 0,
+	            left: '50%',
+	            transform: 'translateX(-50%)',
+	            WebkitTransform: 'translateX(-50%)',
+	            msTransform: 'translateX(-50%)'
+	          };
+	        }
+	      case 'TopRight':
+	        {
+	          return {
+	            position: 'absolute',
+	            top: 0,
+	            right: 0
+	          };
+	        }
+	      case 'CenterLeft':
+	        {
+	          return {
+	            position: 'absolute',
+	            top: '50%',
+	            left: 0,
+	            transform: 'translateY(-50%)',
+	            WebkitTransform: 'translateY(-50%)',
+	            msTransform: 'translateY(-50%)'
+	          };
+	        }
+	      case 'CenterCenter':
+	        {
+	          return {
+	            position: 'absolute',
+	            top: '50%',
+	            left: '50%',
+	            transform: 'translate(-50%,-50%)',
+	            WebkitTransform: 'translate(-50%, -50%)',
+	            msTransform: 'translate(-50%, -50%)'
+	          };
+	        }
+	      case 'CenterRight':
+	        {
+	          return {
+	            position: 'absolute',
+	            top: '50%',
+	            right: 0,
+	            transform: 'translateY(-50%)',
+	            WebkitTransform: 'translateY(-50%)',
+	            msTransform: 'translateY(-50%)'
+	          };
+	        }
+	      case 'BottomLeft':
+	        {
+	          return {
+	            position: 'absolute',
+	            bottom: 0,
+	            left: 0
+	          };
+	        }
+	      case 'BottomCenter':
+	        {
+	          return {
+	            position: 'absolute',
+	            bottom: 0,
+	            left: '50%',
+	            transform: 'translateX(-50%)',
+	            WebkitTransform: 'translateX(-50%)',
+	            msTransform: 'translateX(-50%)'
+	          };
+	        }
+	      case 'BottomRight':
+	        {
+	          return {
+	            position: 'absolute',
+	            bottom: 0,
+	            right: 0
+	          };
+	        }
+	      default:
+	        {
+	          return {
+	            position: 'absolute',
+	            top: 0,
+	            left: 0
+	          };
+	        }
+	    }
+	  }
+
+	});
+
+	Carousel.ControllerMixin = {
+	  getInitialState: function getInitialState() {
+	    return {
+	      carousels: {}
+	    };
+	  },
+	  setCarouselData: function setCarouselData(carousel) {
+	    var data = this.state.carousels;
+	    data[carousel] = this.refs[carousel];
+	    this.setState({
+	      carousels: data
+	    });
+	  }
+	};
+
+	exports['default'] = Carousel;
+	module.exports = exports['default'];
+
+/***/ },
+
+/***/ 457:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	(function webpackUniversalModuleDefinition(root, factory) {
+		if (( false ? 'undefined' : _typeof(exports)) === 'object' && ( false ? 'undefined' : _typeof(module)) === 'object') module.exports = factory();else if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') exports["tweenState"] = factory();else root["tweenState"] = factory();
+	})(undefined, function () {
+		return (/******/function (modules) {
+				// webpackBootstrap
+				/******/ // The module cache
+				/******/var installedModules = {};
+				/******/
+				/******/ // The require function
+				/******/function __webpack_require__(moduleId) {
+					/******/
+					/******/ // Check if module is in cache
+					/******/if (installedModules[moduleId])
+						/******/return installedModules[moduleId].exports;
+					/******/
+					/******/ // Create a new module (and put it into the cache)
+					/******/var module = installedModules[moduleId] = {
+						/******/exports: {},
+						/******/id: moduleId,
+						/******/loaded: false
+						/******/ };
+					/******/
+					/******/ // Execute the module function
+					/******/modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+					/******/
+					/******/ // Flag the module as loaded
+					/******/module.loaded = true;
+					/******/
+					/******/ // Return the exports of the module
+					/******/return module.exports;
+					/******/
+				}
+				/******/
+				/******/
+				/******/ // expose the modules object (__webpack_modules__)
+				/******/__webpack_require__.m = modules;
+				/******/
+				/******/ // expose the module cache
+				/******/__webpack_require__.c = installedModules;
+				/******/
+				/******/ // __webpack_public_path__
+				/******/__webpack_require__.p = "";
+				/******/
+				/******/ // Load entry module and return exports
+				/******/return __webpack_require__(0);
+				/******/
+			}(
+			/************************************************************************/
+			/******/{
+
+				/***/0:
+				/*!*****************!*\
+	     !*** multi lib ***!
+	     \*****************/
+				/***/function _(module, exports, __webpack_require__) {
+
+					module.exports = __webpack_require__( /*! ./index.js */169);
+
+					/***/
+				},
+
+				/***/5:
+				/*!******************************!*\
+	     !*** ./~/process/browser.js ***!
+	     \******************************/
+				/***/function _(module, exports) {
+
+					// shim for using process in browser
+
+					var process = module.exports = {};
+					var queue = [];
+					var draining = false;
+					var currentQueue;
+					var queueIndex = -1;
+
+					function cleanUpNextTick() {
+						draining = false;
+						if (currentQueue.length) {
+							queue = currentQueue.concat(queue);
+						} else {
+							queueIndex = -1;
+						}
+						if (queue.length) {
+							drainQueue();
+						}
+					}
+
+					function drainQueue() {
+						if (draining) {
+							return;
+						}
+						var timeout = setTimeout(cleanUpNextTick);
+						draining = true;
+
+						var len = queue.length;
+						while (len) {
+							currentQueue = queue;
+							queue = [];
+							while (++queueIndex < len) {
+								if (currentQueue) {
+									currentQueue[queueIndex].run();
+								}
+							}
+							queueIndex = -1;
+							len = queue.length;
+						}
+						currentQueue = null;
+						draining = false;
+						clearTimeout(timeout);
+					}
+
+					process.nextTick = function (fun) {
+						var args = new Array(arguments.length - 1);
+						if (arguments.length > 1) {
+							for (var i = 1; i < arguments.length; i++) {
+								args[i - 1] = arguments[i];
+							}
+						}
+						queue.push(new Item(fun, args));
+						if (queue.length === 1 && !draining) {
+							setTimeout(drainQueue, 0);
+						}
+					};
+
+					// v8 likes predictible objects
+					function Item(fun, array) {
+						this.fun = fun;
+						this.array = array;
+					}
+					Item.prototype.run = function () {
+						this.fun.apply(null, this.array);
+					};
+					process.title = 'browser';
+					process.browser = true;
+					process.env = {};
+					process.argv = [];
+					process.version = ''; // empty string to avoid regexp issues
+					process.versions = {};
+
+					function noop() {}
+
+					process.on = noop;
+					process.addListener = noop;
+					process.once = noop;
+					process.off = noop;
+					process.removeListener = noop;
+					process.removeAllListeners = noop;
+					process.emit = noop;
+
+					process.binding = function (name) {
+						throw new Error('process.binding is not supported');
+					};
+
+					process.cwd = function () {
+						return '/';
+					};
+					process.chdir = function (dir) {
+						throw new Error('process.chdir is not supported');
+					};
+					process.umask = function () {
+						return 0;
+					};
+
+					/***/
+				},
+
+				/***/169:
+				/*!******************!*\
+	     !*** ./index.js ***!
+	     \******************/
+				/***/function _(module, exports, __webpack_require__) {
+
+					'use strict';
+
+					Object.defineProperty(exports, '__esModule', {
+						value: true
+					});
+
+					function _interopRequireDefault(obj) {
+						return obj && obj.__esModule ? obj : { 'default': obj };
+					}
+
+					var _tweenFunctions = __webpack_require__( /*! tween-functions */170);
+
+					var _tweenFunctions2 = _interopRequireDefault(_tweenFunctions);
+
+					var _raf = __webpack_require__( /*! raf */171);
+
+					var _raf2 = _interopRequireDefault(_raf);
+
+					// additive is the new iOS 8 default. In most cases it simulates a physics-
+					// looking overshoot behavior (especially with easeInOut. You can test that in
+					// the example
+					var DEFAULT_STACK_BEHAVIOR = 'ADDITIVE';
+					var DEFAULT_EASING = _tweenFunctions.easeInOutQuad;
+					var DEFAULT_DURATION = 300;
+					var DEFAULT_DELAY = 0;
+
+					var stackBehavior = {
+						ADDITIVE: 'ADDITIVE',
+						DESTRUCTIVE: 'DESTRUCTIVE'
+					};
+
+					var Mixin = {
+						_rafID: null,
+
+						getInitialState: function getInitialState() {
+							return {
+								tweenQueue: []
+							};
+						},
+
+						componentWillUnmount: function componentWillUnmount() {
+							_raf2['default'].cancel(this._rafID);
+							this._rafID = -1;
+						},
+
+						tweenState: function tweenState(path, _ref) {
+							var _this = this;
+
+							var easing = _ref.easing;
+							var duration = _ref.duration;
+							var delay = _ref.delay;
+							var beginValue = _ref.beginValue;
+							var endValue = _ref.endValue;
+							var onEnd = _ref.onEnd;
+							var configSB = _ref.stackBehavior;
+
+							this.setState(function (state) {
+								var cursor = state;
+								var stateName = undefined;
+								// see comment below on pash hash
+								var pathHash = undefined;
+								if (typeof path === 'string') {
+									stateName = path;
+									pathHash = path;
+								} else {
+									for (var i = 0; i < path.length - 1; i++) {
+										cursor = cursor[path[i]];
+									}
+									stateName = path[path.length - 1];
+									pathHash = path.join('|');
+								}
+								// see the reasoning for these defaults at the top of file
+								var newConfig = {
+									easing: easing || DEFAULT_EASING,
+									duration: duration == null ? DEFAULT_DURATION : duration,
+									delay: delay == null ? DEFAULT_DELAY : delay,
+									beginValue: beginValue == null ? cursor[stateName] : beginValue,
+									endValue: endValue,
+									onEnd: onEnd,
+									stackBehavior: configSB || DEFAULT_STACK_BEHAVIOR
+								};
+
+								var newTweenQueue = state.tweenQueue;
+								if (newConfig.stackBehavior === stackBehavior.DESTRUCTIVE) {
+									newTweenQueue = state.tweenQueue.filter(function (item) {
+										return item.pathHash !== pathHash;
+									});
+								}
+
+								// we store path hash, so that during value retrieval we can use hash
+								// comparison to find the path. See the kind of shitty thing you have to
+								// do when you don't have value comparison for collections?
+								newTweenQueue.push({
+									pathHash: pathHash,
+									config: newConfig,
+									initTime: Date.now() + newConfig.delay
+								});
+
+								// sorry for mutating. For perf reasons we don't want to deep clone.
+								// guys, can we please all start using persistent collections so that
+								// we can stop worrying about nonesense like this
+								cursor[stateName] = newConfig.endValue;
+								if (newTweenQueue.length === 1) {
+									_this._rafID = (0, _raf2['default'])(_this._rafCb);
+								}
+
+								// this will also include the above mutated update
+								return { tweenQueue: newTweenQueue };
+							});
+						},
+
+						getTweeningValue: function getTweeningValue(path) {
+							var state = this.state;
+
+							var tweeningValue = undefined;
+							var pathHash = undefined;
+							if (typeof path === 'string') {
+								tweeningValue = state[path];
+								pathHash = path;
+							} else {
+								tweeningValue = state;
+								for (var i = 0; i < path.length; i++) {
+									tweeningValue = tweeningValue[path[i]];
+								}
+								pathHash = path.join('|');
+							}
+							var now = Date.now();
+
+							for (var i = 0; i < state.tweenQueue.length; i++) {
+								var _state$tweenQueue$i = state.tweenQueue[i];
+								var itemPathHash = _state$tweenQueue$i.pathHash;
+								var initTime = _state$tweenQueue$i.initTime;
+								var config = _state$tweenQueue$i.config;
+
+								if (itemPathHash !== pathHash) {
+									continue;
+								}
+
+								var progressTime = now - initTime > config.duration ? config.duration : Math.max(0, now - initTime);
+								// `now - initTime` can be negative if initTime is scheduled in the
+								// future by a delay. In this case we take 0
+
+								// if duration is 0, consider that as jumping to endValue directly. This
+								// is needed because the easing functino might have undefined behavior for
+								// duration = 0
+								var easeValue = config.duration === 0 ? config.endValue : config.easing(progressTime, config.beginValue, config.endValue, config.duration);
+
+								// TODO: some funcs accept a 5th param
+								var contrib = easeValue - config.endValue;
+								tweeningValue += contrib;
+							}
+
+							return tweeningValue;
+						},
+
+						_rafCb: function _rafCb() {
+							var state = this.state;
+							if (state.tweenQueue.length === 0) {
+								return;
+							}
+
+							var now = Date.now();
+							var newTweenQueue = [];
+
+							for (var i = 0; i < state.tweenQueue.length; i++) {
+								var item = state.tweenQueue[i];
+								var initTime = item.initTime;
+								var config = item.config;
+
+								if (now - initTime < config.duration) {
+									newTweenQueue.push(item);
+								} else {
+									config.onEnd && config.onEnd();
+								}
+							}
+
+							// onEnd might trigger a parent callback that removes this component
+							// -1 means we've canceled it in componentWillUnmount
+							if (this._rafID === -1) {
+								return;
+							}
+
+							this.setState({
+								tweenQueue: newTweenQueue
+							});
+
+							this._rafID = (0, _raf2['default'])(this._rafCb);
+						}
+					};
+
+					exports['default'] = {
+						Mixin: Mixin,
+						easingTypes: _tweenFunctions2['default'],
+						stackBehavior: stackBehavior
+					};
+					module.exports = exports['default'];
+
+					/***/
+				},
+
+				/***/170:
+				/*!************************************!*\
+	     !*** ./~/tween-functions/index.js ***!
+	     \************************************/
+				/***/function _(module, exports) {
+
+					'use strict';
+
+					// t: current time, b: beginning value, _c: final value, d: total duration
+
+					var tweenFunctions = {
+						linear: function linear(t, b, _c, d) {
+							var c = _c - b;
+							return c * t / d + b;
+						},
+						easeInQuad: function easeInQuad(t, b, _c, d) {
+							var c = _c - b;
+							return c * (t /= d) * t + b;
+						},
+						easeOutQuad: function easeOutQuad(t, b, _c, d) {
+							var c = _c - b;
+							return -c * (t /= d) * (t - 2) + b;
+						},
+						easeInOutQuad: function easeInOutQuad(t, b, _c, d) {
+							var c = _c - b;
+							if ((t /= d / 2) < 1) {
+								return c / 2 * t * t + b;
+							} else {
+								return -c / 2 * (--t * (t - 2) - 1) + b;
+							}
+						},
+						easeInCubic: function easeInCubic(t, b, _c, d) {
+							var c = _c - b;
+							return c * (t /= d) * t * t + b;
+						},
+						easeOutCubic: function easeOutCubic(t, b, _c, d) {
+							var c = _c - b;
+							return c * ((t = t / d - 1) * t * t + 1) + b;
+						},
+						easeInOutCubic: function easeInOutCubic(t, b, _c, d) {
+							var c = _c - b;
+							if ((t /= d / 2) < 1) {
+								return c / 2 * t * t * t + b;
+							} else {
+								return c / 2 * ((t -= 2) * t * t + 2) + b;
+							}
+						},
+						easeInQuart: function easeInQuart(t, b, _c, d) {
+							var c = _c - b;
+							return c * (t /= d) * t * t * t + b;
+						},
+						easeOutQuart: function easeOutQuart(t, b, _c, d) {
+							var c = _c - b;
+							return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+						},
+						easeInOutQuart: function easeInOutQuart(t, b, _c, d) {
+							var c = _c - b;
+							if ((t /= d / 2) < 1) {
+								return c / 2 * t * t * t * t + b;
+							} else {
+								return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+							}
+						},
+						easeInQuint: function easeInQuint(t, b, _c, d) {
+							var c = _c - b;
+							return c * (t /= d) * t * t * t * t + b;
+						},
+						easeOutQuint: function easeOutQuint(t, b, _c, d) {
+							var c = _c - b;
+							return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+						},
+						easeInOutQuint: function easeInOutQuint(t, b, _c, d) {
+							var c = _c - b;
+							if ((t /= d / 2) < 1) {
+								return c / 2 * t * t * t * t * t + b;
+							} else {
+								return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+							}
+						},
+						easeInSine: function easeInSine(t, b, _c, d) {
+							var c = _c - b;
+							return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+						},
+						easeOutSine: function easeOutSine(t, b, _c, d) {
+							var c = _c - b;
+							return c * Math.sin(t / d * (Math.PI / 2)) + b;
+						},
+						easeInOutSine: function easeInOutSine(t, b, _c, d) {
+							var c = _c - b;
+							return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+						},
+						easeInExpo: function easeInExpo(t, b, _c, d) {
+							var c = _c - b;
+							return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
+						},
+						easeOutExpo: function easeOutExpo(t, b, _c, d) {
+							var c = _c - b;
+							return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+						},
+						easeInOutExpo: function easeInOutExpo(t, b, _c, d) {
+							var c = _c - b;
+							if (t === 0) {
+								return b;
+							}
+							if (t === d) {
+								return b + c;
+							}
+							if ((t /= d / 2) < 1) {
+								return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+							} else {
+								return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+							}
+						},
+						easeInCirc: function easeInCirc(t, b, _c, d) {
+							var c = _c - b;
+							return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+						},
+						easeOutCirc: function easeOutCirc(t, b, _c, d) {
+							var c = _c - b;
+							return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+						},
+						easeInOutCirc: function easeInOutCirc(t, b, _c, d) {
+							var c = _c - b;
+							if ((t /= d / 2) < 1) {
+								return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+							} else {
+								return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+							}
+						},
+						easeInElastic: function easeInElastic(t, b, _c, d) {
+							var c = _c - b;
+							var a, p, s;
+							s = 1.70158;
+							p = 0;
+							a = c;
+							if (t === 0) {
+								return b;
+							} else if ((t /= d) === 1) {
+								return b + c;
+							}
+							if (!p) {
+								p = d * 0.3;
+							}
+							if (a < Math.abs(c)) {
+								a = c;
+								s = p / 4;
+							} else {
+								s = p / (2 * Math.PI) * Math.asin(c / a);
+							}
+							return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+						},
+						easeOutElastic: function easeOutElastic(t, b, _c, d) {
+							var c = _c - b;
+							var a, p, s;
+							s = 1.70158;
+							p = 0;
+							a = c;
+							if (t === 0) {
+								return b;
+							} else if ((t /= d) === 1) {
+								return b + c;
+							}
+							if (!p) {
+								p = d * 0.3;
+							}
+							if (a < Math.abs(c)) {
+								a = c;
+								s = p / 4;
+							} else {
+								s = p / (2 * Math.PI) * Math.asin(c / a);
+							}
+							return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+						},
+						easeInOutElastic: function easeInOutElastic(t, b, _c, d) {
+							var c = _c - b;
+							var a, p, s;
+							s = 1.70158;
+							p = 0;
+							a = c;
+							if (t === 0) {
+								return b;
+							} else if ((t /= d / 2) === 2) {
+								return b + c;
+							}
+							if (!p) {
+								p = d * (0.3 * 1.5);
+							}
+							if (a < Math.abs(c)) {
+								a = c;
+								s = p / 4;
+							} else {
+								s = p / (2 * Math.PI) * Math.asin(c / a);
+							}
+							if (t < 1) {
+								return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+							} else {
+								return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * 0.5 + c + b;
+							}
+						},
+						easeInBack: function easeInBack(t, b, _c, d, s) {
+							var c = _c - b;
+							if (s === void 0) {
+								s = 1.70158;
+							}
+							return c * (t /= d) * t * ((s + 1) * t - s) + b;
+						},
+						easeOutBack: function easeOutBack(t, b, _c, d, s) {
+							var c = _c - b;
+							if (s === void 0) {
+								s = 1.70158;
+							}
+							return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+						},
+						easeInOutBack: function easeInOutBack(t, b, _c, d, s) {
+							var c = _c - b;
+							if (s === void 0) {
+								s = 1.70158;
+							}
+							if ((t /= d / 2) < 1) {
+								return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
+							} else {
+								return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
+							}
+						},
+						easeInBounce: function easeInBounce(t, b, _c, d) {
+							var c = _c - b;
+							var v;
+							v = tweenFunctions.easeOutBounce(d - t, 0, c, d);
+							return c - v + b;
+						},
+						easeOutBounce: function easeOutBounce(t, b, _c, d) {
+							var c = _c - b;
+							if ((t /= d) < 1 / 2.75) {
+								return c * (7.5625 * t * t) + b;
+							} else if (t < 2 / 2.75) {
+								return c * (7.5625 * (t -= 1.5 / 2.75) * t + 0.75) + b;
+							} else if (t < 2.5 / 2.75) {
+								return c * (7.5625 * (t -= 2.25 / 2.75) * t + 0.9375) + b;
+							} else {
+								return c * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375) + b;
+							}
+						},
+						easeInOutBounce: function easeInOutBounce(t, b, _c, d) {
+							var c = _c - b;
+							var v;
+							if (t < d / 2) {
+								v = tweenFunctions.easeInBounce(t * 2, 0, c, d);
+								return v * 0.5 + b;
+							} else {
+								v = tweenFunctions.easeOutBounce(t * 2 - d, 0, c, d);
+								return v * 0.5 + c * 0.5 + b;
+							}
+						}
+					};
+
+					module.exports = tweenFunctions;
+
+					/***/
+				},
+
+				/***/171:
+				/*!************************!*\
+	     !*** ./~/raf/index.js ***!
+	     \************************/
+				/***/function _(module, exports, __webpack_require__) {
+
+					/* WEBPACK VAR INJECTION */(function (global) {
+						var now = __webpack_require__( /*! performance-now */172),
+						    root = typeof window === 'undefined' ? global : window,
+						    vendors = ['moz', 'webkit'],
+						    suffix = 'AnimationFrame',
+						    raf = root['request' + suffix],
+						    caf = root['cancel' + suffix] || root['cancelRequest' + suffix];
+
+						for (var i = 0; !raf && i < vendors.length; i++) {
+							raf = root[vendors[i] + 'Request' + suffix];
+							caf = root[vendors[i] + 'Cancel' + suffix] || root[vendors[i] + 'CancelRequest' + suffix];
+						}
+
+						// Some versions of FF have rAF but not cAF
+						if (!raf || !caf) {
+							var last = 0,
+							    id = 0,
+							    queue = [],
+							    frameDuration = 1000 / 60;
+
+							raf = function raf(callback) {
+								if (queue.length === 0) {
+									var _now = now(),
+									    next = Math.max(0, frameDuration - (_now - last));
+									last = next + _now;
+									setTimeout(function () {
+										var cp = queue.slice(0);
+										// Clear queue here to prevent
+										// callbacks from appending listeners
+										// to the current frame's queue
+										queue.length = 0;
+										for (var i = 0; i < cp.length; i++) {
+											if (!cp[i].cancelled) {
+												try {
+													cp[i].callback(last);
+												} catch (e) {
+													setTimeout(function () {
+														throw e;
+													}, 0);
+												}
+											}
+										}
+									}, Math.round(next));
+								}
+								queue.push({
+									handle: ++id,
+									callback: callback,
+									cancelled: false
+								});
+								return id;
+							};
+
+							caf = function caf(handle) {
+								for (var i = 0; i < queue.length; i++) {
+									if (queue[i].handle === handle) {
+										queue[i].cancelled = true;
+									}
+								}
+							};
+						}
+
+						module.exports = function (fn) {
+							// Wrap in a new function to prevent
+							// `cancel` potentially being assigned
+							// to the native rAF function
+							return raf.call(root, fn);
+						};
+						module.exports.cancel = function () {
+							caf.apply(root, arguments);
+						};
+						module.exports.polyfill = function () {
+							root.requestAnimationFrame = raf;
+							root.cancelAnimationFrame = caf;
+						};
+
+						/* WEBPACK VAR INJECTION */
+					}).call(exports, function () {
+						return this;
+					}());
+
+					/***/
+				},
+
+				/***/172:
+				/*!**************************************************!*\
+	     !*** ./~/performance-now/lib/performance-now.js ***!
+	     \**************************************************/
+				/***/function _(module, exports, __webpack_require__) {
+
+					/* WEBPACK VAR INJECTION */(function (process) {
+						// Generated by CoffeeScript 1.7.1
+						(function () {
+							var getNanoSeconds, hrtime, loadTime;
+
+							if (typeof performance !== "undefined" && performance !== null && performance.now) {
+								module.exports = function () {
+									return performance.now();
+								};
+							} else if (typeof process !== "undefined" && process !== null && process.hrtime) {
+								module.exports = function () {
+									return (getNanoSeconds() - loadTime) / 1e6;
+								};
+								hrtime = process.hrtime;
+								getNanoSeconds = function getNanoSeconds() {
+									var hr;
+									hr = hrtime();
+									return hr[0] * 1e9 + hr[1];
+								};
+								loadTime = getNanoSeconds();
+							} else if (Date.now) {
+								module.exports = function () {
+									return Date.now() - loadTime;
+								};
+								loadTime = Date.now();
+							} else {
+								module.exports = function () {
+									return new Date().getTime() - loadTime;
+								};
+								loadTime = new Date().getTime();
+							}
+						}).call(this);
+
+						/* WEBPACK VAR INJECTION */
+					}).call(exports, __webpack_require__( /*! ./~/process/browser.js */5));
+
+					/***/
+				}
+
+				/******/ })
+		);
+	});
+	;
+	//# sourceMappingURL=index.js.map
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(458)(module)))
+
+/***/ },
+
+/***/ 458:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (module) {
+		if (!module.webpackPolyfill) {
+			module.deprecate = function () {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	};
+
+/***/ },
+
+/***/ 459:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { 'default': obj };
+	}
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var DefaultDecorators = [{
+	  component: _react2['default'].createClass({
+	    displayName: 'component',
+
+	    render: function render() {
+	      return _react2['default'].createElement('button', {
+	        style: this.getButtonStyles(this.props.currentSlide === 0 && !this.props.wrapAround),
+	        onClick: this.handleClick }, 'PREV');
+	    },
+	    handleClick: function handleClick(e) {
+	      e.preventDefault();
+	      this.props.previousSlide();
+	    },
+	    getButtonStyles: function getButtonStyles(disabled) {
+	      return {
+	        border: 0,
+	        background: 'rgba(0,0,0,0.4)',
+	        color: 'white',
+	        padding: 10,
+	        outline: 0,
+	        opacity: disabled ? 0.3 : 1,
+	        cursor: 'pointer'
+	      };
+	    }
+	  }),
+	  position: 'CenterLeft'
+	}, {
+	  component: _react2['default'].createClass({
+	    displayName: 'component',
+
+	    render: function render() {
+	      return _react2['default'].createElement('button', {
+	        style: this.getButtonStyles(this.props.currentSlide + this.props.slidesToScroll >= this.props.slideCount && !this.props.wrapAround),
+	        onClick: this.handleClick }, 'NEXT');
+	    },
+	    handleClick: function handleClick(e) {
+	      e.preventDefault();
+	      this.props.nextSlide();
+	    },
+	    getButtonStyles: function getButtonStyles(disabled) {
+	      return {
+	        border: 0,
+	        background: 'rgba(0,0,0,0.4)',
+	        color: 'white',
+	        padding: 10,
+	        outline: 0,
+	        opacity: disabled ? 0.3 : 1,
+	        cursor: 'pointer'
+	      };
+	    }
+	  }),
+	  position: 'CenterRight'
+	}, {
+	  component: _react2['default'].createClass({
+	    displayName: 'component',
+
+	    render: function render() {
+	      var self = this;
+	      var indexes = this.getIndexes(self.props.slideCount, self.props.slidesToScroll);
+	      return _react2['default'].createElement('ul', { style: self.getListStyles() }, indexes.map(function (index) {
+	        return _react2['default'].createElement('li', { style: self.getListItemStyles(), key: index }, _react2['default'].createElement('button', {
+	          style: self.getButtonStyles(self.props.currentSlide === index),
+	          onClick: self.props.goToSlide.bind(null, index) }, '•'));
+	      }));
+	    },
+	    getIndexes: function getIndexes(count, inc) {
+	      var arr = [];
+	      for (var i = 0; i < count; i += inc) {
+	        arr.push(i);
+	      }
+	      return arr;
+	    },
+	    getListStyles: function getListStyles() {
+	      return {
+	        position: 'relative',
+	        margin: 0,
+	        top: -10,
+	        padding: 0
+	      };
+	    },
+	    getListItemStyles: function getListItemStyles() {
+	      return {
+	        listStyleType: 'none',
+	        display: 'inline-block'
+	      };
+	    },
+	    getButtonStyles: function getButtonStyles(active) {
+	      return {
+	        border: 0,
+	        background: 'transparent',
+	        color: 'black',
+	        cursor: 'pointer',
+	        padding: 10,
+	        outline: 0,
+	        fontSize: 24,
+	        opacity: active ? 1 : 0.5
+	      };
+	    }
+	  }),
+	  position: 'BottomCenter'
+	}];
+
+	exports['default'] = DefaultDecorators;
+	module.exports = exports['default'];
+
+/***/ },
+
+/***/ 460:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Based on code that is Copyright 2013-2015, Facebook, Inc.
+	  All rights reserved.
+	*/
+	/* global define */
+
+	(function () {
+		'use strict';
+
+		var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
+		var ExecutionEnvironment = {
+
+			canUseDOM: canUseDOM,
+
+			canUseWorkers: typeof Worker !== 'undefined',
+
+			canUseEventListeners: canUseDOM && !!(window.addEventListener || window.attachEvent),
+
+			canUseViewport: canUseDOM && !!window.screen
+
+		};
+
+		if ("function" === 'function' && _typeof(__webpack_require__(374)) === 'object' && __webpack_require__(374)) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return ExecutionEnvironment;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module !== 'undefined' && module.exports) {
+			module.exports = ExecutionEnvironment;
+		} else {
+			window.ExecutionEnvironment = ExecutionEnvironment;
+		}
+	})();
+
+/***/ },
+
+/***/ 461:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _title, _hot, _type, _matchLi, _playerInfo, _gameInfo, _matchInfo;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	__webpack_require__(407);
 
 	var _react = __webpack_require__(1);
 
@@ -5029,17 +7769,69 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(417);
+	var _TabBarFooter = __webpack_require__(419);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
 
-	var _SendMessage = __webpack_require__(453);
+	var _Alert = __webpack_require__(411);
 
-	var _SendMessage2 = _interopRequireDefault(_SendMessage);
+	var _Alert2 = _interopRequireDefault(_Alert);
+
+	var _Loading = __webpack_require__(420);
+
+	var _Loading2 = _interopRequireDefault(_Loading);
+
+	var _Match = __webpack_require__(462);
+
+	var _Match2 = _interopRequireDefault(_Match);
+
+	var _Modal = __webpack_require__(274);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
+
+	var _Button = __webpack_require__(379);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _WhiteSpace = __webpack_require__(391);
+
+	var _WhiteSpace2 = _interopRequireDefault(_WhiteSpace);
+
+	var _WingBlank = __webpack_require__(392);
+
+	var _WingBlank2 = _interopRequireDefault(_WingBlank);
+
+	var _Toast = __webpack_require__(393);
+
+	var _Toast2 = _interopRequireDefault(_Toast);
+
+	var _Icon = __webpack_require__(389);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _Popup = __webpack_require__(398);
+
+	var _Popup2 = _interopRequireDefault(_Popup);
+
+	var _List = __webpack_require__(399);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	var _ImagePicker = __webpack_require__(402);
+
+	var _ImagePicker2 = _interopRequireDefault(_ImagePicker);
+
+	var _NavBar = __webpack_require__(421);
+
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+
+	var _Popover = __webpack_require__(422);
+
+	var _Popover2 = _interopRequireDefault(_Popover);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -5059,6 +7851,14 @@ webpackJsonp([1],{
 	//组件
 
 
+	//公用组件
+
+
+	//antd-mobile
+
+
+	var Item = _Popover2.default.Item;
+
 	var Play = function (_Component) {
 	    _inherits(Play, _Component);
 
@@ -5067,24 +7867,39 @@ webpackJsonp([1],{
 
 	        var _this = _possibleConstructorReturn(this, (Play.__proto__ || Object.getPrototypeOf(Play)).call(this, props));
 
-	        _this.state = {};
+	        _this.state = {
+	            showMatch: false
+	        };
 	        return _this;
 	    }
 
 	    _createClass(Play, [{
 	        key: 'componentWillMount',
-	        value: function componentWillMount() {
-	            var getArticle = this.props.getArticle;
+	        value: function componentWillMount() {}
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            console.log('加载文章哟');
+	            var _props = this.props;
+	            var getArticle = _props.getArticle;
+	            var closeLoading = _props.closeLoading;
 
 	            getArticle();
 	        }
 	    }, {
-	        key: 'omponentWillMount',
-	        value: function omponentWillMount() {}
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {}
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            console.info('componentWillUnmount');
+	            var hideMatch = this.props.hideMatch;
+
+	            hideMatch();
+	        }
+	    }, {
+	        key: 'componentDidUpdate',
+	        value: function componentDidUpdate() {
+	            console.log('play 更新完毕');
 	        }
 	    }, {
 	        key: 'handleChange',
@@ -5096,9 +7911,9 @@ webpackJsonp([1],{
 	    }, {
 	        key: 'addArticle',
 	        value: function addArticle(e) {
-	            var _props = this.props;
-	            var currentUser = _props.currentUser;
-	            var addArticle = _props.addArticle;
+	            var _props2 = this.props;
+	            var currentUser = _props2.currentUser;
+	            var addArticle = _props2.addArticle;
 
 	            var data = {
 	                title: this.state.title,
@@ -5119,45 +7934,423 @@ webpackJsonp([1],{
 	            alert(e.target.id);
 	        }
 	    }, {
+	        key: 'onSelect',
+	        value: function onSelect(opt) {
+	            if (opt.props.value == 'logout') {
+	                localStorage.removeItem('token');
+	                _Alert2.default.add('用户登出成功', 2000);
+	                setTimeout(function () {
+	                    location.replace(document.referrer);
+	                }, 2000);
+	            }
+	            console.log(opt.props.value);
+	            this.setState({
+	                visiblePopover: false,
+	                selected: opt.props.value
+	            });
+	        }
+	    }, {
+	        key: 'handleVisibleChange',
+	        value: function handleVisibleChange(visiblePopover) {
+	            this.setState({
+	                visiblePopover: visiblePopover
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
 
 	            var that = this;
-	            var _props2 = this.props;
-	            var currentUser = _props2.currentUser;
-	            var articleList = _props2.articleList;
-	            var articleList2 = _props2.articleList2;
+	            var _props3 = this.props;
+	            var currentUser = _props3.currentUser;
+	            var articleList = _props3.articleList;
+	            var articleList2 = _props3.articleList2;
+	            var match = _props3.match;
 
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(_Loading2.default, null),
+	                _react2.default.createElement(_Match2.default, { show: match.show }),
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'header' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'btn' },
-	                        '\u83DC\u5355'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'title' },
-	                        '4Pgo'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'btn' },
-	                        '\u83DC\u5355'
-	                    )
+	                    _NavBar2.default,
+	                    { leftContent: '\u8FD4\u56DE', mode: 'light', onLeftClick: function onLeftClick() {
+	                            return console.log('onLeftClick');
+	                        },
+	                        rightContent: [_react2.default.createElement(_Icon2.default, { key: '0', type: 'search' }), _react2.default.createElement(
+	                            _Popover2.default,
+	                            { key: '1', visible: this.state.visiblePopover,
+	                                overlay: [_react2.default.createElement(
+	                                    Item,
+	                                    { key: '4', value: 'scan', iconName: 'scan', 'data-seed': 'logId' },
+	                                    '\u626B\u4E00\u626B'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '5', value: 'special', iconName: 'qrcode', style: { whiteSpace: 'nowrap' } },
+	                                    '\u6211\u7684\u4E8C\u7EF4\u7801'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '6', value: 'button ct', iconName: 'question-circle-o' },
+	                                    '\u5E2E\u52A9'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '7', value: 'logout', iconName: 'question-circle-o' },
+	                                    '\u767B\u51FA'
+	                                )],
+	                                popupAlign: { offset: [12, 10] },
+	                                onVisibleChange: this.handleVisibleChange.bind(this), onSelect: this.onSelect.bind(this) },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: { height: '100%', display: 'flex', alignItems: 'center' } },
+	                                _react2.default.createElement(_Icon2.default, { type: 'ellipsis' })
+	                            )
+	                        )] },
+	                    '\u6E38\u620F\u7EA6\u6218'
 	                ),
+	                _react2.default.createElement('div', { style: { height: 45 } }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'play' },
-	                    '\u5F53\u524D\u7528\u6237:',
-	                    currentUser.username,
-	                    currentUser.nickname,
-	                    _react2.default.createElement(_SendMessage2.default, null),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.title },
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            '\u70ED\u95E8\u7EA6\u6218'
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { style: styles.more, to: '' },
+	                            '\u66F4\u591A'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { style: styles.hot },
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.hotLi },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.hotLiType },
+	                                'PC'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.hotLiTitle },
+	                                '\u6700\u7EC8\u5E7B\u60F313'
+	                            ),
+	                            _react2.default.createElement('img', { style: styles.hotLiImg, src: '../uploads/ff.jpg' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.hotLi },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.hotLiType },
+	                                'PC'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.hotLiTitle },
+	                                '\u6700\u7EC8\u5E7B\u60F314'
+	                            ),
+	                            _react2.default.createElement('img', { style: styles.hotLiImg, src: '../uploads/ff.jpg' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.hotLi },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.hotLiType },
+	                                'PC'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.hotLiTitle },
+	                                '\u6700\u7EC8\u5E7B\u60F315'
+	                            ),
+	                            _react2.default.createElement('img', { style: styles.hotLiImg, src: '../uploads/ff.jpg' })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.title },
+	                        '\u6E38\u620F\u5E73\u53F0'
+	                    ),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { style: styles.type },
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-pc' }),
+	                            _react2.default.createElement('br', null),
+	                            'PC'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-ios' }),
+	                            _react2.default.createElement('br', null),
+	                            'IOS'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-special-2' }),
+	                            _react2.default.createElement('br', null),
+	                            'Android'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-youxi1' }),
+	                            _react2.default.createElement('br', null),
+	                            '\u8857\u673A'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-vr' }),
+	                            _react2.default.createElement('br', null),
+	                            'VR'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-ar' }),
+	                            _react2.default.createElement('br', null),
+	                            'AR'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-icon' }),
+	                            _react2.default.createElement('br', null),
+	                            'PS4'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-xbox' }),
+	                            _react2.default.createElement('br', null),
+	                            'XBOXONE'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-youxiji2xian' }),
+	                            _react2.default.createElement('br', null),
+	                            'PSV'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-youxiji1xian' }),
+	                            _react2.default.createElement('br', null),
+	                            '3DS'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-youxiji1xian' }),
+	                            _react2.default.createElement('br', null),
+	                            'SWITCH'
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.typeLi },
+	                            _react2.default.createElement('i', { className: 'icon iconfont icon-psp' }),
+	                            _react2.default.createElement('br', null),
+	                            '...'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.title },
+	                        '\u6B63\u5728\u7EA6'
+	                    ),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { style: styles.match },
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.matchLi },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.playerInfo },
+	                                _react2.default.createElement('img', { style: styles.playerFace, src: '../uploads/ff.jpg' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.playerName },
+	                                    '\u4E07\u534E\u866B\u4E2D\u4E00\u70B9\u6C57'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.addTime },
+	                                    '\u53D1\u8868\u4E8E\uFF1A2\u5C0F\u65F6\u524D'
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.gameInfo },
+	                                _react2.default.createElement('img', { style: styles.gameFace, src: '../uploads/ff.jpg' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gameType },
+	                                    'Android'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gamePlayers },
+	                                    '3/4'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gameStyle },
+	                                    '\u4EBA\u9F50\u5C31\u5F00\u59CB'
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.gameTitle },
+	                                '\u5730\u72F1\u96BE\u5EA6\uFF0C4\u4EBA\u5408\u4F5C\uFF0C\u9A6C\u4E0A\u5F00\u59CB'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.matchInfo },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.playerNumber },
+	                                    '\u7559\u8A00\u6570\uFF1A125'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.viewNumber },
+	                                    '\u6D4F\u89C8\u6570\uFF1A398'
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.matchLi },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.playerInfo },
+	                                _react2.default.createElement('img', { style: styles.playerFace, src: '../uploads/ff.jpg' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.playerName },
+	                                    '\u4E07\u534E\u866B\u4E2D\u4E00\u70B9\u6C57'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.addTime },
+	                                    '\u53D1\u8868\u4E8E\uFF1A2\u5C0F\u65F6\u524D'
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.gameInfo },
+	                                _react2.default.createElement('img', { style: styles.gameFace, src: '../uploads/ff.jpg' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gameType },
+	                                    'Android'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gamePlayers },
+	                                    '3/4'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gameStyle },
+	                                    '\u4EBA\u9F50\u5C31\u5F00\u59CB'
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.gameTitle },
+	                                '\u5730\u72F1\u96BE\u5EA6\uFF0C4\u4EBA\u5408\u4F5C\uFF0C\u9A6C\u4E0A\u5F00\u59CB'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.matchInfo },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.playerNumber },
+	                                    '\u7559\u8A00\u6570\uFF1A125'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.viewNumber },
+	                                    '\u6D4F\u89C8\u6570\uFF1A398'
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            { style: styles.matchLi },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.playerInfo },
+	                                _react2.default.createElement('img', { style: styles.playerFace, src: '../uploads/ff.jpg' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.playerName },
+	                                    '\u4E07\u534E\u866B\u4E2D\u4E00\u70B9\u6C57'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.addTime },
+	                                    '\u53D1\u8868\u4E8E\uFF1A2\u5C0F\u65F6\u524D'
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.gameInfo },
+	                                _react2.default.createElement('img', { style: styles.gameFace, src: '../uploads/ff.jpg' }),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gameType },
+	                                    'Android'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gamePlayers },
+	                                    '3/4'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.gameStyle },
+	                                    '\u4EBA\u9F50\u5C31\u5F00\u59CB'
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.gameTitle },
+	                                '\u5730\u72F1\u96BE\u5EA6\uFF0C4\u4EBA\u5408\u4F5C\uFF0C\u9A6C\u4E0A\u5F00\u59CB'
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.matchInfo },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.playerNumber },
+	                                    '\u7559\u8A00\u6570\uFF1A125'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { style: styles.viewNumber },
+	                                    '\u6D4F\u89C8\u6570\uFF1A398'
+	                                )
+	                            )
+	                        )
+	                    ),
 	                    _react2.default.createElement('input', { name: 'title', ref: 'title', onChange: this.handleChange.bind(this), type: 'text', placeholder: '\u6807\u9898' }),
 	                    _react2.default.createElement('input', { name: 'content', ref: 'content', onChange: this.handleChange.bind(this), type: 'text', placeholder: '\u5185\u5BB9' }),
 	                    _react2.default.createElement(
@@ -5201,17 +8394,131 @@ webpackJsonp([1],{
 	}(_react.Component);
 
 	var styles = {
-	    list: {
-	        marginLeft: '5%',
-	        marginRight: '5%'
-	    },
-	    li: (_li = {
+	    title: (_title = {
+	        padding: '10pt 0 10pt 0pt',
+	        fontSize: '11pt',
+	        textIndent: '10pt',
 	        display: 'flex'
-	    }, _defineProperty(_li, 'display', '-webkit-flex'), _defineProperty(_li, 'flexDirection', 'row'), _defineProperty(_li, 'justifyContent', 'space-between'), _defineProperty(_li, 'borderBottom', '1px solid #dedede'), _defineProperty(_li, 'padding', '10px 0'), _li),
-	    title: {},
-	    createAt: {
-	        fontSize: '12px',
-	        color: '#999'
+	    }, _defineProperty(_title, 'display', '-webkit-flex'), _defineProperty(_title, 'justifyContent', 'space-between'), _title),
+	    more: {
+	        padding: '12pt 10pt 0 0',
+	        fontSize: '9pt',
+	        color: '#888'
+	    },
+	    hot: (_hot = {
+	        display: 'flex'
+	    }, _defineProperty(_hot, 'display', '-webkit-flex'), _defineProperty(_hot, 'flexDirection', 'row'), _defineProperty(_hot, 'justifyContent', 'space-around'), _hot),
+	    hotLi: {
+	        textAlign: 'center',
+	        position: 'relative'
+	    },
+	    hotLiType: {
+	        position: 'absolute',
+	        left: '8%',
+	        top: '2pt',
+	        padding: '1pt 4pt',
+	        fontSize: '9pt',
+	        borderRadius: '3pt',
+	        color: '#fff',
+	        background: '#ff6600'
+	    },
+	    hotLiTitle: {
+	        position: 'absolute',
+	        right: '8%',
+	        bottom: '3pt',
+	        fontSize: '9pt',
+	        color: '#fff'
+	    },
+	    hotLiImg: {
+	        width: '90%'
+	    },
+	    type: (_type = {
+	        display: 'flex'
+	    }, _defineProperty(_type, 'display', '-webkit-flex'), _defineProperty(_type, 'justifyContent', 'space-around'), _defineProperty(_type, 'flexWrap', 'wrap'), _type),
+	    typeLi: {
+	        background: '#eee',
+	        marginBottom: '2pt',
+	        width: '24%',
+	        padding: '5pt 0 0 0',
+	        fontSize: '10pt',
+	        textAlign: 'center',
+	        lineHeight: '150%'
+	    },
+	    match: {},
+	    matchLi: (_matchLi = {
+	        width: '95%',
+	        overflow: 'hidden',
+	        margin: '0 auto 15pt',
+	        borderBottom: '1pt solid #eee',
+	        display: 'flex'
+	    }, _defineProperty(_matchLi, 'display', '-webkit-flex'), _defineProperty(_matchLi, 'flexDirection', 'column'), _matchLi),
+	    playerInfo: (_playerInfo = {
+	        display: 'flex'
+	    }, _defineProperty(_playerInfo, 'display', '-webkit-flex'), _defineProperty(_playerInfo, 'padding', '5pt'), _playerInfo),
+	    playerFace: {
+	        width: '15pt',
+	        height: '15pt',
+	        borderRadius: '100%'
+	    },
+	    playerName: {
+	        fontSize: '10pt',
+	        padding: '3pt'
+	    },
+	    addTime: {
+	        fontSize: '9pt',
+	        padding: '3pt',
+	        color: '#ccc'
+	    },
+	    gameInfo: (_gameInfo = {
+	        display: 'flex'
+	    }, _defineProperty(_gameInfo, 'display', '-webkit-flex'), _defineProperty(_gameInfo, 'alignItems', 'center'), _defineProperty(_gameInfo, 'background', '#efefef'), _defineProperty(_gameInfo, 'padding', '2pt'), _defineProperty(_gameInfo, 'position', 'relative'), _defineProperty(_gameInfo, 'zIndex', 1), _gameInfo),
+	    gameFace: {
+	        padding: '2pt',
+	        background: '#fff',
+	        width: '80pt',
+	        height: '45pt'
+	    },
+	    gameText: {
+	        width: '160pt',
+	        height: '20pt'
+	    },
+	    gamePlayers: {
+	        padding: '5pt 15pt',
+	        fontSize: '15pt'
+	    },
+	    gameTitle: {
+	        width: '100%',
+	        padding: '5pt',
+	        fontSize: '12pt',
+	        color: '#666'
+	    },
+	    gameType: {
+	        position: 'absolute',
+	        right: 0,
+	        top: 0,
+	        width: '70pt',
+	        height: '10pt',
+	        padding: '4pt 4pt 0 0',
+	        textAlign: 'right',
+	        fontWeight: 'bold',
+	        fontSize: '9pt',
+	        color: '#fff',
+	        background: 'linear-gradient(45deg,rgba(0,0,0,0) 22pt,#999 0pt)'
+	    },
+	    gameStyle: {
+	        padding: '5pt'
+	    },
+	    matchInfo: (_matchInfo = {
+	        display: 'flex'
+	    }, _defineProperty(_matchInfo, 'display', '-webkit-flex'), _defineProperty(_matchInfo, 'padding', '5pt'), _matchInfo),
+	    playerNumber: {
+	        fontSize: '10pt',
+	        color: '#ccc'
+	    },
+	    viewNumber: {
+	        fontSize: '10pt',
+	        color: '#ccc',
+	        marginLeft: '1rem'
 	    }
 	};
 
@@ -5219,8 +8526,9 @@ webpackJsonp([1],{
 	    var currentUser = state.currentUser;
 	    var articleList = state.articleList;
 	    var articleList2 = state.articleList2;
+	    var match = state.match;
 
-	    return { currentUser: currentUser, articleList: articleList, articleList2: articleList2 };
+	    return { currentUser: currentUser, articleList: articleList, articleList2: articleList2, match: match };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return (0, _redux.bindActionCreators)(action, dispatch);
@@ -5229,14 +8537,16 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 453:
+/***/ 462:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
+
+	var _li;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -5250,13 +8560,67 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
+
+	var _TabBarFooter = __webpack_require__(419);
+
+	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
+
+	var _Alert = __webpack_require__(411);
+
+	var _Alert2 = _interopRequireDefault(_Alert);
+
+	var _Modal = __webpack_require__(274);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
+
+	var _Button = __webpack_require__(379);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _WhiteSpace = __webpack_require__(391);
+
+	var _WhiteSpace2 = _interopRequireDefault(_WhiteSpace);
+
+	var _WingBlank = __webpack_require__(392);
+
+	var _WingBlank2 = _interopRequireDefault(_WingBlank);
+
+	var _Toast = __webpack_require__(393);
+
+	var _Toast2 = _interopRequireDefault(_Toast);
+
+	var _Icon = __webpack_require__(389);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _Popup = __webpack_require__(398);
+
+	var _Popup2 = _interopRequireDefault(_Popup);
+
+	var _List = __webpack_require__(399);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	var _ImagePicker = __webpack_require__(402);
+
+	var _ImagePicker2 = _interopRequireDefault(_ImagePicker);
+
+	var _NavBar = __webpack_require__(421);
+
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+
+	var _Popover = __webpack_require__(422);
+
+	var _Popover2 = _interopRequireDefault(_Popover);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5267,69 +8631,251 @@ webpackJsonp([1],{
 	//redux
 
 
-	var SendMessage = function (_Component) {
-	    _inherits(SendMessage, _Component);
+	//组件
 
-	    function SendMessage(props) {
-	        _classCallCheck(this, SendMessage);
 
-	        var _this = _possibleConstructorReturn(this, (SendMessage.__proto__ || Object.getPrototypeOf(SendMessage)).call(this, props));
+	//公用组件
 
-	        _this.state = {};
-	        return _this;
+
+	//antd-mobile
+
+
+	var Item = _Popover2.default.Item;
+
+	var Match = function (_Component) {
+	  _inherits(Match, _Component);
+
+	  function Match(props) {
+	    _classCallCheck(this, Match);
+
+	    var _this = _possibleConstructorReturn(this, (Match.__proto__ || Object.getPrototypeOf(Match)).call(this, props));
+
+	    _this.state = {
+	      delay: 300
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Match, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps() {
+	      $('#box').css({ width: '86%', left: '7%', height: '70%', top: '20%', opacity: '1' }, this.state.delay);
+	      $('#box').animate({ width: '86%', left: '7%', height: '74%', top: '12%', opacity: '1' }, this.state.delay);
+	      $('#mask').animate({ opacity: '.8' }, this.state.delay);
 	    }
+	  }, {
+	    key: 'hideMatch',
+	    value: function hideMatch() {
+	      var hideMatch = this.props.hideMatch;
 
-	    _createClass(SendMessage, [{
-	        key: 'componentWillMount',
-	        value: function componentWillMount() {}
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
-	    }, {
-	        key: 'handleChange',
-	        value: function handleChange(e) {
-	            var newState = {};
-	            newState[e.target.name] = e.target.value;
-	            this.setState(newState);
-	        }
-	    }, {
-	        key: 'handleSendMessage',
-	        value: function handleSendMessage() {
-	            this.props.sendMessage();
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var that = this;
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement('textarea', { name: 'message', id: 'message', onChange: this.handleChange.bind(this) }),
-	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.handleSendMessage.bind(this) },
-	                    '\u53D1\u9001\u6D88\u606F'
-	                )
-	            );
-	        }
-	    }]);
+	      setTimeout(function () {
+	        hideMatch();
+	        $('#box').css({ width: '86%', left: '7%', height: '70%', top: '20%', opacity: '1' });
+	      }, this.state.delay);
+	      $('#box').animate({ width: '86%', left: '7%', height: '70%', top: '12%', opacity: '0' }, this.state.delay);
+	      $('#mask').animate({ opacity: '0' }, this.state.delay);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log('我开始渲染了');
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement('div', { id: 'mask', style: this.props.show ? styles.maskShow : styles.maskHide }),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'box', style: this.props.show ? styles.boxShow : styles.boxHide },
+	          _react2.default.createElement(
+	            'div',
+	            { style: styles.title },
+	            '\u53D1\u8D77\u7EA6\u6218'
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            { style: styles.ul },
+	            _react2.default.createElement(
+	              'li',
+	              { style: styles.li },
+	              _react2.default.createElement(
+	                'label',
+	                { style: styles.label },
+	                '\u6E38\u620F\u5E73\u53F0'
+	              ),
+	              _react2.default.createElement('input', { style: styles.input, placeholder: '\u8BF7\u9009\u62E9', type: 'text' })
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: styles.li },
+	              _react2.default.createElement(
+	                'label',
+	                { style: styles.label },
+	                '\u6E38\u620F\u540D\u79F0'
+	              ),
+	              _react2.default.createElement('input', { style: styles.input, placeholder: '\u8BF7\u8F93\u5165', type: 'text' })
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: styles.li },
+	              _react2.default.createElement(
+	                'label',
+	                { style: styles.label },
+	                '\u6E38\u620F\u7248\u672C'
+	              ),
+	              _react2.default.createElement('input', { style: styles.input, placeholder: '\u8BF7\u8F93\u5165', type: 'text' })
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: styles.li },
+	              _react2.default.createElement(
+	                'label',
+	                { style: styles.label },
+	                '\u662F\u5426\u8BED\u97F3'
+	              ),
+	              _react2.default.createElement('input', { style: styles.input, placeholder: '\u8BF7\u9009\u62E9', type: 'text' })
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: styles.li },
+	              _react2.default.createElement(
+	                'label',
+	                { style: styles.label },
+	                '\u5408\u4F5C\u6A21\u5F0F'
+	              ),
+	              _react2.default.createElement('input', { style: styles.input, placeholder: '\u8BF7\u9009\u62E9', type: 'text' })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { style: styles.button },
+	            '\u786E\u8BA4\u63D0\u4EA4'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { onClick: this.hideMatch.bind(this), style: styles.close },
+	            '\u5173\u95ED'
+	          )
+	        )
+	      );
+	    }
+	  }]);
 
-	    return SendMessage;
+	  return Match;
 	}(_react.Component);
 
+	var styles = {
+	  title: {
+	    width: '100%',
+	    background: '#c8000a',
+	    color: "#fff",
+	    textAlign: 'center',
+	    padding: '7pt 0',
+	    fontSize: '11pt'
+	  },
+	  close: {
+	    position: 'absolute',
+	    bottom: 0,
+	    left: 0,
+	    width: '100%',
+	    background: '#999',
+	    color: "#fff",
+	    textAlign: 'center',
+	    padding: '5pt 0',
+	    fontSize: '10pt'
+	  },
+	  ul: {
+	    width: '90%',
+	    margin: '0 auto'
+	  },
+	  li: (_li = {
+	    height: '34pt',
+	    lineHeight: '34pt',
+	    borderBottom: '1pt solid #eee',
+	    display: 'flex'
+	  }, _defineProperty(_li, 'display', '-webkit-flex'), _defineProperty(_li, 'justifyContent', 'flex-start'), _li),
+	  label: {
+	    fontSize: '11pt',
+	    textIndent: '1pt'
+	  },
+	  input: {
+	    margin: '3pt 0 0 10pt',
+	    height: '25pt',
+	    lineHeight: '25pt',
+	    fontSize: '11pt'
+	  },
+	  maskShow: {
+	    width: '100%',
+	    position: 'fixed',
+	    left: 0,
+	    top: '45px',
+	    height: '90%',
+	    background: '#fff',
+	    opacity: .8,
+	    zIndex: 97,
+	    display: 'block'
+	  },
+	  maskHide: {
+	    width: '100%',
+	    position: 'fixed',
+	    left: 0,
+	    top: '45px',
+	    height: '90%',
+	    background: '#000',
+	    opacity: .8,
+	    zIndex: 97,
+	    display: 'none'
+	  },
+	  boxShow: {
+	    opacity: '0',
+	    display: 'block',
+	    width: '86%',
+	    height: '70%',
+	    position: 'fixed',
+	    top: '20%',
+	    left: '7%',
+	    background: '#fff',
+	    border: '0pt solid #dedede',
+	    borderRadius: '3pt',
+	    zIndex: 98,
+	    overflow: 'hidden'
+	  },
+	  boxHide: {
+	    opacity: '0',
+	    display: 'none',
+	    width: '86%',
+	    height: '70%',
+	    position: 'fixed',
+	    top: '20%',
+	    left: '7%',
+	    background: '#fff',
+	    border: '0pt solid #dedede',
+	    borderRadius: '3pt',
+	    zIndex: 98,
+	    overflow: 'hidden'
+	  },
+	  button: {
+	    width: '86%',
+	    margin: '10pt auto 0',
+	    padding: '8pt 0',
+	    textAlign: 'center',
+	    color: '#fff',
+	    fontSize: '11pt',
+	    background: '#ff8000',
+	    borderRadius: '3pt'
+	  }
+	};
+
 	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        // messageList:state.messageList,
-	    };
+	  return {};
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return (0, _redux.bindActionCreators)(action, dispatch);
+	  return (0, _redux.bindActionCreators)(action, dispatch);
 	};
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SendMessage);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Match);
 
 /***/ },
 
-/***/ 454:
+/***/ 463:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5339,8 +8885,6 @@ webpackJsonp([1],{
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	__webpack_require__(406);
 
 	var _react = __webpack_require__(1);
 
@@ -5352,13 +8896,77 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(417);
+	var _TabBarFooter = __webpack_require__(419);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
+
+	var _Alert = __webpack_require__(411);
+
+	var _Alert2 = _interopRequireDefault(_Alert);
+
+	var _Loading = __webpack_require__(420);
+
+	var _Loading2 = _interopRequireDefault(_Loading);
+
+	var _Li = __webpack_require__(453);
+
+	var _Li2 = _interopRequireDefault(_Li);
+
+	var _Modal = __webpack_require__(274);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
+
+	var _Button = __webpack_require__(379);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _WhiteSpace = __webpack_require__(391);
+
+	var _WhiteSpace2 = _interopRequireDefault(_WhiteSpace);
+
+	var _WingBlank = __webpack_require__(392);
+
+	var _WingBlank2 = _interopRequireDefault(_WingBlank);
+
+	var _Toast = __webpack_require__(393);
+
+	var _Toast2 = _interopRequireDefault(_Toast);
+
+	var _Icon = __webpack_require__(389);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _Popup = __webpack_require__(398);
+
+	var _Popup2 = _interopRequireDefault(_Popup);
+
+	var _List = __webpack_require__(399);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	var _ImagePicker = __webpack_require__(402);
+
+	var _ImagePicker2 = _interopRequireDefault(_ImagePicker);
+
+	var _NavBar = __webpack_require__(421);
+
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+
+	var _Popover = __webpack_require__(422);
+
+	var _Popover2 = _interopRequireDefault(_Popover);
+
+	var _Flex = __webpack_require__(403);
+
+	var _Flex2 = _interopRequireDefault(_Flex);
+
+	var _Carousel = __webpack_require__(454);
+
+	var _Carousel2 = _interopRequireDefault(_Carousel);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -5374,6 +8982,17 @@ webpackJsonp([1],{
 
 
 	//组件
+
+
+	//公用组件
+
+
+	//antd-mobile
+
+
+	var Item = _Popover2.default.Item;
+
+	//60kb
 
 
 	var Discover = function (_Component) {
@@ -5393,7 +9012,11 @@ webpackJsonp([1],{
 	        value: function componentWillMount() {}
 	    }, {
 	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
+	        value: function componentDidMount() {
+	            var closeLoading = this.props.closeLoading;
+
+	            closeLoading();
+	        }
 	    }, {
 	        key: 'handleChange',
 	        value: function handleChange(e) {
@@ -5402,42 +9025,180 @@ webpackJsonp([1],{
 	            this.setState(newState);
 	        }
 	    }, {
+	        key: 'onClose',
+	        value: function onClose() {
+	            this.setState({
+	                visible: false
+	            });
+	        }
+	    }, {
+	        key: 'onSelect',
+	        value: function onSelect(opt) {
+	            if (opt.props.value == 'logout') {
+	                localStorage.removeItem('token');
+	                _Alert2.default.add('用户登出成功', 2000);
+	                setTimeout(function () {
+	                    location.replace(document.referrer);
+	                }, 2000);
+	            }
+	            console.log(opt.props.value);
+	            this.setState({
+	                visiblePopover: false,
+	                selected: opt.props.value
+	            });
+	        }
+	    }, {
+	        key: 'handleVisibleChange',
+	        value: function handleVisibleChange(visiblePopover) {
+	            this.setState({
+	                visiblePopover: visiblePopover
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var that = this;
+	            var settings = {
+	                dots: true,
+	                autoplay: true,
+	                infinite: true,
+	                selectedIndex: this.state.current,
+	                beforeChange: this.beforeSlide,
+	                afterChange: this.slideTo
+	            };
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(_Loading2.default, null),
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'header' },
+	                    _NavBar2.default,
+	                    { leftContent: '\u8FD4\u56DE', mode: 'light', onLeftClick: function onLeftClick() {
+	                            return console.log('onLeftClick');
+	                        },
+	                        rightContent: [_react2.default.createElement(_Icon2.default, { key: '0', type: 'search' }), _react2.default.createElement(
+	                            _Popover2.default,
+	                            { key: '1', visible: this.state.visiblePopover,
+	                                overlay: [_react2.default.createElement(
+	                                    Item,
+	                                    { key: '4', value: 'scan', iconName: 'scan', 'data-seed': 'logId' },
+	                                    '\u626B\u4E00\u626B'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '5', value: 'special', iconName: 'qrcode', style: { whiteSpace: 'nowrap' } },
+	                                    '\u6211\u7684\u4E8C\u7EF4\u7801'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '6', value: 'button ct', iconName: 'question-circle-o' },
+	                                    '\u5E2E\u52A9'
+	                                ), _react2.default.createElement(
+	                                    Item,
+	                                    { key: '7', value: 'logout', iconName: 'question-circle-o' },
+	                                    '\u767B\u51FA'
+	                                )],
+	                                popupAlign: { offset: [12, 10] },
+	                                onVisibleChange: this.handleVisibleChange.bind(this), onSelect: this.onSelect.bind(this) },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: { height: '100%', display: 'flex', alignItems: 'center' } },
+	                                _react2.default.createElement(_Icon2.default, { type: 'ellipsis' })
+	                            )
+	                        )] },
+	                    '\u53D1\u73B0\u65B0\u5927\u9646'
+	                ),
+	                _react2.default.createElement('div', { style: { height: 45 } }),
+	                _react2.default.createElement(
+	                    _WingBlank2.default,
+	                    null,
 	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'btn' },
-	                        '\u83DC\u5355'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'title' },
-	                        '4Pgo'
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'btn' },
-	                        '\u83DC\u5355'
+	                        _Carousel2.default,
+	                        settings,
+	                        _react2.default.createElement(
+	                            _Flex2.default,
+	                            { justify: 'center', className: 'flex-container-justify' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.banner },
+	                                _react2.default.createElement(
+	                                    'h3',
+	                                    { style: styles.h3 },
+	                                    '\u6700\u7EC8\u5E7B\u60F313'
+	                                ),
+	                                _react2.default.createElement('img', { style: styles.img, src: '../uploads/ff.jpg' })
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            _Flex2.default,
+	                            { justify: 'center', className: 'flex-container-justify' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.banner },
+	                                _react2.default.createElement(
+	                                    'h3',
+	                                    { style: styles.h3 },
+	                                    '\u6700\u7EC8\u5E7B\u60F314'
+	                                ),
+	                                _react2.default.createElement('img', { style: styles.img, src: '../uploads/ff.jpg' })
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            _Flex2.default,
+	                            { justify: 'center', className: 'flex-container-justify' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { style: styles.banner },
+	                                _react2.default.createElement(
+	                                    'h3',
+	                                    { style: styles.h3 },
+	                                    '\u6700\u7EC8\u5E7B\u60F315'
+	                                ),
+	                                _react2.default.createElement('img', { style: styles.img, src: '../uploads/ff.jpg' })
+	                            )
+	                        )
 	                    )
 	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'discover' },
-	                    '\u53D1\u73B0'
-	                )
+	                _react2.default.createElement(_WhiteSpace2.default, { size: 'lg' }),
+	                _react2.default.createElement(_Li2.default, { blank: '10' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'message', title: '\u6E38\u620F\u5427', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'smile', title: '\u597D\u53CB\u5708', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { blank: '10' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'exception', title: '\u8054\u673A\u6559\u7A0B', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'video-camera', title: '\u8054\u673A\u89C6\u9891', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { blank: '10' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'like', title: '\u8054\u673A\u6E38\u620F\u63A8\u8350', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'download', title: '\u8054\u673A\u6E38\u620F\u4E0B\u8F7D', arr: '' })
 	            );
 	        }
 	    }]);
 
 	    return Discover;
 	}(_react.Component);
+
+	var styles = {
+	    banner: {
+	        positin: 'relative',
+	        height: '100pt',
+	        overflow: 'hidden'
+	    },
+	    img: {
+	        position: 'absolute',
+	        width: '100%',
+	        left: '0',
+	        top: '0'
+	    },
+	    h3: {
+	        position: 'absolute',
+	        width: '100%',
+	        height: '20pt',
+	        lineHeight: '20pt',
+	        background: '#000',
+	        opacity: .7,
+	        color: '#fff',
+	        textAlign: 'center',
+	        left: '0',
+	        bottom: '0',
+	        zIndex: 99
+	    }
+
+	};
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    var currentUser = state.currentUser;
@@ -5451,7 +9212,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 455:
+/***/ 464:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5459,6 +9220,8 @@ webpackJsonp([1],{
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _bg, _social;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -5472,17 +9235,75 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _TabBarFooter = __webpack_require__(417);
+	var _TabBarFooter = __webpack_require__(419);
 
 	var _TabBarFooter2 = _interopRequireDefault(_TabBarFooter);
+
+	var _Alert = __webpack_require__(411);
+
+	var _Alert2 = _interopRequireDefault(_Alert);
+
+	var _Loading = __webpack_require__(420);
+
+	var _Loading2 = _interopRequireDefault(_Loading);
+
+	var _Li = __webpack_require__(453);
+
+	var _Li2 = _interopRequireDefault(_Li);
+
+	var _Modal = __webpack_require__(274);
+
+	var _Modal2 = _interopRequireDefault(_Modal);
+
+	var _Button = __webpack_require__(379);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	var _WhiteSpace = __webpack_require__(391);
+
+	var _WhiteSpace2 = _interopRequireDefault(_WhiteSpace);
+
+	var _WingBlank = __webpack_require__(392);
+
+	var _WingBlank2 = _interopRequireDefault(_WingBlank);
+
+	var _Toast = __webpack_require__(393);
+
+	var _Toast2 = _interopRequireDefault(_Toast);
+
+	var _Icon = __webpack_require__(389);
+
+	var _Icon2 = _interopRequireDefault(_Icon);
+
+	var _Popup = __webpack_require__(398);
+
+	var _Popup2 = _interopRequireDefault(_Popup);
+
+	var _List = __webpack_require__(399);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	var _ImagePicker = __webpack_require__(402);
+
+	var _ImagePicker2 = _interopRequireDefault(_ImagePicker);
+
+	var _NavBar = __webpack_require__(421);
+
+	var _NavBar2 = _interopRequireDefault(_NavBar);
+
+	var _Popover = __webpack_require__(422);
+
+	var _Popover2 = _interopRequireDefault(_Popover);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5495,6 +9316,14 @@ webpackJsonp([1],{
 
 	//组件
 
+
+	//公用组件
+
+
+	//antd-mobile
+
+
+	var Item = _Popover2.default.Item;
 
 	var Mine = function (_Component) {
 	    _inherits(Mine, _Component);
@@ -5513,12 +9342,14 @@ webpackJsonp([1],{
 	        value: function omponentWillMount() {}
 	    }, {
 	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
+	        value: function componentDidMount() {
+	            var closeLoading = this.props.closeLoading;
+
+	            closeLoading();
+	        }
 	    }, {
 	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            console.log('componentWillUnmount');
-	        }
+	        value: function componentWillUnmount() {}
 	    }, {
 	        key: 'handleChange',
 	        value: function handleChange(e) {
@@ -5527,42 +9358,126 @@ webpackJsonp([1],{
 	            this.setState(newState);
 	        }
 	    }, {
+	        key: 'shouldcomponentupdate',
+	        value: function shouldcomponentupdate(state, nextState) {
+	            console.log(111);
+	            console.log(state);
+	            console.log(nextState);
+	            console.log(222);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var that = this;
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(_Loading2.default, null),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'header' },
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '\u83DC\u5355'
+	                        '\u6DFB\u52A0\u597D\u53CB'
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'title' },
-	                        '4Pgo'
+	                        '\u6211'
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'btn' },
-	                        '\u83DC\u5355'
+	                        '\u8BBE\u7F6E'
 	                    )
+	                ),
+	                _react2.default.createElement('div', { style: { height: 45 } }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { style: styles.bg },
+	                    _react2.default.createElement('img', { style: styles.face, src: '../uploads/ff.jpg' })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'mine' },
-	                    '\u6211\u7684'
-	                )
+	                    { style: styles.social },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.count },
+	                        '156',
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { style: styles.text },
+	                            '\u961F\u53CB'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.count },
+	                        '40',
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { style: styles.text },
+	                            '\u5173\u6CE8'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: styles.count },
+	                        '36',
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { style: styles.text },
+	                            '\u7C89\u4E1D'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(_Li2.default, { blank: '10' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'team', title: '\u65B0\u7684\u961F\u53CB', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'calculator', title: '\u6211\u7684\u6E38\u620F', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'save', title: '\u6211\u7684\u7EA6\u6218', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { blank: '10' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'star-o', title: '\u6211\u7684\u6536\u85CF', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'share-alt', title: '\u6211\u7684\u5206\u4EAB', arr: '' }),
+	                _react2.default.createElement(_Li2.default, { ico: 'pay-circle-o', title: '\u6211\u7684\u5E01', arr: '' }),
+	                _react2.default.createElement('div', { style: { height: 55 } })
 	            );
 	        }
 	    }]);
 
 	    return Mine;
 	}(_react.Component);
+
+	var styles = {
+	    bg: (_bg = {
+	        height: '100pt',
+	        background: 'url(../images/ff2.jpg)',
+	        backgroundSize: 'cover',
+	        display: 'flex'
+	    }, _defineProperty(_bg, 'display', '-webkit-flex'), _defineProperty(_bg, 'justifyContent', 'center'), _bg),
+	    face: {
+	        width: '50pt',
+	        height: '50pt',
+	        borderRadius: '100%',
+	        alignSelf: 'flex-end',
+	        border: '3pt solid #fff',
+	        marginBottom: '-8pt'
+	    },
+	    social: (_social = {
+	        display: 'flex'
+	    }, _defineProperty(_social, 'display', '-webkit-flex'), _defineProperty(_social, 'justifyContent', 'space-around'), _defineProperty(_social, 'alignItems', 'center'), _defineProperty(_social, 'height', '40pt'), _social),
+	    count: {
+	        fontSize: '11pt',
+	        textAlign: 'center'
+	    },
+	    text: {
+	        fontSize: '10pt',
+	        color: '#888'
+	    }
+	};
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    var currentUser = state.currentUser;
@@ -5576,7 +9491,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 456:
+/***/ 465:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5597,15 +9512,15 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _Submit = __webpack_require__(457);
+	var _Submit = __webpack_require__(466);
 
 	var _Submit2 = _interopRequireDefault(_Submit);
 
-	var _Alert = __webpack_require__(410);
+	var _Alert = __webpack_require__(411);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 
@@ -5736,7 +9651,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 457:
+/***/ 466:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5821,7 +9736,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 458:
+/***/ 467:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5832,7 +9747,7 @@ webpackJsonp([1],{
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	__webpack_require__(406);
+	__webpack_require__(407);
 
 	var _react = __webpack_require__(1);
 
@@ -5844,15 +9759,15 @@ webpackJsonp([1],{
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _actions = __webpack_require__(412);
+	var _actions = __webpack_require__(413);
 
 	var action = _interopRequireWildcard(_actions);
 
-	var _Submit = __webpack_require__(457);
+	var _Submit = __webpack_require__(466);
 
 	var _Submit2 = _interopRequireDefault(_Submit);
 
-	var _Alert = __webpack_require__(410);
+	var _Alert = __webpack_require__(411);
 
 	var _Alert2 = _interopRequireDefault(_Alert);
 

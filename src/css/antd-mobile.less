@@ -1,5 +1,5 @@
 @borderColor:#eee;
-@mainColor:#68006f;
+@mainColor:#000;
 
 html {
   -ms-text-size-adjust: 100%; /* 3 */
@@ -1831,7 +1831,7 @@ a {
   position: relative;
 }
 .am-carousel-wrap {
-  font-size: 0.36rem;
+  font-size: 18pt;
   color: #000;
   background: none;
   text-align: center;
@@ -1844,9 +1844,9 @@ a {
 }
 .am-carousel-wrap-dot > span {
   display: block;
-  width: 0.16rem;
-  height: 0.16rem;
-  margin: 0 0.06rem;
+  width: 5pt;
+  height: 5pt;
+  margin: 0 5pt;
   border-radius: 50%;
   background: #ccc;
 }
@@ -2808,6 +2808,7 @@ a {
   border-left: 1PX solid @borderColor;
 }
 .am-wingblank {
+  margin-top: 0.36rem;
   margin-left: 0.18rem;
   margin-right: 0.18rem;
 }
@@ -3584,6 +3585,12 @@ a {
   -webkit-box-shadow:0 0 8px #eee;  
     -moz-box-shadow:0 0 8px #eee;  
     box-shadow:0 0 8px #eee;  
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:100;
+  font-size:12pt;
 }
 .am-navbar-left,
 .am-navbar-title,
@@ -3655,10 +3662,10 @@ a {
 }
 .am-notice-bar {
   background-color: #fffada;
-  height: 0.72rem;
+  height: 30pt;
   overflow: hidden;
-  font-size: 0.28rem;
-  line-height: 0.72rem;
+  font-size: 11pt;
+  line-height: 30pt;
   color: #f86e21;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3678,7 +3685,8 @@ a {
   margin: auto 0.3rem;
 }
 .am-notice-bar-icon {
-  margin-left: 0.3rem;
+  margin-left: 10pt;
+  margin-right: 5pt;
 }
 .am-notice-bar-icon + div {
   margin-left: 0.12rem;
