@@ -1,3 +1,4 @@
+import 'whatwg-fetch'
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router'
 
@@ -6,74 +7,213 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as action from '../redux/actions'
 
-//按钮组件
-import Submit from './Submit'
+//antd
 
-//公用组件
-import Alert from './Alert'
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
+const FormItem = Form.Item;
+const Option = Select.Option;
+
+const residences = [{
+    value: 'zhejiang',
+    label: 'Zhejiang',
+    children: [{
+        value: 'hangzhou',
+        label: 'Hangzhou',
+        children: [{
+            value: 'xihu',
+            label: 'West Lake',
+        }],
+    }],
+}, {
+    value: 'jiangsu',
+    label: 'Jiangsu',
+    children: [{
+        value: 'nanjing',
+        label: 'Nanjing',
+        children: [{
+            value: 'zhonghuamen',
+            label: 'Zhong Hua Men',
+        }],
+    }],
+}];
 
 class Register extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-           canClick:true,
+            passwordDirty: false,
         }
     }
+    componentWillMount(){
+
+    }
     componentDidMount(){
-         // let hide = Alert.loading('注册提交中...', 1000)
+       
+    }
+    componentWillUnmount(){
     }
     handleChange(e){
         var newState={}
         newState[e.target.name]=e.target.value
         this.setState(newState)
-        console.log(this.state);
     }
-    rules(){
-        if(this.state.password!=this.state.re_password){
-            Alert.add('两次输入的密码不一致...',2500)
-            this.setState({
-                canClick:true,
-            })
-            return false
-        }
-        return true
-    }
-    handleRegister(){
-        this.setState({canClick:false })
-        if(!this.rules()){return false}
-
-        Alert.add('注册提交中...',3000)
-        this.props.register({
-            username:this.state.username,
-            password:this.state.password,
-            re_password:this.state.re_password,
-            nickname:this.state.nickname
+    handleSubmit(e) {
+        console.log(this.props.form);
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values)
+            }
         })
     }
-    render() {
-        const {registerState}=this.props
-        if(registerState.state=='error'){
-            this.state.canClick=true
-        }
-        return (<div className="accounts">
-            <div className="register">
-                <form>
-                    <input type="text" name="username" placeholder="用户名" onChange={this.handleChange.bind(this)} />
-                    <input type="password" name="password" placeholder="密码" onChange={this.handleChange.bind(this)} />
-                    <input type="password" name="re_password" placeholder="确认密码" onChange={this.handleChange.bind(this)} />
-                    <input type="nickname" name="nickname" placeholder="昵称" onChange={this.handleChange.bind(this)} />
-                    <Submit thisClick={this.handleRegister.bind(this)} canClick={this.state.canClick} text="立即注册" />
-                </form>
-                <div className="link">
-                    已有账号？<Link to="/login">立即登录</Link>
-                </div>
-            </div>
-        </div>)
+    handlePasswordBlur(e) {
+        const value = e.target.value;
+        this.setState({
+            passwordDirty: this.state.passwordDirty || !! value
+        });
     }
+    checkPassword(rule, value, callback) {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('password')) {
+            callback('Two passwords that you enter is inconsistent!');
+        } else {
+            callback();
+        }
+    }
+    checkConfirm(rule, value, callback) {
+        const form = this.props.form;
+        if (value && this.state.passwordDirty) {
+            form.validateFields(['confirm'], {
+                force: true
+            });
+        }
+        callback();
+    }
+    render() {
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: { span: 6 },
+            wrapperCol: { span: 14 },
+        };
+        const tailFormItemLayout = {
+            wrapperCol: {
+                span: 14,
+                offset: 6,
+            },
+        };
+        const prefixSelector = getFieldDecorator('prefix', {
+            initialValue: '86',
+        })(
+            <Select className="icp-selector">
+                <Option value="86">+86</Option>
+            </Select>
+        );
+    return (<div style={styles.register}>
+        <Form horizontal onSubmit={this.handleSubmit.bind(this)}>
+            <FormItem {...formItemLayout} label="E-mail" hasFeedback >
+              {getFieldDecorator('email', {
+                rules: [{
+                  type: 'email', message: 'The input is not valid E-mail!',
+                }, {
+                  required: true, message: 'Please input your E-mail!',
+                }],
+              })(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Password" hasFeedback >
+              {getFieldDecorator('password', {
+                rules: [{
+                  required: true, message: 'Please input your password!',
+                }, {
+                  validator: this.checkConfirm.bind(this),
+                }],
+              })(
+                <Input type="password" onBlur={this.handlePasswordBlur.bind(this)} />
+              )}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Confirm Password" hasFeedback >
+              {getFieldDecorator('confirm', {
+                rules: [{
+                  required: true, message: 'Please confirm your password!',
+                }, {
+                  validator: this.checkPassword.bind(this),
+                }],
+              })(
+                <Input type="password" />
+              )}
+            </FormItem>
+            <FormItem {...formItemLayout} label={(
+                <span>
+                  Nickname&nbsp;
+                  <Tooltip title="What do you want other to call you?">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              )}
+              hasFeedback
+            >
+              {getFieldDecorator('nickname', {
+                rules: [{ required: true, message: 'Please input your nickname!' }],
+              })(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Habitual Residence">
+              {getFieldDecorator('residence', {
+                initialValue: ['zhejiang', 'hangzhou', 'xihu'],
+                rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
+              })(
+                <Cascader options={residences} />
+              )}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Phone Number">
+              {getFieldDecorator('phone', {
+                rules: [{ required: true, message: 'Please input your phone number!' }],
+              })(
+                <Input addonBefore={prefixSelector} />
+              )}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Captcha" extra="We must make sure that your are a human.">
+              <Row gutter={8}>
+                <Col span={12}>
+                    {getFieldDecorator('captcha', {
+                        rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                    })(
+                        <Input size="large" />
+                    )}
+                </Col>
+                <Col span={12}>
+                    <Button size="large">Get captcha</Button>
+                </Col>
+              </Row>
+            </FormItem>
+            <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
+                {getFieldDecorator('agreement', {
+                    valuePropName: 'checked',
+                })(
+                <Checkbox>I had read the <a>agreement</a></Checkbox>
+                )}
+            </FormItem>
+            <FormItem {...tailFormItemLayout}>
+                <Button type="primary" htmlType="submit" size="large">Register</Button>
+            </FormItem>
+        </Form>
+    </div>)
+}}
+Register = Form.create({})(Register)
+
+const styles={
+    register:{
+        width:'500px',
+        margin:'0 auto',
+        paddingTop:'50px',
+    },
 }
 
-let mapStateToProps = state => ({
-    registerState:state.registerState,
-})
+let mapStateToProps = state => {
+    // const {currentUser}=state
+    return {}
+}
 let mapDispatchToProps = dispatch => bindActionCreators(action, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

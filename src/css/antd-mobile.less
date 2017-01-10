@@ -3401,6 +3401,7 @@ a {
 }
 .am-modal {
   position: relative;
+  width:60% !important;
 }
 .am-modal-mask {
   position: fixed;
@@ -3440,22 +3441,23 @@ a {
           justify-content: center;
 }
 .am-modal.am-modal-transparent .am-modal-content {
-  border-radius: 0.14rem;
+
+  border-radius: 3pt;
   height: auto;
-  padding-top: 0.3rem;
+  padding-top: 1pt;
 }
 .am-modal.am-modal-transparent .am-modal-content .am-modal-body {
-  padding: 0 0.3rem 0.3rem;
+  padding: 0 5pt 5pt;
 }
 .am-modal-title {
   margin: 0;
-  font-size: 0.34rem;
+  font-size: 12pt;
   line-height: 1;
   color: #000;
   text-align: center;
 }
 .am-modal-header {
-  padding: 0.12rem 0.3rem 0.3rem;
+  padding: 3pt;
 }
 .am-modal-content {
   position: relative;
@@ -3484,9 +3486,11 @@ a {
   font-weight: 100;
 }
 .am-modal-body {
-  font-size: 0.26rem;
-  color: #333;
+  font-size: 10pt;
+  color: #666;
   height: 100%;
+  lineHeight:200%;
+  padding:3pt 0;
   overflow: auto;
 }
 .am-modal-button-group-h {
@@ -3505,9 +3509,9 @@ a {
   text-decoration: none;
   outline: none;
   color: @mainColor;
-  font-size: 0.32rem;
-  height: 0.84rem;
-  line-height: 0.84rem;
+  font-size: 10pt;
+  height: 22pt;
+  line-height: 22pt;
   width: auto;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3523,9 +3527,9 @@ a {
   text-decoration: none;
   outline: none;
   color: @mainColor;
-  font-size: 0.32rem;
-  height: 0.84rem;
-  line-height: 0.84rem;
+  font-size: 10pt;
+  height: 22pt;
+  line-height: 22pt;
   width: auto;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3552,10 +3556,10 @@ a {
 }
 .am-modal-input input {
   border: 0;
-  width: 98%;
+  width: 95%;
   -webkit-box-sizing: border-box;
   margin: 0;
-  padding: 0.06rem 0;
+  padding: 5pt 0;
 }
 .hairline-remove-right-bottom {
   border-bottom: 0;
@@ -3578,7 +3582,7 @@ a {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 45px;
+  height: 35pt;
   background-color: @mainColor;
   color: #fff;
   border-bottom:0px solid #eee;

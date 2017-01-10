@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
+<script>
+	// 应用 ID，用来识别应用
+	var APP_ID = 'runfy7Ex7StSP3swPQq2igxt-gzGzoHsz';
+	// 应用 Key，用来校验权限（Web 端可以配置安全域名来保护数据安全）
+	var APP_KEY = 'AFfbrWOvkK52eF09BoItE4iB';
+	// 初始化
+	AV.init({
+	  appId: APP_ID,
+	  appKey: APP_KEY
+	});
+</script>
+
+<button id="login" type="button">登录</button>
+<button id="uploadProduct" type="button">上传产品</button>
+<script>
+	$('#login').click(function(){
+		var username='chenjin'
+		var passowrd='123456'
+		AV.User.logIn(username, passowrd).then(function (loginedUser) {
+			console.log(loginedUser);
+			// 请注意，密码不会明文存储在云端，因此密码只能重置，不能查看
+			}, function (error) {
+		});
+	})
+
+	$('#uploadProduct').click(function(){
+		var product = AV.Object.extend('Match');
+		console.log(AV.User.current());
+		var product = new product();
+		product.set('name', '养乐多');
+		product.set('code', '999');
+		console.log(AV.User.current());
+		product.set('author', AV.User.current());
+		product.save().then(function(product) {
+			console.log(product);
+		}, function(error) {
+			console.log('保存失败');
+		});
+	})
+
+	// var query = new AV.Query('TestProduct');
+	// 	query.include('author');
+	//   	query.find().then(function(result){
+	//   		console.log(result);
+	// 	}, function (error) {
+	//     // 异常处理
+	// });
+
+	var queryMatch = new AV.Query('Match');
+		queryMatch.include('author');
+		queryMatch.find().then(function(result){
+
+
+
+			function getResult() {
+				console.time('耗时');
+				var arr=[]
+				for (var i = 0; i < result.length; i++) {
+					var name=result[i].attributes.author.attributes.username
+					var avatar=result[i].attributes.author.attributes.avatar.attributes.url
+					var data=result[i].attributes
+					delete data.author
+					arr.push(Object.assign({},data,{avatar:avatar},{name:name}))
+				};
+				console.timeEnd('耗时');
+			}
+		
+			function getResult2 () {
+				console.time('耗时2');
+				var arr2=[]
+				result.forEach(function(obj){  
+				    var name=obj.attributes.author.attributes.username
+
+					var avatar=obj.attributes.author.attributes.avatar.attributes.url
+					var data=obj.attributes
+					delete data.author
+					arr2.push(Object.assign({},data,{avatar:avatar},{name:name}))
+				})  
+				console.timeEnd('耗时2');
+			}
+			console.log(result.length);
+			getResult()		
+			//getResult2()
+			
+			
+		}, function (error) {
+	// 异常处理
+	});
+
+	
+</script>
+
+	
+</body>
+</html>

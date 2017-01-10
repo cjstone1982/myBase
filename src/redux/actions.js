@@ -1,10 +1,4 @@
-import Alert from '../component/Alert'
-
-//action 类型
-export const  ADD_OK           = 'ADD_OK';
-export const  REMOVE_OK        = 'REMOVE_OK';
-export const  GET_OK           = 'GET_OK';
-export const  EDIT_OK          = 'EDIT_OK';
+import {message} from 'antd'
 
 //获取登录用户信息
 export const  CURRENT_USER     = 'CURRENT_USER';
@@ -19,248 +13,233 @@ export const  ADD_ARTICLE      = 'ADD_ARTICLE'    //添加文章
 export const  PUT_ARTICLE      = 'PUT_ARTICLE'    //修改文章
 export const  DELETE_ARTICLE   = 'DELETE_ARTICLE' //删除文章
 
-export const  OPEN_LOADING     = 'OPEN_LOADING'     //打开加载页面
-export const  CLOSE_LOADING    = 'CLOSE_LOADING'    //关闭加载页面
+//角色
+export const  ROLE_ADD      = 'ROLE_ADD'    //添加角色
+export const  ROLE_QUERY    = 'ROLE_QUERY'  //查询角色
 
-export const  SHOW_MATCH    = 'SHOW_MATCH'    //打开加载发布页面
-export const  HIDE_MATCH    = 'HIDE_MATCH'    //打开加载发布页面
+//设置请求头
+let JSONpost=()=>{
+    return({
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token')
+    })
+}
 
-// console.log('actions actions actions actions actions actions');
-
-export function showMatch () {
+export function roleAdd (value) {
     return (dispatch,getState)=>{
-        dispatch({
-            type:'SHOW_MATCH',
-            payload:{show:true}
-        })
-    }
-}
-export function hideMatch () {
-    return (dispatch,getState)=>{
-        dispatch({
-            type:'HIDE_MATCH',
-            payload:{show:false}
-        })
-    }
-}
-
-export function openLoading () {
-    return (dispatch,getState)=>{
-        dispatch({
-            type:'OPEN_LOADING',
-            payload:{open:1}
-        })
-    }
-}
-export function closeLoading () {
-    return (dispatch,getState)=>{
-        dispatch({
-            type:'CLOSE_LOADING',
-            payload:{open:0}
-        })
-    }
-}
-
-//获取文章
-export function getArticle (value) {
-    return (dispatch,getState) => {
-        fetch('/article', {
-            method: "GET",
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            dispatch({
-                type: 'GET_ARTICLE',
-                payload: data
-            })
-            dispatch({
-                type:'CLOSE_LOADING',
-                payload:{open:0}
-            })
-        }).catch(function (err) {
-            console.log("服务器连接失败");
-        });  
-    } 
-}
-
-//添加文章
-export function addArticle (value) {
-    return (dispatch,getState) => {
-        fetch('/article', {
-            method: 'POST',
+        const hide=message.loading('添加角色中...',2)
+        fetch('/role/add', {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
                 'x-access-token': localStorage.getItem('token')
             },
-            body: $.param(value)
+            body: JSON.stringify(value)
+        })
+        .then(response=>{return response.json()})
+        .then(data=>{
+            setTimeout(hide,0)
+            if(data.state=='success'){
+                message.success(data.message,2)
+                dispatch({
+                    type:ROLE_ADD,
+                    payload:data.data
+                })
+            }else{
+                message.warning(data.message,2)
+            }
+        })
+        .catch(err=>{
+            message.error(err,2)
+        })
+    }
+}
+export function roleQuery(value){
+    return(dispatch,getState)=>{
+        console.log('roleQuery start');
+        fetch('/role/query', {
+            method: "GET",
+        })
+        .then(response=>{return response.json()})
+        .then(data=>{
+            console.log(data);
+            if(data.state=='success'){
+                message.success(data.message,2)
+                dispatch({
+                    type: 'ROLE_QUERY',
+                    payload: data.data
+                })
+            }else{
+                message.warning(data.message,2)
+            }
+        })
+        .catch(err=>{
+            message.error(err,2)
+        })
+    }
+}
+
+//文章
+//获取文章
+export function getArticle(value){
+
+}
+//添加文章
+export function addArticle(value){
+    Alert.add('发布中...',2500)
+    return (dispatch,getState)=>{
+        fetch('/article/add', {
+            method: 'POST',
+            headers: JSONpost(),
+            body: JSON.stringify(value)
+        })
+        .then(response => {return response.json()})
+        .then(data => {
+            Alert.remove()
+            Alert.add('发布成功',2500)
+            let authorName=getState().currentUser.attributes.username
+            let authorAvatar=getState().currentUser.attributes.avatar.url
+            dispatch({
+                type:'ADD_ARTICLE',
+                payload:Object.assign({},data.data,{authorName:authorName,authorAvatar:authorAvatar})
+            })
+        }).catch(function (err) {
+            Alert.add('服务器连接失败，请稍后再试',2500)
+            console.log(err);
+        });  
+    }
+}
+//删除文章
+export function deleteArticle(value){
+    
+} 
+//修改文章
+export function putArticle(value){
+
+} 
+//查询文章
+export function queryArticle(value){
+
+}
+
+//发布匹配
+export function publishMatch (value) {
+    Alert.add('发布中...',2500)
+    return (dispatch,getState)=>{
+        fetch('/match/publish', {
+            method: 'POST',
+            headers: JSONpost(),
+            body: JSON.stringify(value)
+        })
+        .then(response => {return response.json()})
+        .then(data => {
+            Alert.remove()
+            Alert.add('发布成功',2500)
+            let authorName=getState().currentUser.attributes.username
+            let authorAvatar=getState().currentUser.attributes.avatar.url
+            dispatch({
+                type:'PUBLISH_MATCH',
+                payload:Object.assign({},data.data,{authorName:authorName,authorAvatar:authorAvatar})
+            })
+        }).catch(function (err) {
+            Alert.add('服务器连接失败，请稍后再试',2500)
+            console.log(err);
+        });  
+    }
+}
+
+//查询匹配
+export function queryMatchList (value) {
+    Alert.add('开始加载比赛列表',60000)
+    return (dispatch,getState)=>{
+
+        fetch('/match/queryAll', {
+            method: 'GET',
         })
         .then(response => {
             return response.json();
         })
         .then(data => {
+            console.log(data);
+            Alert.add('加载比赛列表成功',2500)
             dispatch({
-                type: 'ADD_ARTICLE',
-                payload: value
+                type:'QUERY_MATCH_LIST',
+                payload:data.data
             })
+            
         }).catch(function (err) {
-            console.log("服务器连接失败");
-
+            Alert.add('加载比赛列表失败',2500)
+            console.log(err);
         });  
-    } 
+    }
 }
 
 //登录
 export function login(value){
     return (dispatch,getState) => {
-        fetch('/user/login', {
+        const hide = message.loading('登录中..', 0);
+        fetch('/login', {
             method: "POST",
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-            body: $.param(value)
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': localStorage.getItem('token')
+            },
+            body: JSON.stringify(value)
         })
         .then(response => {
-            console.log(response);
             return response.json();
         })
         .then(data => {
-            dispatch({
-                type: 'LOGIN',
-                payload: data
-            })
+            setTimeout(hide, 0);
+            if(data.state=='success'){
+                message.success(data.message, 2)
+                localStorage.setItem('token',data.token)
+                dispatch({
+                    type: 'LOGIN',
+                    payload: data
+                })
+            }else{
+                message.warning(data.message, 2)
+            }
         }).catch(function (err) {
-            console.log("后端服务器连接失败");
-            dispatch({
-                type: 'LOGIN',
-                payload: {
-                    state:'error',
-                    message:'后端服务器连接失败',
-                }
-            })
+            setTimeout(hide, 0);
+            message.warning(data.message, 2)
+            console.log(err);
         });  
     } 
 }
 
 //注册
 export function register(value){
+    Alert.add('注册提交中...稍等',60000)
     return (dispatch,getState) => {
-        fetch('/user/register', {
+        fetch('/register', {
             method: "POST",
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-            body: $.param(value)
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': localStorage.getItem('token')
+            },
+            body: JSON.stringify(value)
         })
         .then(response => {
             return response.json();
         })
         .then(data => {
+            Alert.remove()
+            Alert.add(data.message,2500)
+            if(data.token){
+                localStorage.setItem('token',data.token)
+            }
             dispatch({
                 type: 'REGISTER',
                 payload: data
             })
         }).catch(function (err) {
-            console.log("服务器连接失败");
+            Alert('后端服务器连接失败',2500)
+            console.log(err);
         });  
     } 
-
-    // console.log('前端提交注册');
-    // $.post('/user/register', value,(result)=>{
-    //     console.log(result);
-    //     if(result.state=='success'){
-    //         console.log('注册成功')
-    //     }else{
-    //         console.log('注册失败')
-    //     }
-    // })
-    // return {
-    //     type: REGISTER,
-    //     payload: value
-    // }
-    
-    // return (dispatch,getState)=>{
-    //     $.post('/register', value,(result)=>{
-    //         console.log(result);
-    //         result.state=='success'?console.log('注册成功'):console.log('注册失败')
-    //     })
-
-        // function f1 () {
-        //     return new Promise((resolve, reject)=>{
-        //         $.post('/register', value,(result)=>{
-        //             result.state=='success'?resolve('登录成功'):reject('登录失败')
-        //         })
-        //     })
-        // }
-        // function f2 () {
-        //     return new Promise((resolve, reject)=>{
-        //         $.post('/register', value,(result)=>{
-        //             setTimeout(function() {
-        //                 resolve(result)
-        //             }, 1000);
-        //         })
-        //     })
-        // }
-        // function f3 () {
-        //     console.log('ccc');
-        //     return 'ccc'
-        // }
-        // function f4 () {
-        //     return new Promise((resolve, reject)=>{
-        //         $.post('/register', value,(result)=>{
-        //             result.state=='success'?resolve('登录成功'):reject('登录失败')
-        //         })
-        //     })
-        // }
-        // function f5 () {
-        //     return new Promise((resolve,reject)=>{
-        //         setTimeout(function() {
-        //             resolve('我是f5')
-        //         }, 1000);
-        //     })
-        // }
-        // Promise.all([f1(), f2(), f3()]).then(results=>{
-        //     console.log(results);
-        //     return f4()
-        // }).then(result=>{
-        //     console.log(result);
-        //     return f5()
-        // }).then(result=>{
-        //     console.log(result);
-        // }).catch(console.log('promise error 出错啦'))
-
-    // }
 }
 
-// action 创建函数
-export function addTodo(value){
-    console.log(value);
-    return (dispatch,getState)=>{
-        dispatch({
-            type: ADD_OK,
-            payload: value
-        })
-    }
-}
-export function removeTodo(value){
-    return {
-        type: REMOVE_OK,
-        payload: value
-    }
-}
-export function editTodo(index,value){
-    return (dispatch,getState)=>{
-        dispatch({
-            type: EDIT_OK,
-            index: index,
-            value: value
-        })
-    }
-}
-export function getTodo(e){return (dispatch,getState)=>{
-        let array=[7,8,9];
-        dispatch({
-            type: GET_OK,
-            payload: array.map(x=>x*x)
-        })
-    }
-}
 
 

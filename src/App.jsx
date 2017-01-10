@@ -10,25 +10,16 @@ import {Provider} from 'react-redux'
 import createStore from './redux/stores'
 
 //样式加载
-import 'flex.css'                //flex布局兼容性
 import './css/base'         //加载公共样式
 import './css/style'        //加载项目样式
-import './css/antd-mobile'  //antd-mobile主样式
+import './css/antd.min'  //antd-mobile主样式
 
-
-//组件加载
-import Index from './component/Index'
-import List  from './component/List'
-import Message from './component/Message'
-import Play from './component/Play'
-import Discover from './component/Discover'
-import Mine from './component/Mine'
-
-//公共组件
-import TabBarFooter from './component/TabBarFooter'
-import Register from './component/Register'
+//页面组件
+import Main from './component/Main'
+import Register  from './component/Register'
 import Login from './component/Login'
-import {addTodo} from './redux/actions'
+import Index from './component/Index'
+import Role from './component/Role'
 
 //初始设置
 let store = createStore()
@@ -37,9 +28,14 @@ store.subscribe(function () { //每次状态机改变的时候执行
     // console.log(store.getState())
 })
 
+import config from './config' 
+AV.init({
+    appId: config.APP_ID,
+    appKey: config.APP_KEY
+});
 
 //主模板
-class Main extends Component {
+class Root extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -47,12 +43,27 @@ class Main extends Component {
         }
     }
     render() {
-        return (
-            <div className="main">
-                {this.props.children}
-                <TabBarFooter />
-            </div>
-        )
+        return (<div style={styles.wrap}>
+            {this.props.children}
+        </div>)
+    }
+}
+
+const styles={
+    wrap:{
+       
+    },
+    main:{
+        display:'flex',
+        display:'-webkit-flex',
+    },
+    nav:{
+        flex:'0 0 150px',/* 左右两列固定宽 */
+        order:-1,
+    },
+    children:{
+        flex:1,
+        padding:'3px',
     }
 }
 
@@ -60,32 +71,24 @@ class Main extends Component {
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
-	        <Route path="/" component={Main}>
-	            <IndexRoute onEnter={delay} component={Index} />
+	        <Route path="/" component={Root}>
+	            <IndexRoute component={Login} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-	            <Route onEnter={token} path="/list" component={List} />
-                <Route onEnter={token} path="/message" component={Message} />
-                <Route onEnter={token} path="/play" component={Play} />
-                <Route onEnter={token} path="/discover" component={Discover} />
-                <Route onEnter={token} path="/mine" component={Mine} />
-                <Route path="*" component={Index} />
+                <Route onEnter={token} component={Main}>
+                    <Route path="/index" component={Index} />
+                    <Route path="/role" component={Role} />
+                </Route>
+	            {/*<Route onEnter={token} path="/admin" component={Index} />*/}
+                <Route path="*" component={Main} />
 	        </Route>
 	    </Router>
     </Provider>
     ,document.body.appendChild(document.createElement('div'))
 );
 
-function delay (nextState, replace, next) {
-    const redirectDelay=300
-    setTimeout(function() {
-        next()
-    }, redirectDelay);
-}
-
 function token (nextState, replace, next) {
     //登录后的路径
-    const redirectDelay=300
     sessionStorage.setItem('nextPath',nextState.location.pathname)
     //查看本地是否有token
     if(token){
@@ -93,7 +96,6 @@ function token (nextState, replace, next) {
             method: 'GET', 
             headers: {'x-access-token': localStorage.getItem('token')}
         }).then(function(response) {
-            // console.log(response)
             return response.json()
         }).then(function(data) {
             if(!data.token){
@@ -104,35 +106,17 @@ function token (nextState, replace, next) {
                 payload: data.user
             })
             console.log("已登录");
-            setTimeout(function() {
-               next() 
-            }, redirectDelay);
+            next() 
             
         }).catch(function(e) {
             console.log("未登录");
         })
     }else{
         replace('/login')
-        setTimeout(function() {
-              next()
-        }, redirectDelay);
+        next()
     }
 }
 
-//权限控制的中间
-function auth(nextState, replace, next) {
-    $.ajax({
-        type: "GET",
-        url: "/getSession",
-        success: function(result){
-            if(result.accountsId){
-                next()
-            }else{
-                browserHistory.push('/login')
-            }
-        }
-    })
-}
 
 
 

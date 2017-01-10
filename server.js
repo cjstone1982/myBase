@@ -18,7 +18,18 @@ var settings     = require('./settings')
 // db = require('./server/db')
 // db.connect()
 
-var app = express()
+var AV = require('leanengine')
+AV.init({
+    appId: process.env.LEANCLOUD_APP_ID || 'runfy7Ex7StSP3swPQq2igxt-gzGzoHsz',
+    appKey: process.env.LEANCLOUD_APP_KEY || 'AFfbrWOvkK52eF09BoItE4iB',
+    masterKey: process.env.LEANCLOUD_APP_MASTER_KEY || '8YE4G6C8jr5odzYBhEgxJC31'
+})
+
+var app = express();
+app.use(AV.express());
+app.use(AV.Cloud.CookieSession({ secret: 'my secret', maxAge: 3600000, fetchUser: true }));
+
+// app.listen(process.env.LEANCLOUD_APP_PORT || settings.hostPort);
 
 //使用react就不需要模板引擎
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
